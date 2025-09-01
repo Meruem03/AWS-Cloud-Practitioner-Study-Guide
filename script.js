@@ -36,14 +36,14 @@ Welcome! This guide is designed to provide a quick yet comprehensive reference f
 ## Key Services Quick Reference
 | Service Logo | Service Name | Category | Core Use Case |
 | :---: | :--- | :--- | :--- |
-| <img class="service-logo" src="logos/ec2.png" alt="EC2 Logo"> | **EC2** | Compute | Provides resizable compute capacity in the cloud. Essentially, a virtual server. |
-| <img class="service-logo" src="logos/s3.png" alt="S3 Logo"> | **S3** | Storage | Scalable object storage suitable for backups, data lakes, and static website hosting. |
-| <img class="service-logo" src="logos/rds.png" alt="RDS Logo"> | **RDS** | Database | A managed service for relational databases like MySQL, PostgreSQL, simplifying setup and operations. |
-| <img class="service-logo" src="logos/lambda.png" alt="Lambda Logo"> | **Lambda** | Compute | A serverless compute service that runs code in response to events without provisioning servers. |
-| <img class="service-logo" src="logos/vpc.png" alt="VPC Logo"> | **VPC** | Networking | Creates a logically isolated section of the AWS Cloud to launch resources in a virtual network. |
-| <img class="service-logo" src="logos/iam.png" alt="IAM Logo"> | **IAM** | Security | Securely manages access to AWS services by controlling users, groups, and permissions. |
-| <img class="service-logo" src="logos/route53.png" alt="Route 53 Logo"> | **Route 53** | Networking | A scalable and highly available Domain Name System (DNS) web service. |
-| <img class="service-logo" src="logos/cloudfront.png" alt="CloudFront Logo"> | **CloudFront** | Networking | A Content Delivery Network (CDN) that securely delivers content with low latency and high speed. |
+| <img class="service-logo" src="logos/ec2.svg" alt="EC2 Logo"> | **EC2** | Compute | Provides resizable compute capacity in the cloud. Essentially, a virtual server. |
+| <img class="service-logo" src="logos/s3.svg" alt="S3 Logo"> | **S3** | Storage | Scalable object storage suitable for backups, data lakes, and static website hosting. |
+| <img class="service-logo" src="logos/rds.svg" alt="RDS Logo"> | **RDS** | Database | A managed service for relational databases like MySQL, PostgreSQL, simplifying setup and operations. |
+| <img class="service-logo" src="logos/lambda.svg" alt="Lambda Logo"> | **Lambda** | Compute | A serverless compute service that runs code in response to events without provisioning servers. |
+| <img class="service-logo" src="logos/vpc.svg" alt="VPC Logo"> | **VPC** | Networking | Creates a logically isolated section of the AWS Cloud to launch resources in a virtual network. |
+| <img class="service-logo" src="logos/iam.svg" alt="IAM Logo"> | **IAM** | Security | Securely manages access to AWS services by controlling users, groups, and permissions. |
+| <img class="service-logo" src="logos/route53.svg" alt="Route 53 Logo"> | **Route 53** | Networking | A scalable and highly available Domain Name System (DNS) web service. |
+| <img class="service-logo" src="logos/cloudfront.svg" alt="CloudFront Logo"> | **CloudFront** | Networking | A Content Delivery Network (CDN) that securely delivers content with low latency and high speed. |
 `,
         'exam_overview': `
 # Exam Overview & Strategy
