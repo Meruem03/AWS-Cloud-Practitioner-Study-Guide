@@ -1,46 +1,64 @@
 document.addEventListener('DOMContentLoaded', () => {
+  /* =========================
+     NAVIGATION + CONTENT DATA
+     ========================= */
 
-    const navigationStructure = [
-        { type: 'link', label: 'Home / Key Services', topic: 'home' },
-        { type: 'category', label: 'About the Exam' },
-        { type: 'link', label: 'Exam Overview & Strategy', topic: 'exam_overview' },
-        { type: 'category', label: 'Exam Domains' },
-        { type: 'link', label: '1: Cloud Concepts', topic: 'domain1' },
-        { type: 'link', label: '2: Security & Compliance', topic: 'domain2' },
-        { type: 'link', label: '3: Cloud Technology', topic: 'domain3' },
-        { type: 'link', label: '4: Billing & Pricing', topic: 'domain4' },
-        { type: 'category', label: 'Core Services' },
-        { type: 'link', label: 'IAM (Identity)', topic: 'iam' },
-        { type: 'link', label: 'Compute (EC2, Lambda, Containers)', topic: 'compute' },
-        { type: 'link', label: 'Storage (S3, EBS, EFS, FSx)', topic: 'storage' },
-        { type: 'link', label: 'Databases & Analytics', topic: 'databases' },
-        { type: 'link', label: 'Networking & Content Delivery', topic: 'networking' },
-        { type: 'link', label: 'Messaging & Integration', topic: 'messaging' },
-        { type: 'category', label: 'Management & Developer Tools' },
-        { type: 'link', label: 'Deployment & CI/CD', topic: 'deployment' },
-        { type: 'link', label: 'Monitoring & Auditing', topic: 'monitoring' },
-        { type: 'link', label: 'Developer Productivity', topic: 'developer_tools' },
-        { type: 'category', label: 'Key Topics' },
-        { type: 'link', label: 'In-Depth Security', topic: 'security' },
-        { type: 'link', label: 'Machine Learning', topic: 'ml' },
-        { type: 'link', label: 'Migration & Transfer', topic: 'migration' },
-        { type: 'link', label: 'Frameworks & Strategies', topic: 'frameworks' },
-        { type: 'link', label: 'Disaster Recovery & HA', topic: 'dr_ha' },
-        { type: 'link', label: 'Governance & Cost Management', topic: 'governance' },
-        { type: 'link', label: 'Hybrid & Edge Computing', topic: 'hybrid' },
-        { type: 'link', label: 'Advanced Networking', topic: 'advanced_networking' },
-        { type: 'link', label: 'Caching & Performance', topic: 'caching' },
-        { type: 'link', label: 'Specialty & Emerging Services', topic: 'specialty' },
-    ];
+  const navigationStructure = [
+    { type: 'link', label: 'Home / Key Services', topic: 'home' },
 
-    const markdownContent = {
-        'home': `
+    { type: 'category', label: 'About the Exam' },
+    { type: 'link', label: 'Exam Overview & Strategy', topic: 'exam_overview' },
+
+    { type: 'category', label: 'Exam Domains' },
+    { type: 'link', label: '1: Cloud Concepts', topic: 'domain1' },
+    { type: 'link', label: '2: Security & Compliance', topic: 'domain2' },
+    { type: 'link', label: '3: Cloud Technology', topic: 'domain3' },
+    { type: 'link', label: '4: Billing & Pricing', topic: 'domain4' },
+
+    { type: 'category', label: 'Core Services' },
+    { type: 'link', label: 'IAM & Identity Center', topic: 'iam' },
+    { type: 'link', label: 'Compute (EC2, Lambda, Containers)', topic: 'compute' },
+    { type: 'link', label: 'Storage (S3, EBS, EFS, FSx)', topic: 'storage' },
+    { type: 'link', label: 'Databases & Analytics', topic: 'databases' },
+    { type: 'link', label: 'Networking & Content Delivery', topic: 'networking' },
+    { type: 'link', label: 'Messaging & Integration', topic: 'messaging' },
+
+    { type: 'category', label: 'Key Topics & Scenarios' },
+    { type: 'link', label: 'Load Balancers (ALB/NLB/GWLB)', topic: 'elb' },
+    { type: 'link', label: 'Route 53 Routing Policies', topic: 'route53_routing' },
+    { type: 'link', label: 'VPC Endpoints (Private Access)', topic: 'vpc_endpoints' },
+    { type: 'link', label: 'Disaster Recovery & HA', topic: 'dr_ha' },
+    { type: 'link', label: 'Governance & Cost Management', topic: 'governance' },
+    { type: 'link', label: 'Hybrid & Edge Computing', topic: 'hybrid' },
+    { type: 'link', label: 'Advanced Networking', topic: 'advanced_networking' },
+    { type: 'link', label: 'Caching & Performance', topic: 'caching' },
+    
+    { type: 'category', label: 'Exam Boosters' },
+    { type: 'link', label: 'Free Tier & Cost Protections', topic: 'cost_protections' },
+    { type: 'link', label: 'Data Transfer Basics', topic: 'data_transfer' },
+
+    { type: 'category', label: 'Management & Developer Tools' },
+    { type: 'link', label: 'Deployment & CI/CD', topic: 'deployment' },
+    { type: 'link', label: 'Monitoring & Auditing', topic: 'monitoring' },
+    { type: 'link', label: 'Developer Productivity', topic: 'developer_tools' },
+    { type: 'link', label: 'In-Depth Security Tools', topic: 'security' },
+
+    { type: 'category', label: 'Advanced & Specialty' },
+    { type: 'link', label: 'Machine Learning', topic: 'ml' },
+    { type: 'link', label: 'Migration & Transfer', topic: 'migration' },
+    { type: 'link', label: 'Frameworks (CAF & Well-Architected)', topic: 'frameworks' },
+    { type: 'link', label: 'Specialty & Emerging Services', topic: 'specialty' },
+  ];
+
+  const markdownContent = {
+    'home': `
 # AWS Certified Cloud Practitioner (CLF-C02) Guide
 Welcome! This guide is designed to provide a quick yet comprehensive reference for the core concepts and services covered in the exam. Use the navigation on the left to explore the topics.
 
 ## Key Services Quick Reference
+
 | Service Logo | Service Name | Category | Scope | Core Use Case |
-| :---: | :--- | :--- | :---: | :--- |
+|:---:|---|---:|---:|---|
 | <img class="service-logo" src="logos/ec2.svg" alt="EC2 Logo"> | **EC2** | Compute | Regional | Provides resizable compute capacity in the cloud. Essentially, a virtual server. |
 | <img class="service-logo" src="logos/s3.svg" alt="S3 Logo"> | **S3** | Storage | Regional* | Scalable object storage suitable for backups, data lakes, and static website hosting. |
 | <img class="service-logo" src="logos/rds.svg" alt="RDS Logo"> | **RDS** | Database | Regional | A managed service for relational databases like MySQL, PostgreSQL, simplifying setup and operations. |
@@ -50,9 +68,10 @@ Welcome! This guide is designed to provide a quick yet comprehensive reference f
 | <img class="service-logo" src="logos/route53.svg" alt="Route 53 Logo"> | **Route 53** | Networking | Global | A scalable and highly available Domain Name System (DNS) web service. |
 | <img class="service-logo" src="logos/cloudfront.svg" alt="CloudFront Logo"> | **CloudFront** | Networking | Global | A Content Delivery Network (CDN) that securely delivers content with low latency and high speed. |
 
-*S3 bucket names are globally unique, but the buckets themselves are created in a specific region.*
+*Bucket names are globally unique, but the buckets themselves are created in a specific region.*
 `,
-        'exam_overview': `
+
+    'exam_overview': `
 # Exam Overview & Strategy
 This section summarizes the AWS Certified Cloud Practitioner (CLF-C02) exam and provides a strategy for success.
 
@@ -62,12 +81,12 @@ This section summarizes the AWS Certified Cloud Practitioner (CLF-C02) exam and 
 - **Duration:** 90 minutes.
 - **Passing Score:** 700 out of 1000.
 - **Key Abilities Validated:**
-    - Explain the value of the AWS Cloud.
-    - Understand and explain the AWS Shared Responsibility Model.
-    - Understand security best practices.
-    - Understand AWS Cloud costs, economics, and billing practices.
-    - Describe and position core AWS services (compute, network, database, storage).
-    - Identify AWS services for common use cases.
+  - Explain the value of the AWS Cloud.
+  - Understand and explain the AWS Shared Responsibility Model.
+  - Understand security best practices.
+  - Understand AWS Cloud costs, economics, and billing practices.
+  - Describe and position core AWS services (compute, network, database, storage).
+  - Identify AWS services for common use cases.
 
 ## Topics Explicitly Out of Scope
 The exam **does not** require hands-on skills in:
@@ -78,24 +97,25 @@ The exam **does not** require hands-on skills in:
 - Load and performance testing
 
 ## Strategy for a High Score
-1.  **Master the High-Weight Domains:** **Security and Compliance (30%)** and **Cloud Technology and Services (34%)** account for 64% of your score. Deeply understand the core services and security principles within these domains.
-2.  **Focus on the "Why" and Use Cases:** Don't just memorize what a service is. Understand *why* a business would choose it. The exam tests your ability to match a service to a specific scenario. For example, know when to use S3 (object storage for files) versus EBS (block storage for EC2).
-3.  **Drill Down on Security Fundamentals:** The Shared Responsibility Model is crucial. Be able to clearly articulate what AWS is responsible for (e.g., physical data center security) versus what the customer is responsible for (e.g., patching guest OS, configuring security groups).
-4.  **Understand Cost Implications:** Be very clear on the differences between On-Demand, Reserved Instances, Spot Instances, and Savings Plans. Know which pricing model is best for different scenarios (e.g., steady-state workloads vs. fault-tolerant batch jobs).
-5.  **Use Official AWS Resources:** The official AWS Exam Guide and the "Overview of AWS" whitepaper are the most accurate sources for exam content.
-6.  **Maintain a High-Level View:** This is a foundational exam. You need to know the purpose of services like Amazon Kendra (intelligent search) or AWS Glue (ETL service) but not the technical details of their implementation. Focus on the one-line description and primary use case.
+1. **Master the High-Weight Domains:** **Security and Compliance (30%)** and **Cloud Technology and Services (34%)** account for 64% of your score. Deeply understand the core services and security principles within these domains.
+2. **Focus on the "Why" and Use Cases:** Don’t just memorize what a service is. Understand *why* a business would choose it. The exam tests your ability to match a service to a specific scenario. For example, know when to use S3 (object storage for files) versus EBS (block storage for EC2).
+3. **Drill Down on Security Fundamentals:** The Shared Responsibility Model is crucial. Be able to clearly articulate what AWS is responsible for (e.g., physical data center security) versus what the customer is responsible for (e.g., patching guest OS, configuring security groups).
+4. **Understand Cost Implications:** Be very clear on the differences between On-Demand, Reserved Instances, Spot Instances, and Savings Plans. Know which pricing model is best for different scenarios (e.g., steady-state workloads vs. fault-tolerant batch jobs).
+5. **Use Official AWS Resources:** The official AWS Exam Guide and the "Overview of AWS" whitepaper are the most accurate sources for exam content.
+6. **Maintain a High-Level View:** This is a foundational exam. You need to know the purpose of services like Amazon Kendra (intelligent search) or AWS Glue (ETL service) but not the technical details of their implementation. Focus on the one-line description and primary use case.
 `,
-        'domain1': `
+
+    'domain1': `
 # Domain 1: Cloud Concepts (24%)
 This domain focuses on the fundamental ideas behind cloud computing and the value it brings.
 
 ## 1.1 The Six Advantages of Cloud Computing
-1.  **Trade Capital Expense for Variable Expense:** Pay for IT as you use it (operational expense or OPEX) instead of making large upfront investments in hardware (capital expense or CAPEX).
-2.  **Benefit from Massive Economies of Scale:** AWS's large scale means they can achieve lower costs, which are passed on to customers as lower prices.
-3.  **Stop Guessing Capacity:** Scale resources up or down automatically, avoiding the costs of idle resources or the performance issues of under-provisioning.
-4.  **Increase Speed and Agility:** Provision new resources in minutes, allowing for faster innovation and development cycles.
-5.  **Stop Spending Money on Undifferentiated Heavy Lifting:** AWS manages the data centers, servers, and networking, so you can focus on your own products and customers.
-6.  **Go Global in Minutes:** Deploy applications in multiple AWS Regions worldwide to provide low latency for a global user base.
+1. **Trade Capital Expense for Variable Expense:** Pay for IT as you use it (operational expense or OPEX) instead of making large upfront investments in hardware (capital expense or CAPEX).
+2. **Benefit from Massive Economies of Scale:** AWS's large scale means they can achieve lower costs, which are passed on to customers as lower prices.
+3. **Stop Guessing Capacity:** Scale resources up or down automatically, avoiding the costs of idle resources or the performance issues of under-provisioning.
+4. **Increase Speed and Agility:** Provision new resources in minutes, allowing for faster innovation and development cycles.
+5. **Stop Spending Money on Undifferentiated Heavy Lifting:** AWS manages the data centers, servers, and networking, so you can focus on your own products and customers.
+6. **Go Global in Minutes:** Deploy applications in multiple AWS Regions worldwide to provide low latency for a global user base.
 
 ## 1.2 AWS Cloud Economics
 - **Pay-as-you-go:** The core pricing model. You pay only for what you use, for the duration you use it, with no long-term contracts.
@@ -111,7 +131,8 @@ The **Well-Architected Framework** provides a consistent approach for customers 
 - **Cost Optimization:** Avoiding unnecessary costs.
 - **Sustainability:** Minimizing the environmental impacts of running cloud workloads.
 `,
-        'domain2': `
+
+    'domain2': `
 # Domain 2: Security & Compliance (30%)
 This is the most heavily weighted domain. It covers how security is managed in the cloud and how AWS helps with compliance.
 
@@ -127,728 +148,848 @@ This model delineates what you are responsible for and what AWS is responsible f
   - **Data Encryption:** Configuring both client-side and server-side encryption.
 
 ## 2.2 Security and Compliance Concepts
-- **Least Privilege Principle:** A core security concept where you only grant the minimum permissions necessary for a user or service to perform its function.
-- **Encryption:** Protecting data in transit (as it travels over a network) and at rest (while it is stored).
-- **Compliance:** AWS helps customers meet compliance requirements for various standards like PCI DSS, HIPAA, and GDPR.
-- **AWS Artifact:** A self-service portal that provides on-demand access to AWS's security and compliance reports (e.g., PCI, ISO, SOC reports).
+- **Least Privilege Principle:** Grant only the minimum permissions necessary.
+- **Encryption:** Protect data in transit and at rest.
+- **Compliance:** AWS supports standards like PCI DSS, HIPAA, GDPR.
+- **AWS Artifact:** Self-service portal for AWS’s compliance reports.
 `,
-        'domain3': `
+
+    'domain3': `
 # Domain 3: Cloud Technology & Services (34%)
 This domain covers the core technology and services available on the AWS platform.
 
 ## 3.1 Methods of Deploying and Operating
-- **AWS Management Console:** A web-based, graphical user interface.
-- **AWS CLI (Command Line Interface):** A unified tool to manage services from the command line, useful for scripting and automation.
-- **AWS SDKs (Software Development Kits):** Language-specific libraries to interact with AWS services programmatically from your applications.
-- **Infrastructure as Code (IaC):** Services like **AWS CloudFormation** allow you to provision and manage your infrastructure in a declarative, automated way using template files.
+- **AWS Management Console:** Web-based GUI.
+- **AWS CLI:** Command-line automation.
+- **AWS SDKs:** Language-specific libraries to interact programmatically.
+- **Infrastructure as Code (IaC):** **AWS CloudFormation** templates for declarative provisioning.
 
 ## 3.2 AWS Global Infrastructure
-- **Region:** A physical geographic location in the world with multiple, isolated, and physically separate Availability Zones.
-- **Availability Zone (AZ):** One or more discrete data centers with redundant power, networking, and connectivity. They are interconnected with high-bandwidth, low-latency networking. Using multiple AZs is the primary strategy for high availability.
-- **Edge Location:** A site where **CloudFront** caches content to deliver it to users with lower latency. These are more numerous than Regions.
+- **Region:** Geographic area with multiple isolated AZs.
+- **Availability Zone (AZ):** One or more discrete data centers connected with low-latency networking.
+- **Edge Location:** **CloudFront** caches content at the edge for lower latency.
 
 ## 3.3 Core AWS Services
-This domain covers the broad set of services on AWS. See the "Core Services" section in the navigation for detailed breakdowns.
+This domain spans many services. See the other sections for detailed breakdowns.
 
 ## 3.4 Global vs. Regional Services
-It is critical to understand the scope of AWS services. Some services operate globally, while most are tied to a specific AWS Region.
-
 ### Key Global Services
-Global services are operated from a single, central point and are not tied to a specific region. When you interact with a global service, you don't need to select a region.
-
-- **Identity and Access Management (IAM):** Users, groups, roles, and policies are defined globally. You don't create a user in one region; you create a user that can be granted access to resources in any region.
-- **Route 53:** As a DNS service, Route 53 is inherently global. It routes traffic to your resources regardless of their region.
-- **CloudFront:** A Content Delivery Network (CDN) that uses a global network of edge locations to cache and deliver content.
-- **WAF (Web Application Firewall):** While you can deploy WAF on regional resources like an Application Load Balancer, it is also a global service when integrated with CloudFront.
-- **AWS Organizations:** This service for managing multiple AWS accounts is global.
-
-*Note on S3: S3 bucket names are globally unique, but the buckets themselves are created and exist in a specific AWS Region that you select.*
+- **IAM & IAM Identity Center**, **Route 53**, **CloudFront**, **WAF**, **AWS Organizations**.  
+*Note on S3: bucket names are globally unique, but buckets live in a single Region.*
 
 ### Key Regional Services
-Most AWS services are regional. This means that the resources you create are tied to the specific region where you created them. You must select a region before provisioning these services.
-
-- **Amazon EC2:** Virtual servers (instances) are launched within a specific region and Availability Zone.
-- **Amazon VPC:** Virtual networks are created within a single region.
-- **Amazon RDS & DynamoDB:** Databases are provisioned in a specific region.
-- **AWS Lambda:** Serverless functions are deployed to a specific region.
-- **Elastic Beanstalk:** Application environments are region-specific.
-- **Essentially, most services you provision to run your applications (compute, storage, databases) are regional.** This allows you to place your resources close to your users and meet data sovereignty requirements.
+- **EC2, VPC, RDS/DynamoDB, Lambda, Beanstalk,** etc.—provisioned within a specific Region.
 `,
-        'domain4': `
+
+    'domain4': `
 # Domain 4: Billing, Pricing, & Support (12%)
 This domain covers how AWS pricing works, how to manage costs, and the support options available.
 
 ## 4.1 AWS Pricing Policies & Models
-- **Pay-as-you-go:** Pay for what you use, when you use it.
-- **Save when you reserve:** Commit to a 1 or 3-year term for significant discounts.
-- **Pay less by using more:** Receive volume-based discounts as your usage increases.
+- **Pay-as-you-go**, **Save when you reserve**, **Pay less by using more**.
 
 ### Key Pricing Models
-- **On-Demand:** The most flexible option with no long-term commitment. Best for unpredictable workloads.
-- **Reserved Instances (RI):** Provide a significant discount for a commitment to a specific instance type in a particular region. Best for steady-state workloads.
-- **Spot Instances:** Offer the largest discounts (up to 90%) by allowing you to use spare EC2 capacity, which can be interrupted. Best for fault-tolerant, non-critical batch jobs.
-- **Savings Plans:** A flexible pricing model that offers discounts in exchange for a commitment to a consistent amount of usage (measured in $/hour). More flexible than RIs.
+- **On-Demand:** Most flexible.
+- **Reserved Instances (RI):** Commit to instance attributes for discount.
+- **Spot Instances:** Use spare capacity with interruption risk.
+- **Savings Plans:** Commit to $/hour usage for discount (more flexible than RIs).
 
 ## 4.2 Cost Management Tools
-- **AWS Organizations:** Allows you to centrally manage multiple accounts and use **Consolidated Billing** to get a single bill and aggregate usage for volume discounts.
-- **AWS Cost Explorer:** A tool to visualize, understand, and manage your AWS costs and usage over time.
-- **AWS Budgets:** Set custom alerts for when your costs or usage exceed (or are forecasted to exceed) a set threshold.
-- **AWS Cost and Usage Report (CUR):** Provides the most detailed set of cost and usage data.
-- **AWS Pricing Calculator:** Estimate the cost of your solution before building it.
-- **Cost Allocation Tags:** Use tags to categorize and track your AWS costs on a detailed level.
+- **AWS Organizations (Consolidated Billing)**
+- **Cost Explorer**
+- **AWS Budgets**
+- **Cost and Usage Report (CUR)**
+- **Pricing Calculator**
+- **Cost Allocation Tags**
 
 ## 4.3 AWS Support Plans
-- **Basic:** Free. Access to billing and account support.
-- **Developer:** Business hours access to Cloud Support Associates via email.
-- **Business:** 24x7 access to Cloud Support Engineers via email, chat, and phone. Offers < 1-hour response for production system failures.
-- **Enterprise:** Includes all Business plan features plus a designated Technical Account Manager (TAM) and < 15-minute response for business-critical system failures.
+| Plan | Key Features |
+|:---|:---|
+| **Basic** | Free; account & billing support, forums. |
+| **Developer** | Business-hours email support. |
+| **Business** | 24x7 phone/chat/email; full Trusted Advisor checks. |
+| **Enterprise On-Ramp** | For business-critical workloads; < 30-min response for business-critical issues. |
+| **Enterprise** | Designated **TAM**, < 15-min response for mission-critical issues, proactive reviews. |
 `,
-        'iam': `
-# IAM (Identity & Access Management)
+
+    'iam': `
+# IAM & Identity Center
 
 ### 1. Purpose & Use Cases
-IAM is the bedrock of AWS security. It allows you to specify who can access which services and resources, and under what conditions.
-- **Use Cases:** Creating user accounts for employees, granting applications running on EC2 access to S3, enforcing MFA for sensitive operations.
+IAM is the bedrock of AWS security, controlling access to services and resources.
+- **Use Cases:** Creating users for employees, granting EC2 instances access to S3, enforcing MFA.
 
-### 2. Key Features
-- **Users, Groups, Roles, Policies:** The core components for managing identities and permissions.
-- **Fine-Grained Permissions:** You can control access down to the specific API action and resource level.
-- **Multi-Factor Authentication (MFA):** Adds an extra layer of security for user sign-ins and sensitive operations.
-- **Identity Federation:** Integrates with corporate directories like Active Directory for single sign-on (SSO).
+### 2. IAM vs. IAM Identity Center
+- **IAM:** Best for managing service-to-service permissions (e.g., an EC2 instance's role) and defining fine-grained, resource-level policies.
+- **IAM Identity Center (formerly AWS SSO):** The recommended service for managing human user access. It simplifies SSO setup across multiple AWS accounts and business applications, manages permission sets centrally, and can sync with external identity providers (like Azure AD).
+
+> For the exam, if the scenario involves managing access for a *workforce* (i.e., people), **IAM Identity Center** is often the preferred, modern answer. If it involves permissions for an *application or service*, **IAM Roles** are the answer.
 
 ### 3. Best Practices
-- **Never use the root user for daily work.** Secure it with a strong password and MFA.
-- **Enforce the Principle of Least Privilege:** Grant only the permissions required to perform a task.
-- **Use IAM Roles for applications and AWS services,** not long-term access keys.
-- **Enable MFA** for all users, especially those with significant permissions.
+- **Never use the root user for daily work.**
+- Enforce **least privilege**.
+- Use **IAM Roles** for apps/services, not long-term access keys.
+- Enable **MFA** for all users.
 
-### 4. Alternatives
-- **IAM Identity Center (formerly AWS SSO):** A higher-level service built on IAM that is preferred for managing SSO access for human users across multiple AWS accounts and applications.
-
-### 5. Pricing
-- IAM is a global service and is offered at **no additional charge**.
+### 4. Pricing
+- IAM and IAM Identity Center are global services offered at **no additional charge**.
 `,
-        'compute': `
+
+    'compute': `
 # Compute Services
 
 ## Amazon EC2 (Elastic Compute Cloud)
-
 ### 1. Purpose & Use Cases
-EC2 is the core AWS service for scalable compute, providing virtual servers (called instances) in the cloud.
-- **Use Cases:** Hosting websites and web applications, running enterprise software, performing batch processing, high-performance computing (HPC).
+EC2 provides virtual servers ("instances") in the cloud.
+- **Use Cases:** Web apps, enterprise software, batch processing, HPC.
 
 ### 2. Key Features
-- **Wide Range of Instance Types:** Optimized for different tasks (General Purpose, Compute Optimized, Memory Optimized, etc.).
-- **Amazon Machine Images (AMIs):** Pre-configured templates for your instances that include the operating system and additional software.
-- **Auto Scaling Groups (ASGs):** Automatically adjust the number of EC2 instances to meet demand.
-- **Elastic Load Balancing (ELB):** Distributes incoming traffic across multiple instances for high availability and fault tolerance.
+- **Instance families**, **AMIs**, **Auto Scaling Groups**, **Elastic Load Balancing**.
 
-### 3. Best Practices
-- **Use Auto Scaling** to handle traffic spikes and improve fault tolerance.
-- **Use IAM Roles** to grant EC2 instances permissions to other AWS services.
-- **Monitor instances with CloudWatch** to track performance and set alarms.
-- **Select the right instance type** for your workload to optimize cost and performance.
+> #### Nice to Know: Deeper EC2 Concepts
+> - **Placement groups:** Control how instances are placed on physical hardware. **Cluster** for low-latency networking in one AZ; **Spread** across distinct hardware to reduce correlated failures; **Partition** for big data workloads like HDFS.
+> - **Tenancy:** **Shared** (default), **Dedicated Instance** (your instances on dedicated hardware), or **Dedicated Host** (an entire physical server for you, for compliance or licensing).
+> - **Lifecycle:** **Stop** an instance to keep the root volume but clear RAM; **Hibernate** to save RAM state to disk for a faster start.
 
-### 4. Alternatives
-- **AWS Lambda:** For event-driven, serverless applications where you don't need a full server.
-- **Amazon ECS/EKS with Fargate:** For running containerized applications without managing the underlying EC2 instances.
+### 3. Best Practices & Alternatives
+- **Best Practices:** Use Auto Scaling, IAM Roles, and CloudWatch.
+- **Alternatives:** **Lambda** for serverless, **ECS/EKS with Fargate** for containers.
 
-### 5. Pricing
-- **On-Demand:** Pay by the second with no long-term commitment. Most flexible, highest cost.
-- **Reserved Instances:** Commit to a 1 or 3-year term for a significant discount. Best for steady-state workloads.
-- **Spot Instances:** Bid on spare EC2 capacity for the largest discounts (up to 90%). Can be terminated with a 2-minute warning.
-- **Savings Plans:** A flexible pricing model offering discounts for a usage commitment ($/hour).
-
----
 ## AWS Lambda
-
 ### 1. Purpose & Use Cases
-Lambda is a serverless, event-driven compute service that lets you run code without provisioning or managing servers.
-- **Use Cases:** Data processing (e.g., creating image thumbnails when an image is uploaded to S3), building serverless backends for web/mobile apps, running scheduled tasks.
+Serverless, event-driven compute.
+- **Use Cases:** S3 triggers, API backends, scheduled tasks.
 
-### 2. Key Features
-- **Event-Driven:** Code is triggered by events from over 200 AWS services (like S3, API Gateway, DynamoDB) or can be invoked directly.
-- **Automatic Scaling:** Scales out automatically and seamlessly based on the number of incoming requests.
-- **No Server Management:** AWS handles all the infrastructure, patching, and scaling.
-- **Sub-second Metering:** You pay only for the compute time you consume, metered in milliseconds.
+> #### Nice to Know: Lambda Concurrency
+> - **Concurrency** is the number of executions of your function at the same time.
+> - If requests come in too fast, Lambda **throttles** them (rejects them).
+> - **Reserved Concurrency** guarantees a specific number of executions are always available for your function, preventing it from being throttled by other functions in your account.
 
-### 3. Best Practices
-- **Keep functions small and single-purpose.**
-- **Manage dependencies within the deployment package.**
-- **Use IAM roles with least-privilege permissions** for each function.
-
-### 4. Limitations & Alternatives
-- **Limitations:** Limited execution time (max 15 minutes), limited temporary storage. Not suitable for long-running, stateful applications.
-- **Alternatives:** **Amazon EC2** for long-running applications that require full control over the environment. **AWS Fargate** for long-running containerized applications.
-
-### 5. Pricing
-- **Pay-per-request:** Billed for invocations and duration (GB-seconds).
-- **Free Tier:** Includes a generous perpetual free tier for invocations and compute time.
-
----
 ## Containers
-- **ECS (Elastic Container Service):** A highly scalable, high-performance container orchestration service that supports Docker containers.
-- **EKS (Elastic Kubernetes Service):** A managed service for running Kubernetes on AWS.
-- **Fargate:** A serverless compute engine for containers that works with both ECS and EKS. It removes the need to provision and manage servers.
-- **ECR (Elastic Container Registry):** A fully managed Docker container registry to store, manage, and deploy container images.
+- **ECS:** AWS-opinionated container orchestrator.
+- **EKS:** Managed Kubernetes.
+- **Fargate:** Serverless compute for ECS/EKS.
+- **ECR:** Managed container registry.
+- **App Runner:** The simplest way to deploy a containerized web app. It's a higher-level PaaS-like service that handles everything from the load balancer to scaling.
 `,
-        'storage': `
+
+    'storage': `
 # Storage Services
 
 ## Amazon S3 (Simple Storage Service)
 
 ### 1. Purpose & Use Cases
-S3 is a highly durable and scalable object storage service, designed for storing and retrieving any amount of data from anywhere.
-- **Use Cases:** Backup and archival, data lakes for analytics, static website hosting, hosting application assets (images, videos).
+Highly durable, scalable object storage.
+- **Use Cases:** Backups, data lakes, static site hosting, app assets.
 
-### 2. Key Features
-- **Storage Classes:** A range of options from S3 Standard for frequently accessed data to S3 Glacier Deep Archive for long-term archival, allowing cost optimization.
-- **Versioning:** Automatically keeps multiple versions of an object, providing protection against accidental overwrites and deletions.
-- **Lifecycle Policies:** Automate the migration of objects to more cost-effective storage classes as they age.
-- **Replication:** Automatically copy objects to other buckets in the same or different regions for backup and low-latency access.
+### 2. S3 Security Quick Wins
+- **Default Encryption:** All **new S3 objects are encrypted by default (SSE-S3)**.
+- **Block Public Access (BPA):** A bucket- and account-level setting that overrides policies/ACLs to prevent accidental public exposure. Best practice is to enable this at the account level.
+- **Object Ownership:** Modern best practice is to disable ACLs (Access Control Lists) and use bucket policies exclusively for simpler, more robust access control.
 
-### 3. Best Practices
-- **Use Bucket Policies and IAM** to enforce strict access controls.
-- **Enable Versioning** on buckets to protect against accidental data loss.
-- **Use Lifecycle Policies** to automatically move data to lower-cost storage tiers.
-- **Enable MFA Delete** to add another layer of security against accidental deletions.
+### 3. Key Features
+- **Storage Classes:** A range of tiers from S3 Standard to Glacier Deep Archive.
+- **Versioning, Lifecycle Policies, Replication (CRR/SRR).**
+- **Consistency:** Provides **strong read-after-write consistency** for all PUT, DELETE, and LIST operations.
 
-### 4. Alternatives
-- **Amazon EBS:** Provides block storage for use with a single EC2 instance (like a virtual hard drive).
-- **Amazon EFS:** Provides a scalable file system for use with multiple EC2 instances (like a network file share).
+> #### Nice to Know: S3 Object Lock
+> - **S3 Object Lock** provides Write-Once-Read-Many (WORM) protection to prevent objects from being deleted or overwritten.
+> - It's useful for regulatory compliance and ransomware protection. It requires versioning to be enabled.
 
-### 5. Pricing
-- **Primary Factors:** Storage (GB per month), number of requests (GET, PUT, COPY), and data transfer out of AWS.
-- **Free Tier:** Includes a generous free tier for new accounts.
+### 4. Best Practices
+- Use **Bucket Policies & IAM** for access control.
+- **Enable Versioning** and consider **MFA Delete**.
 
----
 ## Amazon EBS (Elastic Block Store)
+- **Purpose:** Persistent block storage for a single EC2 instance.
+- **Features:** Multiple volume types, Snapshots (stored in S3), Encryption.
 
-### 1. Purpose & Use Cases
-EBS provides high-performance, persistent block storage volumes for use with Amazon EC2 instances. It's analogous to a virtual hard drive.
-- **Use Cases:** Boot volumes for EC2 instances, storing data for transactional and NoSQL databases, throughput-intensive workloads.
-
-### 2. Key Features
-- **Multiple Volume Types:** Optimized for different workloads (General Purpose SSD, Provisioned IOPS SSD, Throughput Optimized HDD).
-- **Snapshots:** Point-in-time backups of your volumes, which are stored durably in S3.
-- **Encryption:** EBS volumes can be encrypted to protect your data.
-- **Elasticity:** You can dynamically increase the size of your volumes or change the volume type.
-
-### 3. Best Practices
-- **Take regular snapshots** for backup and disaster recovery.
-- **Choose the right volume type** based on the performance needs of your application.
-- **Encrypt sensitive data** using EBS encryption.
-
-### 4. Alternatives
-- **Amazon S3:** For object storage, not block storage.
-- **EC2 Instance Store:** Provides temporary, high-performance block-level storage that is directly attached to the EC2 host. Data is lost if the instance is stopped or terminated.
-
----
 ## File Storage
-- **EFS (Elastic File System):** A simple, scalable, serverless elastic file system for Linux-based workloads. It can be accessed by thousands of EC2 instances concurrently from multiple AZs.
-- **FSx:** Provides fully managed, high-performance file systems.
-    - **FSx for Windows File Server:** For business applications that need shared file storage with the SMB protocol.
-    - **FSx for Lustre:** For high-performance computing (HPC) and ML workloads that require fast access to large datasets.
+- **EFS:** Elastic, serverless file system for Linux, accessible from thousands of instances across multiple AZs.
+- **FSx:** Managed high-performance file systems for Windows (FSx for Windows) and HPC/ML (FSx for Lustre).
 `,
-        'databases': `
+
+    'databases': `
 # Databases & Analytics
 
-## Amazon RDS (Relational Database Service)
+## Amazon RDS
+- **Purpose:** Managed relational DBs (MySQL, PostgreSQL, etc.).
+- **Features:** Managed ops, **High Availability (Multi-AZ)**, **Read Replicas** for read scaling.
+> #### Nice to Know: RDS Proxy
+> - **RDS Proxy** is a managed database proxy that pools and shares database connections, improving application scalability and resilience, especially for serverless applications like Lambda that can open many connections.
 
-### 1. Purpose & Use Cases
-RDS is a managed service that simplifies the setup, operation, and scaling of relational databases in the cloud.
-- **Use Cases:** Powering traditional applications, e-commerce platforms, and CRM systems that require a relational database like MySQL, PostgreSQL, or SQL Server.
-
-### 2. Key Features
-- **Managed Service:** Automates time-consuming tasks like hardware provisioning, patching, and backups.
-- **High Availability (Multi-AZ):** Creates a synchronous standby replica in a different Availability Zone for automatic failover.
-- **Read Replicas:** Allows you to create read-only copies of your database to increase read scalability.
-- **Security:** Provides encryption at rest and in transit.
-
-### 3. Best Practices
-- **Use Multi-AZ** for production workloads to ensure high availability.
-- **Use Read Replicas** to offload read traffic from your primary database.
-- **Encrypt data** using KMS keys.
-
-### 4. Alternatives
-- **Amazon Aurora:** A cloud-native relational database offering higher performance.
-- **Amazon DynamoDB:** A NoSQL database for applications that require flexible schemas and single-digit millisecond latency.
-- **Running a database on EC2:** Provides full control but requires you to manage everything yourself.
-
-### 5. Pricing
-- **Factors:** Database instance hours, storage (GB per month), I/O requests, and data transfer.
-- **Reserved Instances** are available for significant cost savings.
-
----
 ## Amazon DynamoDB
-
-### 1. Purpose & Use Cases
-DynamoDB is a fully managed, serverless, key-value NoSQL database designed for high-performance applications at any scale.
-- **Use Cases:** Web, mobile, gaming, ad tech, and IoT applications that need low-latency data access.
-
-### 2. Key Features
-- **Serverless:** No servers to provision, patch, or manage.
-- **Single-Digit Millisecond Performance:** Delivers consistent low latency regardless of scale.
-- **Automatic Scaling:** Automatically scales tables up and down to adjust for capacity and maintain performance.
-- **Highly Available & Durable:** Data is synchronously replicated across three facilities in a region.
-
-### 3. Best Practices
-- **Design your access patterns first.** DynamoDB schema design is based on how you will query the data.
-- **Use IAM policies** for fine-grained access control to tables and items.
-- **Monitor with CloudWatch** to track performance and costs.
-
-### 4. Alternatives
-- **Amazon RDS/Aurora:** For applications that require a relational model with complex joins and transactions.
-- **DocumentDB:** For applications that need MongoDB compatibility.
-
-### 5. Pricing
-- **Pay-per-request:** Billed for the read and write requests you make.
-- **Provisioned Capacity:** Pay for a certain amount of read/write capacity per second.
-- **Free Tier:** Includes a generous free tier.
+- **Purpose:** Serverless NoSQL key-value DB with single-digit ms latency.
+- **Features:** **On-demand or Provisioned** capacity, **Global Tables** for multi-region active-active setups.
+> #### Nice to Know: DynamoDB TTL & DAX
+> - **TTL (Time to Live)** automatically expires and deletes old items.
+> - **DAX (DynamoDB Accelerator)** is an in-memory cache for DynamoDB.
 
 ---
 ## Analytics Services Comparison
 | Service | Purpose | Type | Use Case |
-| :--- | :--- | :--- | :--- |
-| **Athena** | Interactive Query | Serverless SQL | Quickly analyze data in S3 without setting up servers or loading data. |
-| **Redshift** | Data Warehouse | Provisioned Cluster | Business intelligence and complex analytics on large, structured datasets. |
-| **EMR** | Big Data Processing | Managed Cluster | Process vast amounts of data using frameworks like Spark and Hadoop. |
-| **QuickSight** | Business Intelligence | Serverless BI | Create and publish interactive dashboards and visualizations. |
+|:---|:---|:---|:---|
+| **Athena** | Interactive Query | Serverless SQL | Query S3 data without loading. |
+| **Redshift** | Data Warehouse | Provisioned | BI & complex analytics on structured data. |
+| **OpenSearch** | Search & Log Analytics | Managed Cluster | Interactive log analytics, application search. |
+| **EMR** | Big Data Processing | Managed Cluster | Spark/Hadoop at scale. |
+| **Glue** | ETL & Data Catalog | Serverless | Discover, prepare, and integrate data. |
+| **Kinesis** | Data Streaming | Real-time | Ingest real-time data. **Streams** for custom apps, **Firehose** for direct delivery to destinations like S3/Redshift. |
+| **Lake Formation**| Data Lake Security| Managed Permissions| Centralize and manage fine-grained permissions for your data lake. |
 `,
-        'networking': `
+    'networking': `
 # Networking & Content Delivery
 
 ## VPC (Virtual Private Cloud)
+- **Purpose:** Your private, isolated section of the AWS Cloud.
+- **Key Components:** Subnets, Security Groups (stateful firewall for instances), NACLs (stateless firewall for subnets), Internet/NAT Gateways.
 
-### 1. Purpose & Use Cases
-A VPC allows you to provision a logically isolated section of the AWS Cloud where you can launch AWS resources in a virtual network that you define.
-- **Use Cases:** Essential for creating any AWS infrastructure. It provides the networking foundation for services like EC2 and RDS.
-
-### 2. Key Features
-- **Subnets:** Segments of a VPC's IP address range where you can place groups of isolated resources. Can be public (with internet access) or private.
-- **Security Groups:** Act as a stateful firewall for your EC2 instances to control inbound and outbound traffic.
-- **Network ACLs (NACLs):** Act as a stateless firewall for your subnets, controlling traffic in and out of one or more subnets.
-- **Connectivity Options:** Internet Gateway, NAT Gateway, VPC Peering, Direct Connect, and VPN connections.
-
-### 3. Best Practices
-- **Use multiple Availability Zones** and place subnets in each for high availability.
-- **Use private subnets for backend resources** like databases to protect them from the public internet.
-- **Use Security Groups as the primary firewall** for instances, and NACLs as a secondary, stateless defense layer.
-
-### 4. Alternatives
-- None. VPC is the fundamental networking service for provisioning isolated resources.
-
-### 5. Pricing
-- The VPC service itself is **free of charge**. You pay for the resources you run within it and for optional components like NAT Gateways and VPN connections.
-
----
 ## Core Networking Services
-- **Route 53:** A highly available DNS web service that can also perform health checks and route traffic based on various policies (e.g., latency-based, weighted).
-- **CloudFront:** A Content Delivery Network (CDN) that caches static and dynamic content in Edge Locations worldwide to reduce latency for users. It also provides a security layer against DDoS attacks when integrated with Shield and WAF.
+- **Route 53:** DNS service. See the **Route 53 Routing Policies** page for a detailed breakdown.
+- **CloudFront:** A global CDN that caches content at Edge Locations.
+- **Elastic Load Balancing (ELB):** See the **Load Balancers** page for a comparison.
+- **VPC Endpoints:** See the **VPC Endpoints** page for a comparison.
 `,
-        'messaging': `
+
+    'messaging': `
 # Messaging & Integration
 
 ## SQS vs. SNS vs. EventBridge
+
 | Service | Type | Key Feature | Use Case Example |
-| :--- | :--- | :--- | :--- |
-| **SQS** | Queue | **Decoupling:** Holds messages for later processing. | An application places an order message in a queue for a separate service to process and fulfill. |
-| **SNS** | Pub/Sub | **Fan-out:** Pushes one message to many subscribers at once. | A critical alarm sends a single message to an SNS topic, which then triggers an email, an SMS, and a Lambda function. |
-| **EventBridge**| Event Bus | **Event-driven architecture:** Reacts to events from AWS services, SaaS apps, and custom apps. | A new user signs up in a SaaS application (e.g., Salesforce), which generates an event that EventBridge routes to a Lambda function to start a welcome workflow. |
+|:---|:---|:---|:---|
+| **SQS** | Queue | **Decoupling:** Holds messages for later processing. | An application places an order message in a queue for a separate service to process. |
+| **SNS** | Pub/Sub | **Fan-out:** Pushes one message to many subscribers at once. | A critical alarm sends a single message to an SNS topic, which then triggers an email, SMS, and Lambda. |
+| **EventBridge**| Event Bus | **Event-driven architecture:** Reacts to events from many sources with advanced filtering. | A new user signs up in a SaaS app, which generates an event that EventBridge routes to a Lambda. |
 
 ## API Gateway
-### 1. Purpose & Use Cases
-API Gateway is a fully managed service that acts as the "front door" for applications to access backend services like Lambda, EC2, or public endpoints.
-- **Use Case:** Creating a secure, public-facing RESTful API that privately triggers a Lambda function to execute business logic, with built-in features for throttling, authorization, and monitoring.
+Acts as a front door for Lambda/EC2 or other backend services. Manages traffic, authorization, throttling, and monitoring.
 
 ## Step Functions
-### 1. Purpose & Use Cases
-Step Functions is a serverless orchestration service that lets you coordinate multiple AWS services into visual workflows.
-- **Use Case:** Creating a complex, multi-step business process, such as an order fulfillment workflow that involves checking inventory (Lambda), processing payment (API call), and scheduling shipping (Lambda), with error handling and retries built in.
+A serverless orchestration service to create visual workflows that coordinate multiple AWS services. Manages sequencing, error handling, and retries.
 `,
-        'deployment': `
+
+    'deployment': `
 # Deployment & CI/CD
 
 ## AWS CloudFormation
+- **Purpose:** An Infrastructure as Code (IaC) service using YAML/JSON templates to provision resources in a repeatable way.
+- **Features:** Manages resources as a single unit (**Stack**), allows you to preview changes (**Change Sets**).
 
-### 1. Purpose & Use Cases
-CloudFormation is the primary Infrastructure as Code (IaC) service on AWS. It allows you to model your infrastructure in a template file, enabling automated and repeatable deployments.
-- **Use Cases:** Creating a new environment for an application (VPC, subnets, EC2, RDS), standardizing components across an organization, automating disaster recovery setup.
-
-### 2. Key Features
-- **Templates:** Uses declarative YAML or JSON files to define the desired state of your infrastructure.
-- **Stacks:** The set of resources created from a single template is managed as a single unit called a stack.
-- **Change Sets:** Allows you to preview how proposed changes to a stack might impact your running resources before you implement them.
-- **Broad Service Support:** Works with almost all AWS services.
-
-### 3. Best Practices
-- **Use version control** (like Git with CodeCommit) for your templates.
-- **Use Change Sets** in production to prevent unexpected changes.
-- **Break down large templates** into smaller, nested stacks for better management.
-
-### 4. Alternatives
-- **Third-party IaC tools** like Terraform.
-- **AWS CDK (Cloud Development Kit):** An abstraction layer that lets you define infrastructure in a programming language, which then synthesizes to CloudFormation.
-
-### 5. Pricing
-- CloudFormation itself is **free of charge**. You only pay for the AWS resources it creates.
-
----
 ## Other Deployment Services
-- **Elastic Beanstalk:** A Platform as a Service (PaaS) for deploying and scaling traditional web applications. You provide the code, and Beanstalk handles the infrastructure.
-- **CI/CD "Code" Suite:**
-  - **CodeCommit:** A managed Git repository.
-  - **CodeBuild:** Compiles source code and runs tests.
-  - **CodeDeploy:** Automates application deployments.
-  - **CodePipeline:** Orchestrates your CI/CD workflow.
+- **Elastic Beanstalk**: A PaaS for deploying traditional web apps. You provide the code, Beanstalk handles the rest.
+- **Code Suite**:
+  - **CodeCommit** (Git), **CodeBuild** (build/test), **CodeDeploy** (deploy), **CodePipeline** (orchestrate CI/CD).
 `,
-        'monitoring': `
+
+    'monitoring': `
 # Monitoring, Auditing, & Management
 
 ## Amazon CloudWatch
-
-### 1. Purpose & Use Cases
-CloudWatch is the central monitoring and observability service for AWS resources and applications.
-- **Use Cases:** Monitoring EC2 CPU utilization, tracking Lambda function invocations, collecting application logs, setting billing alarms.
-
-### 2. Key Features
-- **Metrics:** A time-ordered set of data points. AWS services automatically send metrics to CloudWatch.
-- **Alarms:** Automatically perform actions (like sending a notification or scaling an EC2 fleet) based on a metric crossing a threshold.
-- **Logs:** Centralize and monitor logs from EC2, Lambda, and other services.
-- **Dashboards:** Create customizable views of the metrics and alarms for your resources.
-
-### 3. Best Practices
-- **Enable Detailed Monitoring (1-minute intervals)** for production EC2 instances for faster response times.
-- **Create alarms for key performance metrics** and operational health.
-- **Set up a billing alarm** to be notified before your spending exceeds your budget.
-
-### 4. Alternatives
-- Third-party monitoring solutions, which often integrate with CloudWatch to pull metric data.
-
-### 5. Pricing
-- **Free Tier:** Includes a generous free tier for metrics, alarms, and logs.
-- **Pay-as-you-go:** You pay for what you use beyond the free tier (e.g., custom metrics, detailed monitoring, data ingestion for logs).
+The central monitoring and observability service.
+- **Features:** **Metrics** (performance data), **Alarmas** (automated actions), **Logs** (centralized log files), **Dashboards**.
 
 ---
 ## CloudTrail vs. Config vs. GuardDuty
-
 | Service | What It Answers | Core Function |
-| :--- | :--- | :--- |
-| **CloudTrail** | "Who did what, when, and from where?" | **Auditing & API Logging:** Records every API call made in your account. |
-| **AWS Config** | "What does my AWS resource look like and how has it changed?" | **Resource Configuration & Compliance:** Tracks the configuration of resources and evaluates them against rules. |
-| **GuardDuty** | "Is anything malicious or unauthorized happening?" | **Threat Detection:** Intelligently analyzes logs to detect threats like malware and unusual API activity. |
+|:---|:---|:---|
+| **CloudTrail** | "Who did what, when, and from where?" | **Auditing & API Logging** |
+| **AWS Config** | "What does my resource look like and how has it changed?" | **Resource Config & Compliance** |
+| **GuardDuty** | "Is anything malicious happening?" | **Threat Detection** |
 
+> #### Nice to Know: Advanced Auditing & Tracing
+> - **CloudTrail Lake** is an advanced feature that lets you aggregate, immutably store, and query your audit logs using SQL for deeper, more complex investigations.
+> - **AWS X-Ray** is a service for tracing user requests through distributed applications to identify bottlenecks and errors.
+
+## Other Key Tools
+- **AWS Health Dashboard & Trusted Advisor:** See the **Governance & Cost Management** page for more details.
 `,
-        'governance':`
+
+    'governance': `
 # Governance & Cost Management
 
+## AWS Organizations & SCPs
+- **Organizations:** Centrally manage multiple AWS accounts. Enables consolidated billing.
+- **Service Control Policies (SCPs):** Provide central control over the maximum available permissions for all accounts in your organization. SCPs act as "guardrails" – they do not grant permissions but can restrict what users and roles in member accounts can do.
+
 ## AWS Control Tower
-
-### 1. Purpose & Use Cases
-Control Tower automates the setup of a secure, multi-account AWS environment (a "landing zone") based on best practices.
-- **Use Case:** A large enterprise wants to set up a new AWS environment for multiple teams, ensuring that all new accounts automatically adhere to company-wide security and compliance policies from the start.
-
-### 2. Key Features
-- **Landing Zone:** Creates a well-architected, multi-account baseline.
-- **Guardrails:** Pre-packaged governance rules for security, operations, and compliance that you can apply across your accounts.
-- **Account Factory:** A standardized way to provision new AWS accounts that conform to your policies.
+- **Purpose:** Automates the setup of a secure, multi-account AWS environment (a "landing zone") based on best practices, using services like Organizations and SCPs.
 
 ## AWS Service Catalog
+- **Purpose:** Allows organizations to create and manage catalogs of IT services that are approved for use on AWS.
 
-### 1. Purpose & Use Cases
-Service Catalog allows organizations to create and manage catalogs of IT services that are approved for use on AWS, helping to achieve consistent governance and meet compliance requirements.
-- **Use Case:** An IT department wants to allow developers to provision their own servers, but only from a pre-approved list of EC2 instance types and AMIs that have been vetted for security and cost.
-
-### 2. Key Features
-- **Standardization:** Ensures users deploy only approved and consistently configured resources.
-- **Self-Service:** Allows users to find and launch the resources they need on their own, speeding up innovation.
-- **Fine-Grained Access Control:** Manages which users can access which products and versions.
-
-## Deeper Cost Management
-- **AWS Budgets:** Go beyond simple cost alerts. You can set budgets based on usage (e.g., "alert me when I use 80% of my EC2 free tier hours") or based on Savings Plans/RI coverage. You can also trigger actions when a budget threshold is reached.
-- **AWS Cost Explorer:** A powerful visualization tool. Use it to identify cost drivers by filtering by service, linked account, or tags. Its forecasting feature helps predict future spending.
-- **Compute Optimizer:** Uses machine learning to analyze the utilization metrics of your resources (EC2, EBS, Lambda) and recommends optimal configurations to reduce costs and improve performance (e.g., "downsize this EC2 instance from m5.large to m5.medium to save money without impacting performance").
-- **AWS License Manager:** Makes it easier to manage software licenses from vendors like Microsoft, SAP, and Oracle across AWS and on-premises environments. Helps track compliance for Bring-Your-Own-License (BYOL) models.
+## Cost Tools & Support
+- **AWS Budgets**, **Cost Explorer**, **Compute Optimizer**, **AWS License Manager**.
+- **Trusted Advisor:** Provides real-time guidance. The number of checks available depends on your **Support plan** (Business and Enterprise get all checks).
+- **AWS Health Dashboard:**
+    - **Service Health Dashboard:** Public status of all AWS services.
+    - **Personal Health Dashboard (Account Health):** A personalized view of events and scheduled changes that may affect *your specific* AWS resources.
 `,
-        'advanced_networking':`
+
+    'advanced_networking': `
 # Advanced Networking
 
 ## Direct Connect vs. Global Accelerator vs. CloudFront
 | Service | Primary Purpose | How It Works | Use Case |
-| :--- | :--- | :--- | :--- |
-| **Direct Connect** | Hybrid Connectivity | Provides a dedicated, private physical network connection between your on-premises data center and AWS. | A company needs a consistent, high-bandwidth, private connection for migrating large datasets and integrating on-prem systems with AWS. |
-| **Global Accelerator**| Performance & Availability| Directs user traffic over the highly available and congestion-free AWS global network, optimizing the network path. | Improving the performance and reliability of a global application with users worldwide that relies on dynamic content and TCP/UDP protocols. |
-| **CloudFront** | Content Caching & Delivery | Caches static and dynamic content in a global network of Edge Locations, closer to users. | Speeding up a website's load time by caching its images, videos, and CSS files at locations near the end-users. |
+|:---|:---|:---|:---|
+| **Direct Connect** | Hybrid Connectivity | Dedicated private physical link from on-prem to AWS. | Consistent, high-bandwidth private connectivity. |
+| **Global Accelerator**| Performance & Availability| Directs user traffic over the AWS global network to the optimal endpoint using Anycast IPs. | Improving performance of global dynamic applications (e.g., gaming, VoIP). |
+| **CloudFront** | Content Delivery | Caches content at global Edge Locations. | Speeding up delivery of static and dynamic web content. |
 
-## Transit Gateway
-### Purpose & Use Cases
-Transit Gateway acts as a central hub to connect your VPCs and on-premises networks. It simplifies your network architecture by eliminating the need for complex, full-mesh VPC peering connections.
-- **Use Case:** An organization has dozens of VPCs that need to communicate with each other and with their on-premises network. Instead of creating numerous peering connections between all VPCs, they connect each VPC to a single Transit Gateway, which manages the routing between them. This is known as a **hub-and-spoke model**.
+> #### Nice to Know: Transit Gateway
+> - **Transit Gateway** acts as a central hub to connect your VPCs and on-premises networks. It simplifies your network architecture in a **hub-and-spoke model**, which is much cleaner than complex VPC peering meshes.
 
-## PrivateLink
-### Purpose & Use Cases
-PrivateLink provides secure, private connectivity between VPCs, AWS services, and your on-premises networks without exposing your traffic to the public internet.
-- **Use Case:** You have an application in your VPC that needs to access an AWS service like S3 or a third-party SaaS application. With PrivateLink, you can create a private endpoint in your VPC that connects directly to the service, ensuring traffic never leaves the Amazon network.
 `,
-        'hybrid':`
+
+    'hybrid': `
 # Hybrid & Edge Computing
+> This content is generally "nice to know" and less critical for the exam, but shows awareness of the breadth of AWS.
 
 ## AWS Outposts
-
-### 1. Purpose & Use Cases
-Outposts is a fully managed service that extends AWS infrastructure, services, APIs, and tools to virtually any on-premises data center or co-location space.
-- **Use Case:** A manufacturing company needs to run a low-latency data processing application on-premises, right next to their factory equipment, but wants to use the same AWS services (like EC2 and EBS) and management tools they use in the cloud.
+- **Purpose:** A fully managed service that extends AWS infrastructure and services to virtually any on-premises data center.
 
 ## AWS Local Zones
-
-### 1. Purpose & Use Cases
-Local Zones are a type of AWS infrastructure deployment that places AWS compute, storage, and database services closer to large population, industry, and IT centers.
-- **Use Case:** A video streaming company in a large city that is not an AWS Region wants to provide a very low-latency experience to its local users. They can deploy parts of their application in a Local Zone to reduce network latency.
+- **Purpose:** Places AWS compute, storage, and database services closer to large population centers for low-latency applications.
 
 ## AWS Wavelength
-
-### 1. Purpose & Use Cases
-Wavelength embeds AWS compute and storage services within 5G networks, providing mobile edge computing infrastructure for developing, deploying, and scaling ultra-low-latency applications.
-- **Use Case:** A developer is creating an augmented reality (AR) mobile game that requires real-time processing with minimal lag. Deploying the application backend in a Wavelength Zone on the 5G network provides the necessary ultra-low latency.
+- **Purpose:** Embeds AWS compute and storage services within 5G networks for mobile edge computing.
 
 ## Snow Family Use Cases
-The Snow Family is used for edge computing and data transfer.
-- **Snowcone:** Best for small-scale data transfer (up to 14 TB) or edge computing in space-constrained or rugged environments (e.g., a factory floor, a vehicle).
-- **Snowball Edge:** Best for petabyte-scale data migrations or as a more powerful edge computing device. A common scenario is decommissioning a data center and shipping terabytes of data to AWS.
-- **Snowmobile:** The choice for exabyte-scale data transfer. This is for moving entire data centers worth of data (up to 100 PB per truck).
+- **Snowcone:** Small-scale data transfer (up to 14 TB) or edge computing in rugged environments.
+- **Snowball Edge:** Petabyte-scale data migrations or as a powerful edge computing device.
+- **Snowmobile:** Exabyte-scale data transfer (up to 100 PB per truck).
 `,
-        'security':`
-# In-Depth Security
+
+    'security': `
+# In-Depth Security Tools
 
 ## Encryption Services Comparison
 | Service | What It Manages | Key Control | Use Case |
-| :--- | :--- | :--- | :--- |
-| **KMS** | Encryption Keys | Customer can manage, AWS handles hardware | General-purpose encryption for most AWS services (S3, EBS, RDS). |
-| **CloudHSM** | Encryption Keys | Customer has full control of keys on dedicated hardware | Meeting strict compliance requirements (like FIPS 140-2 Level 3) where you must control the hardware. |
-| **ACM** | SSL/TLS Certificates | N/A (manages public certificates) | Provisioning, managing, and deploying public SSL/TLS certificates for use with ELB and CloudFront. |
+|:---|:---|:---|:---|
+| **KMS** | Encryption Keys | Customer manages, AWS handles hardware | General-purpose encryption for most AWS services. |
+| **CloudHSM** | Encryption Keys | Customer has full control of keys on dedicated hardware | Meeting strict compliance requirements (e.g., FIPS 140-2 Level 3). |
+| **ACM** | SSL/TLS Certificates | N/A (manages public certificates) | Provisioning public SSL/TLS certificates for ELB and CloudFront. |
 
 ---
 ## Threat Detection, Vulnerability & Compliance
-- **GuardDuty:** A threat detection service that uses machine learning to continuously monitor for malicious activity and unauthorized behavior. It analyzes logs like CloudTrail, VPC Flow Logs, and DNS logs.
-- **Inspector:** An automated vulnerability management service that continually scans AWS workloads (EC2, ECR images, Lambda) for software vulnerabilities and unintended network exposure.
-- **Macie:** A data security service that uses machine learning to discover, classify, and protect sensitive data (like Personally Identifiable Information - PII) stored in Amazon S3.
-- **Security Hub:** Provides a single place that aggregates, organizes, and prioritizes your security alerts or findings from multiple AWS services, such as GuardDuty, Inspector, and Macie.
-- **AWS Audit Manager:** Helps you continuously audit your AWS usage to simplify how you assess risk and compliance with regulations and industry standards. It automates evidence collection.
+- **GuardDuty:** ML-based threat detection.
+- **Inspector:** Automated vulnerability scanning.
+- **Macie:** Sensitive data discovery in S3.
+- **Security Hub:** Centralized security findings.
+- **Audit Manager:** Automates evidence collection for audits.
 
 ---
 ## Network & Application Protection
-- **Shield:** A managed Distributed Denial of Service (DDoS) protection service.
-  - **Standard:** Automatically enabled for all AWS customers at no additional cost.
-  - **Advanced:** A paid service for additional, more sophisticated protections.
-- **WAF (Web Application Firewall):** A firewall that helps protect your web applications from common web exploits like SQL injection and cross-site scripting.
+- **Shield:** DDoS protection (**Standard** is free; **Advanced** is paid).
+- **WAF (Web Application Firewall):** Protects web apps from common exploits.
 - **Secrets Manager vs. Parameter Store:**
-  - **Parameter Store:** Provides secure, hierarchical storage for configuration data and secrets. Standard parameters are free.
-  - **Secrets Manager:** A dedicated secret management service that includes the ability to automatically rotate secrets (e.g., database credentials), which is its key differentiator. Costs more than Parameter Store.
+  - **Parameter Store:** Secure storage for configuration data and secrets.
+  - **Secrets Manager:** A dedicated secret management service with automatic secret rotation.
 `,
-        'ml':`
-# Machine Learning Services
-For the exam, you should know the primary use case for each of these services.
 
-- **SageMaker:** A fully managed service for the entire machine learning workflow: build, train, and deploy ML models.
-- **Rekognition:** For adding image and video analysis to your applications.
-- **Transcribe:** For converting speech into text (transcription).
-- **Polly:** For converting text into lifelike speech (text-to-speech).
-- **Translate:** For translating text between languages.
-- **Lex:** For building conversational interfaces (chatbots) using voice and text. It's the technology that powers Alexa.
-- **Comprehend:** A natural language processing (NLP) service to extract insights and relationships from unstructured text.
-- **Kendra:** An intelligent enterprise search service powered by machine learning, allowing users to search across multiple content repositories.
+    'ml': `
+# Machine Learning Services
+- **SageMaker:** Build/train/deploy ML models.
+- **Rekognition:** Image/video analysis.
+- **Transcribe:** Speech to text.
+- **Polly:** Text to speech.
+- **Translate:** Text translation.
+- **Lex:** Chatbots.
+- **Comprehend:** NLP insights.
+- **Kendra:** Intelligent enterprise search.
+> #### Nice to Know: Amazon Bedrock
+> - **Bedrock** is AWS's fully managed service for accessing high-performing foundation models (FMs) from leading AI companies via a single API. It's the go-to service for building generative AI applications.
 `,
-        'migration':`
+
+    'migration': `
 # Migration & Transfer
 
 ## Six "R's" of Migration Strategies
-These are common strategies for moving applications to the cloud.
-- **Rehost (Lift and Shift):** Moving applications without changes.
-- **Replatform (Lift, Tinker, and Shift):** Making some cloud optimizations without changing the core architecture.
-- **Repurchase:** Moving to a different product, often a SaaS model.
-- **Refactor / Re-architect:** Reimagining how the application is architected and developed using cloud-native features.
-- **Retire:** Decommissioning applications that are no longer needed.
-- **Retain:** Keeping applications on-premises that are not ready to be migrated.
+- **Rehost (Lift & Shift)**, **Replatform (Lift, Tinker, Shift)**, **Repurchase (SaaS)**, **Refactor/Re-architect**, **Retire**, **Retain**.
 
 ## Migration Services
-- **Application Migration Service (MGN):** The primary AWS service for rehosting (lift-and-shift) servers into AWS.
-- **DataSync:** An online data transfer service that simplifies, automates, and accelerates moving data between on-premises storage systems and AWS Storage services.
-- **Migration Hub:** Provides a single location to track the progress of application migrations across multiple AWS and partner solutions.
-- **Database Migration Service (DMS):** Helps you migrate databases to AWS easily and securely. The source database remains fully operational during the migration, minimizing downtime.
+- **Application Migration Service (MGN):** The primary service for rehosting servers into AWS.
+- **DataSync:** For online data transfer from on-premises to AWS storage.
+- **Migration Hub:** A single location to track the progress of migrations.
+- **Database Migration Service (DMS):** Migrates databases to AWS with minimal downtime.
 `,
-        'frameworks':`
+
+    'frameworks': `
 # Frameworks & Strategies
 
 ## AWS Well-Architected Framework
-This framework provides guidance to help you build and operate secure, high-performing, resilient, and efficient infrastructure. It is built on six pillars:
-- **Operational Excellence:** The ability to run and monitor systems to deliver business value and to continually improve supporting processes and procedures. *Key principle: Perform operations as code.*
-- **Security:** The ability to protect information, systems, and assets while delivering business value through risk assessments and mitigation strategies. *Key principle: Implement a strong identity foundation.*
-- **Reliability:** The ability of a workload to perform its intended function correctly and consistently when it’s expected to. *Key principle: Automatically recover from failure.*
-- **Performance Efficiency:** The ability to use computing resources efficiently to meet system requirements. *Key principle: Use serverless architectures.*
-- **Cost Optimization:** The ability to run systems to deliver business value at the lowest price point. *Key principle: Adopt a consumption model.*
-- **Sustainability:** The ability to continually improve sustainability outcomes by reducing energy consumption and increasing efficiency.
+Based on six pillars:
+- **Operational Excellence**, **Security**, **Reliability**, **Performance Efficiency**, **Cost Optimization**, **Sustainability**.
 
 ## Cloud Adoption Framework (CAF)
-The AWS CAF provides guidance to help you plan and execute a successful cloud adoption journey. It organizes guidance into six perspectives:
-- **Business Perspective:** Ensures that IT aligns with business needs.
-- **People Perspective:** Helps stakeholders understand and adapt to change.
-- **Governance Perspective:** Provides guidance on managing and measuring cloud investments to evaluate business outcomes.
-- **Platform Perspective:** Helps you design, implement, and optimize the AWS architecture.
-- **Security Perspective:** Helps you achieve the confidentiality, integrity, and availability of your data and cloud workloads.
-- **Operations Perspective:** Helps you ensure that your cloud operations are efficient and reliable.
+Organizes guidance into six perspectives:
+- **Business, People, Governance** (Business Capabilities)
+- **Platform, Security, Operations** (Technical Capabilities)
 `,
-        'dr_ha':`
+
+    'dr_ha': `
 # Disaster Recovery & High Availability
 
-Disaster Recovery (DR) is about preparing for and recovering from a disaster. High Availability (HA) is about ensuring your systems are continuously operational, often across multiple Availability Zones.
-
 ## Key Metrics
-- **RTO (Recovery Time Objective):** The maximum acceptable delay between the interruption of service and restoration of service. *How quickly must we recover?*
-- **RPO (Recovery Point Objective):** The maximum acceptable amount of time since the last data recovery point. *How much data can we lose?*
+- **RTO (Recovery Time Objective):** How quickly must we recover?
+- **RPO (Recovery Point Objective):** How much data can we lose?
 
 ## DR Strategies (from highest RTO/RPO to lowest)
 | Strategy | Description | RTO Example | RPO Example |
-| :--- | :--- | :--- | :--- |
-| **Backup and Restore** | Backing up data and restoring it to a new location after a disaster. | **Hours to Days** | **Hours** (e.g., since the last backup) |
-| **Pilot Light** | A small version of the environment (e.g., the database) is always running. Scale up on disaster. | **Tens of Minutes** | **Minutes** |
-| **Warm Standby** | A scaled-down but fully functional copy of your production environment is always running. | **Minutes** | **Seconds to Minutes** |
-| **Multi-site (Hot-site)**| A full-scale, active-active configuration where both regions serve traffic. | **Seconds / Near-zero**| **Near-zero** |
+|:---|:---|:---|:---|
+| **Backup and Restore** | Restore data from backups after a disaster. | **Hours to Days** | **Hours** |
+| **Pilot Light** | A minimal version of the environment is always running. | **Tens of Minutes** | **Minutes** |
+| **Warm Standby** | A scaled-down but functional copy is always running. | **Minutes** | **Seconds to Minutes** |
+| **Multi-site (Hot-site)**| A full-scale, active-active configuration. | **Seconds / Near-zero**| **Near-zero** |
 
 ## AWS Backup
-AWS Backup is a fully managed, centralized service to manage and automate backups across AWS services like EBS, RDS, DynamoDB, EFS, and Storage Gateway. It simplifies your backup strategy and helps you meet business and regulatory compliance requirements.
+A centralized service to manage and automate backups across AWS services.
 `,
-        'other':`
-# Other Key Services
 
-## End User & Developer Productivity
-- **WorkSpaces:** A managed, secure Desktop-as-a-Service (DaaS) solution for provisioning virtual Windows or Linux desktops.
-- **AppStream 2.0:** A service that centrally manages desktop applications and securely streams them to a web browser.
-- **Device Farm:** An application testing service that lets you test your web and mobile apps on a large collection of real physical devices.
-- **AppConfig:** A service to manage and deploy application configuration safely and dynamically without requiring a full code deployment.
-
-## Specialty Services
-- **IoT Core:** A managed cloud service that lets connected devices (like sensors and smart appliances) easily and securely interact with cloud applications and other devices.
-- **Ground Station:** A fully managed service that lets you control satellite communications, process satellite data, and scale your satellite operations.
-- **RoboMaker:** A service to develop, test, and deploy robotics applications in the cloud.
-`,
-        'caching': `
+    'caching': `
 # Caching & Performance
-Caching is a critical technique for improving application performance and reducing latency by storing frequently accessed data in a location that is faster to retrieve than the original source.
-
 ## In-Memory Caching: ElastiCache
-ElastiCache is a managed in-memory caching service that supports two popular open-source engines:
-- **Redis:** A fast, feature-rich key-value store. Best for advanced data structures, pub/sub, high availability (Multi-AZ), and backup/restore capabilities.
-- **Memcached:** A simpler, multi-threaded key-value store. Best for caching simple objects and when you need to scale out horizontally with maximum simplicity.
-
-### Use Case
-An e-commerce website uses ElastiCache to store popular product information. When a user visits a product page, the application first checks the ElastiCache cluster. If the data is there (a "cache hit"), it's returned instantly. If not (a "cache miss"), the application queries the slower RDS database and then writes the result into the cache for future requests.
+A managed in-memory caching service supporting:
+- **Redis:** For advanced data structures and high availability.
+- **Memcached:** For simple object caching.
+- **Use Case:** An e-commerce site caches popular product data to reduce load on its RDS database.
 
 ---
 ## Edge Caching: CloudFront
-CloudFront is a Content Delivery Network (CDN) that caches content in a global network of Edge Locations.
-- **Purpose:** To reduce latency for end-users by serving content from a location that is geographically closer to them. It also reduces the load on your origin servers (like EC2 or S3).
-- **Strategies:** You can configure cache behavior based on file paths, headers, and query strings. Time-to-Live (TTL) settings control how long content stays in the cache before CloudFront checks the origin for an updated version.
+A CDN that caches content at Edge Locations to reduce latency.
 
 ---
 ## Database Caching: DAX
-DAX (DynamoDB Accelerator) is a fully managed, highly available, in-memory cache specifically for DynamoDB.
-- **Purpose:** Delivers up to a 10x performance improvement – from milliseconds to microseconds – for read-heavy DynamoDB workloads.
-- **Key Feature:** It is API-compatible with DynamoDB, meaning you can often implement it without making any changes to your existing application logic.
+> #### Nice to Know: DynamoDB Accelerator (DAX)
+> - DAX is a fully managed, in-memory cache for DynamoDB, delivering microsecond read performance. It's API-compatible with DynamoDB, so you often don't need to change your application code to use it.
 `,
-        'developer_tools': `
-# Developer Productivity
 
+    'developer_tools': `
+# Developer Productivity
 ## Cloud9
-### Purpose & Use Cases
-Cloud9 is a cloud-based Integrated Development Environment (IDE) that lets you write, run, and debug your code with just a browser.
-- **Use Case:** A team of developers needs a consistent, collaborative development environment. With Cloud9, they can all access the same pre-configured environment, share it in real-time for pair programming, and access it from any computer.
+- A cloud-based IDE for writing, running, and debugging code in a browser.
 
 ## Amplify
-### Purpose & Use Cases
-Amplify is a set of tools and services that enables developers to build and deploy full-stack web and mobile applications on AWS quickly and easily.
-- **Use Case:** A front-end developer wants to build a web application with features like user authentication, data storage, and a serverless API backend, without needing deep backend expertise. Amplify provides a simple CLI and libraries to provision and connect these backend resources.
+- A set of tools to build and deploy full-stack web and mobile applications on AWS.
 
 ## AppConfig
-### Purpose & Use Cases
-AppConfig is a service for managing and deploying application configurations safely and dynamically. It allows you to change application behavior without needing to deploy new code.
-- **Use Case:** An application has a feature flag that enables a new promotional banner. Instead of hardcoding the "on/off" switch in the code, it's stored in AppConfig. The marketing team can then enable or disable the banner in real-time for all users, or even a percentage of users, without a new code deployment.
+- A service for managing and deploying application configurations safely and dynamically.
 `,
-        'advanced_identity': `
-# Advanced Identity
 
-- **STS (Security Token Service):** A web service that enables you to request temporary, limited-privilege credentials for IAM users or for users that you authenticate (federated users).
-- **Cognito:** Provides a managed user directory (**User Pools**) and enables you to grant temporary, secure access to your AWS resources for your application users (**Identity Pools**). It's the go-to service for managing user sign-up and sign-in for mobile and web apps.
-- **Directory Service:** A managed service for Microsoft Active Directory.
-- **IAM Identity Center (formerly AWS SSO):** A service that makes it easy to centrally manage single sign-on (SSO) access to multiple AWS accounts and business applications.
-- **AWS Organizations:** Helps you centrally govern your environment as you scale. You can use it for consolidated billing and to apply **Service Control Policies (SCPs)**, which act as guardrails to restrict permissions for member accounts.
-`,
-        'specialty': `
+    'specialty': `
 # Specialty & Emerging Services
+> This content is generally "nice to know" and less critical for the exam, but shows awareness of the breadth of AWS.
 
 ## IoT Core
-### Purpose & Use Cases
-IoT Core is a managed cloud service that lets connected devices (like sensors, actuators, and smart appliances) easily and securely interact with cloud applications and other devices.
-- **Use Case:** A smart home company needs to securely ingest temperature data from millions of thermostats, process that data, and allow users to control their devices from a mobile app.
+- A managed cloud service that lets connected devices securely interact with cloud applications.
 
 ## Ground Station
-### Purpose & Use Cases
-Ground Station is a fully managed service that lets you control satellite communications, process satellite data, and scale your satellite operations on a pay-as-you-go basis.
-- **Use Case:** A university's research team needs to download data from their earth-observation satellite. They can use Ground Station to schedule a "contact" and downlink the data directly into an S3 bucket for analysis.
+- A fully managed service that lets you control satellite communications and process satellite data.
 
 ## RoboMaker
-### Purpose & Use Cases
-RoboMaker is a cloud-based simulation service to develop, test, and deploy robotics applications.
-- **Use Case:** A robotics company wants to test a new navigation algorithm for its autonomous warehouse robots in thousands of different simulated warehouse layouts before deploying it to their physical fleet.
+- A cloud-based simulation service to develop, test, and deploy robotics applications.
+`,
+    'elb': `
+# Elastic Load Balancing (ELB)
+| Balancer Type | Layer | Use Case | Key Feature |
+|:---|:---:|:---|:---|
+| **Application (ALB)** | 7 (HTTP/S)| Web applications, microservices | Path-based & host-based routing. |
+| **Network (NLB)** | 4 (TCP/UDP)| High-performance, low-latency applications | Can handle millions of requests/sec, provides a static IP. |
+>| **Gateway (GWLB)** | 3 (IP) | Deploying third-party virtual appliances | Acts as a transparent bump-in-the-wire for security inspection. |
+`,
+
+    'route53_routing': `
+# Route 53 — Routing Policies
+- **Simple:** The default policy, used for a single resource.
+- **Weighted:** Splits traffic across multiple resources based on assigned weights (e.g., 90% to one, 10% to another for A/B testing).
+- **Latency-based:** Routes users to the AWS region that provides the lowest latency.
+- **Failover:** Used for active-passive disaster recovery. Routes traffic to a primary resource, and to a secondary if the primary is unhealthy.
+- **Geolocation:** Routes users based on their geographic location (e.g., country or continent).
+- **Multivalue Answer:** Responds to DNS queries with up to eight healthy records selected at random.
+`,
+    'vpc_endpoints': `
+# VPC Endpoints (Private Access to AWS Services)
+- **Gateway Endpoints:** A gateway that you specify as a target for a route in your route table to access **S3 and DynamoDB**. It has **no hourly charge**.
+- **Interface Endpoints (powered by PrivateLink):** An elastic network interface (ENI) with a private IP that serves as an entry point for traffic to most other AWS services and third-party SaaS applications. It has a **per-hour cost** plus data processing charges.
+`,
+    'cost_protections': `
+# Free Tier & Cost Protections
+
+## AWS Free Tier
+AWS offers a Free Tier to help you get hands-on experience.
+- **12-Month Free Trial:** For new AWS accounts, many popular services like EC2 (750 hours/month of t2.micro) and S3 (5 GB Standard Storage) have a free usage allowance for the first year.
+- **Always Free:** Some services have a free tier that does not expire. This includes services like Lambda (1 million free requests/month) and DynamoDB (25 GB storage).
+
+## Proactive Cost Management
+- **AWS Budgets:** Set custom budgets that alert you when your costs or usage exceed your budgeted amount.
+- **Cost Anomaly Detection:** A feature that uses machine learning to monitor your spending patterns, identify unusual spend, and provide root-cause analysis to help you catch unexpected cost spikes.
+`,
+    'data_transfer': `
+# Data Transfer Cost Basics
+Understanding data transfer costs is key for cost optimization. The general rules are:
+- **Data Transfer IN to AWS:** Free from the internet into any AWS Region.
+- **Data Transfer OUT of AWS:** Charged per GB. The price varies by Region and amount of data. This is a common source of cloud costs.
+- **Data Transfer within the same Region:**
+    - **Between Availability Zones:** There is a cost per GB for data transferred between AZs.
+    - **Within a single Availability Zone:** Data transfer between services in the same AZ using private IPs is free.
+- **CloudFront Data Transfer:** Data transfer from an AWS origin (like S3) to a CloudFront Edge Location is free. You pay for data transfer from the Edge Location to the user.
 `
-    };
+  };
 
-    const contentDisplay = document.getElementById('content-display');
-    const navLinksContainer = document.getElementById('nav-links');
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
+  /* =========================
+     QUIZ DATA (Expanded)
+     ========================= */
+  const quizzes = {
+    iam: [
+        { q: "What is the best practice for the AWS account root user?", choices: ["Use it for daily admin tasks", "Create access keys for it", "Secure it with MFA and never use it for daily tasks", "Share its credentials with your team"], answer: 2, explain: "The root user should be secured with MFA and used only for tasks that absolutely require it. IAM users should be used for all other tasks." },
+        { q: "For managing SSO access for your company's employees to multiple AWS accounts, you should use:", choices: ["IAM Users and Groups", "IAM Roles", "IAM Identity Center", "Service Control Policies"], answer: 2, explain: "IAM Identity Center (formerly AWS SSO) is the recommended service for managing workforce access across multiple accounts." },
+    ],
+    compute: [
+        { q: "A workload requires extremely low latency between instances. Which placement group should you use?", choices: ["Spread", "Partition", "Cluster", "Dedicated"], answer: 2, explain: "Cluster placement groups pack instances close together inside an AZ for low-latency network performance." },
+        { q: "Which service provides a serverless compute engine for containers?", choices: ["Amazon EC2", "AWS Lambda", "AWS Fargate", "Amazon EKS"], answer: 2, explain: "AWS Fargate works with both ECS and EKS to run containers without you having to manage the underlying EC2 instances." },
+    ],
+    storage: [
+      { q: "All new S3 objects are encrypted by default using:", choices: ["SSE-KMS", "SSE-S3", "Client-side", "None"], answer: 1, explain: "S3 applies SSE-S3 by default for new objects." },
+      { q: "To prevent accidental deletion of critical compliance data in S3, you should use:", choices: ["Versioning and MFA Delete", "S3 Object Lock", "A restrictive bucket policy", "All of the above"], answer: 3, explain: "While all are good security measures, S3 Object Lock provides WORM protection, which is specifically designed for compliance and data retention." },
+      { q: "A shared file system that can be mounted by thousands of Linux EC2 instances across multiple AZs is:", choices: ["Amazon S3", "Amazon EBS", "Amazon EFS", "Amazon FSx for Lustre"], answer: 2, explain: "Amazon EFS provides a scalable, shared file system for Linux instances, accessible across AZs." }
+    ],
+    elb: [
+      { q: "Which load balancer supports path-based routing (e.g., /users vs /orders)?", choices: ["Network Load Balancer", "Application Load Balancer", "Gateway Load Balancer", "Classic Load Balancer"], answer: 1, explain: "ALB operates at Layer 7 and can inspect the URL path to make routing decisions." },
+      { q: "You need to handle millions of requests per second for a TCP-based application and require a static IP. Which ELB is best?", choices: ["ALB", "NLB", "GWLB", "CloudFront"], answer: 1, explain: "NLB is designed for extreme performance at Layer 4 and can be assigned an Elastic IP." },
+    ],
+    route53_routing: [
+      { q: "To configure an active-passive disaster recovery site, you would use which routing policy?", choices: ["Latency-based", "Failover", "Weighted", "Geolocation"], answer: 1, explain: "Failover routing is specifically designed for active-passive DR setups, routing traffic to a secondary site if the primary is unhealthy." },
+      { q: "You want to test a new version of your application with 5% of your users. Which routing policy supports this?", choices: ["Weighted", "Simple", "Latency-based", "Multivalue"], answer: 0, explain: "Weighted routing allows you to split traffic by percentages, which is ideal for canary deployments and A/B testing." },
+    ],
+    vpc_endpoints: [
+      { q: "Which VPC endpoint type is free of hourly charges and supports S3 and DynamoDB?", choices: ["Interface (PrivateLink)", "Gateway", "Transit", "Edge"], answer: 1, explain: "Gateway endpoints use a route table target and have no hourly charge, but only support S3 and DynamoDB." },
+      { q: "To privately connect your VPC to a third-party service hosted on AWS, you would use:", choices: ["Gateway endpoint", "Interface endpoint (AWS PrivateLink)", "VPC Peering", "Direct Connect"], answer: 1, explain: "Interface endpoints powered by AWS PrivateLink are the standard for secure, private connectivity to services, including those from third-party vendors." },
+    ],
+    governance: [
+        { q: "Which service helps you create a secure, multi-account AWS environment based on best practices, often called a 'landing zone'?", choices: ["AWS Organizations", "AWS Control Tower", "AWS Config", "Service Catalog"], answer: 1, explain: "AWS Control Tower automates the setup of a landing zone with guardrails and an account factory." },
+        { q: "A Service Control Policy (SCP) can:", choices: ["Grant new permissions to users", "Restrict the maximum permissions for member accounts", "Only be applied to IAM users, not roles", "Replace the need for IAM policies"], answer: 1, explain: "SCPs act as guardrails. They don't grant permissions but can restrict what actions are allowed in an account, even for the root user." }
+    ],
+    cost_protections: [
+        { q: "Which part of the AWS Free Tier expires after 12 months for a new account?", choices: ["Always Free offers", "The 12-Month Free Trial", "All services", "Only EC2"], answer: 1, explain: "The 12-Month Free Trial provides a specific allowance on services like EC2 and S3 for one year. 'Always Free' offers do not expire." },
+        { q: "What is the primary function of AWS Cost Anomaly Detection?", choices: ["To recommend cheaper instance types", "To enforce spending limits", "To automatically detect unusual spending using machine learning", "To provide a detailed billing report"], answer: 2, explain: "Cost Anomaly Detection uses ML to monitor your spending patterns and alert you to unusual spikes that deviate from your normal baseline." }
+    ],
+    default: [
+        { q: "Which AWS model lets you avoid large CAPEX?", choices: ["On-prem", "Cloud pay-as-you-go", "Colocation", "Bare metal"], answer: 1,
+          explain: "Cloud shifts CAPEX to OPEX with pay-as-you-go." },
+        { q: "Multi-AZ primarily improves:", choices: ["Latency", "Security", "Availability", "Cost"], answer: 2,
+          explain: "Multi-AZ is a core high-availability pattern." },
+        { q: "Which helps reduce costs for predictable steady workloads?", choices: ["On-Demand", "Savings Plans/Reserved options", "Spot only", "Dedicated Hosts only"], answer: 1,
+          explain: "Savings Plans and Reserved Instances are ideal for steady, predictable usage, offering significant discounts over On-Demand." }
+      ]
+  };
 
-    function buildNav() {
-        let navHtml = '';
-        navigationStructure.forEach(item => {
-            if (item.type === 'link') {
-                navHtml += `<li><a href="#" data-topic="${item.topic}">${item.label}</a></li>`;
-            } else if (item.type === 'category') {
-                navHtml += `<li class="nav-category">${item.label}</li>`;
-            }
-        });
-        navLinksContainer.innerHTML = navHtml;
-    }
+  /* ==============
+     DOM REFERENCES
+     ============== */
+  const contentDisplay = document.getElementById('content-display');
+  const navLinksContainer = document.getElementById('nav-links');
+  const menuToggle = document.getElementById('menu-toggle');
+  const sidebar = document.getElementById('sidebar');
 
-    function showContent(topic) {
-        const content = markdownContent[topic];
-        contentDisplay.innerHTML = marked.parse(content);
-        contentDisplay.scrollTop = 0; // Scroll to top
-        
-        const links = navLinksContainer.querySelectorAll('a');
-        links.forEach(link => {
-            link.classList.toggle('active', link.dataset.topic === topic);
-        });
+  /* =====================
+     NAV BUILD + RENDERING
+     ===================== */
+  function buildNav() {
+    let navHtml = '';
+    navigationStructure.forEach(item => {
+      if (item.type === 'link') {
+        navHtml += `<li><a href="#${item.topic}" data-topic="${item.topic}">${item.label}</a></li>`;
+      } else if (item.type === 'category') {
+        navHtml += `<li class="nav-category">${item.label}</li>`;
+      }
+    });
+    navLinksContainer.innerHTML = navHtml;
+  }
+  
+  function getTopicLabel(topic) {
+    const item = navigationStructure.find(i => i.type === 'link' && i.topic === topic);
+    return item ? item.label : topic;
+  }
 
-        if (window.innerWidth < 768) {
-            sidebar.classList.remove('open');
+  function insertContentToolbar(topic) {
+    const toolbar = document.createElement('div');
+    toolbar.className = 'content-toolbar';
+
+    const titleEl = contentDisplay.querySelector('h1');
+    const titleText = titleEl ? titleEl.textContent.trim() : getTopicLabel(topic);
+
+    toolbar.innerHTML = `
+      <div class="toolbar-left">
+        <span class="toolbar-title">${titleText}</span>
+        <span class="topic-pill">${topic}</span>
+      </div>
+      <div class="toolbar-right">
+        <button class="btn btn-outline" id="btn-copy-link" title="Copy link to this section">Copy link</button>
+        <button class="btn" id="btn-open-quiz" title="Open quiz for this topic">Quiz</button>
+      </div>
+    `;
+
+    contentDisplay.prepend(toolbar);
+
+    document.getElementById('btn-copy-link').addEventListener('click', async () => {
+        const url = window.location.href;
+        try {
+            // Using execCommand as a fallback for iframe environments
+            const temp = document.createElement('textarea');
+            temp.value = url;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            temp.remove();
+            toast('Link copied!');
+        } catch (err) {
+            toast('Could not copy link', true);
         }
+    });
+
+    document.getElementById('btn-open-quiz').addEventListener('click', () => openQuiz(topic, titleText));
+  }
+  
+  function toast(msg, isError = false) {
+    const t = document.createElement('div');
+    t.textContent = msg;
+    t.style.position = 'fixed';
+    t.style.right = '16px';
+    t.style.top = '14px';
+    t.style.zIndex = '3000';
+    t.style.background = isError ? '#b91c1c' : '#065f46';
+    t.style.color = '#fff';
+    t.style.padding = '8px 12px';
+    t.style.borderRadius = '6px';
+    t.style.boxShadow = '0 6px 20px rgba(0,0,0,0.3)';
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 1600);
+  }
+
+  function showContent(topic) {
+    const content = markdownContent[topic] || '# Content Not Found';
+    contentDisplay.innerHTML = marked.parse(content);
+    contentDisplay.scrollTop = 0; // Scroll to top on content change
+    
+    const links = navLinksContainer.querySelectorAll('a');
+    links.forEach(link => {
+      link.classList.toggle('active', link.dataset.topic === topic);
+    });
+
+    if (window.innerWidth < 768) {
+      sidebar.classList.remove('open');
     }
+    
+    insertContentToolbar(topic);
 
-    buildNav();
+    if (window.hljs) {
+      document.querySelectorAll('pre code').forEach(block => window.hljs.highlightElement(block));
+    }
+  }
 
-    navLinksContainer.addEventListener('click', (event) => {
+  /* ==========
+     QUIZ MODAL
+     ========== */
+  let quizState = {
+    topic: null,
+    title: null,
+    questions: [],
+    index: 0,
+    answers: []
+  };
+
+  function ensureQuizModal() {
+    if (document.getElementById('quiz-modal')) return;
+
+    const modal = document.createElement('div');
+    modal.className = 'quiz-modal';
+    modal.id = 'quiz-modal';
+    modal.innerHTML = `
+      <div class="quiz-card" role="dialog" aria-modal="true" aria-labelledby="quiz-title">
+        <div class="quiz-header">
+          <h3 id="quiz-title">Topic Quiz</h3>
+          <button class="btn btn-outline" id="quiz-close">Close</button>
+        </div>
+        <div class="quiz-body" id="quiz-body"></div>
+        <div class="quiz-footer">
+          <div class="quiz-progress" id="quiz-progress"></div>
+          <div>
+            <button class="btn btn-outline" id="quiz-prev">Back</button>
+            <button class="btn" id="quiz-next">Next</button>
+            <button class="btn" id="quiz-submit" style="display:none;">Submit</button>
+            <button class="btn" id="quiz-retake" style="display:none;">Retake</button>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(modal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target.id === 'quiz-modal') closeQuiz();
+    });
+    document.getElementById('quiz-close').addEventListener('click', closeQuiz);
+
+    document.getElementById('quiz-prev').addEventListener('click', () => {
+      if (quizState.index > 0) { quizState.index--; renderQuestion(); }
+    });
+    document.getElementById('quiz-next').addEventListener('click', () => {
+      if (quizState.index < quizState.questions.length - 1) {
+        quizState.index++; renderQuestion();
+      }
+    });
+    document.getElementById('quiz-submit').addEventListener('click', gradeQuiz);
+    document.getElementById('quiz-retake').addEventListener('click', () => openQuiz(quizState.topic, quizState.title));
+  }
+
+  function openQuiz(topic, titleText) {
+    ensureQuizModal();
+    const modal = document.getElementById('quiz-modal');
+
+    quizState.topic = topic;
+    quizState.title = titleText || getTopicLabel(topic);
+    quizState.questions = (quizzes[topic] || quizzes['default']).map(q => ({ ...q }));
+    quizState.index = 0;
+    quizState.answers = Array(quizState.questions.length).fill(-1);
+
+    document.getElementById('quiz-title').textContent = `${quizState.title} — Quiz`;
+    document.getElementById('quiz-retake').style.display = 'none';
+    const isSingleQuestion = quizState.questions.length === 1;
+    document.getElementById('quiz-submit').style.display = isSingleQuestion ? '' : 'none';
+    document.getElementById('quiz-next').style.display = !isSingleQuestion ? '' : 'none';
+    document.getElementById('quiz-prev').disabled = true;
+
+    renderQuestion();
+    modal.classList.add('open');
+
+    setTimeout(() => document.getElementById('quiz-next').focus(), 60);
+  }
+
+  function closeQuiz() {
+    const modal = document.getElementById('quiz-modal');
+    if (modal) modal.classList.remove('open');
+  }
+
+  function renderQuestion() {
+    const body = document.getElementById('quiz-body');
+    const prog = document.getElementById('quiz-progress');
+    const prevBtn = document.getElementById('quiz-prev');
+    const nextBtn = document.getElementById('quiz-next');
+    const submitBtn = document.getElementById('quiz-submit');
+    const retakeBtn = document.getElementById('quiz-retake');
+
+    const q = quizState.questions[quizState.index];
+    const selected = quizState.answers[quizState.index];
+
+    body.innerHTML = `
+      <div class="quiz-q">${q.q}</div>
+      <ul class="quiz-choices" id="quiz-choices"></ul>
+      <div class="quiz-explain" id="quiz-explain" style="display:none;"></div>
+    `;
+
+    const list = document.getElementById('quiz-choices');
+    q.choices.forEach((c, i) => {
+      const li = document.createElement('li');
+      li.textContent = c;
+      if (i === selected) li.classList.add('selected');
+      li.addEventListener('click', () => {
+        quizState.answers[quizState.index] = i;
+        list.querySelectorAll('li').forEach(el => el.classList.remove('selected'));
+        li.classList.add('selected');
+        if (quizState.index === quizState.questions.length - 1) {
+          submitBtn.style.display = '';
+          nextBtn.style.display = 'none';
+        }
+      });
+      list.appendChild(li);
+    });
+
+    prog.textContent = `Question ${quizState.index + 1} of ${quizState.questions.length}`;
+    prevBtn.disabled = quizState.index === 0;
+    const isLastQuestion = quizState.index === quizState.questions.length - 1;
+    nextBtn.style.display = !isLastQuestion ? '' : 'none';
+    submitBtn.style.display = isLastQuestion ? '' : 'none';
+    retakeBtn.style.display = 'none';
+  }
+  
+  function gradeQuiz() {
+    const total = quizState.questions.length;
+    const results = quizState.questions.map((q, idx) => {
+      const user = quizState.answers[idx];
+      return { correct: user === q.answer, user, q };
+    });
+    const score = results.filter(r => r.correct).length;
+
+    const body = document.getElementById('quiz-body');
+    const nextBtn = document.getElementById('quiz-next');
+    const prevBtn = document.getElementById('quiz-prev');
+    const submitBtn = document.getElementById('quiz-submit');
+    const retakeBtn = document.getElementById('quiz-retake');
+
+    const html = results.map((r, i) => {
+      const correctText = r.q.choices[r.q.answer];
+      const userText = r.user >= 0 ? r.q.choices[r.user] : '(no answer)';
+      const color = r.correct ? '#10b981' : '#ef4444';
+      return `
+        <div style="margin-bottom:14px;">
+          <div style="font-weight:600;">Q${i+1}. ${r.q.q}</div>
+          <div style="margin-top:6px;">Your answer: <span style="color:${color}">${userText}</span></div>
+          <div>Correct answer: <strong>${correctText}</strong></div>
+          <div class="quiz-explain" style="margin-top:8px;">${r.q.explain}</div>
+        </div>
+      `;
+    }).join('');
+
+    body.innerHTML = `
+      <div style="margin-bottom:10px;">
+        <h4 style="margin:0 0 6px 0; color: var(--aws-orange);">Score: ${score}/${total}</h4>
+        <div style="color: var(--aws-text-light);">Review explanations below and try again if needed.</div>
+      </div>
+      ${html}
+    `;
+
+    document.getElementById('quiz-progress').textContent = `Completed • ${score}/${total}`;
+    nextBtn.style.display = 'none';
+    prevBtn.disabled = true;
+    submitBtn.style.display = 'none';
+    retakeBtn.style.display = '';
+  }
+
+  /* ==========
+     WIRING UI
+     ========== */
+
+  buildNav();
+  
+  // Handle URL hash changes (for deep linking and back/forward buttons)
+  function handleHashChange() {
+    const topic = location.hash.substring(1) || 'home';
+    if (markdownContent[topic]) {
+      showContent(topic);
+    } else {
+      showContent('home'); // Fallback to home if hash is invalid
+    }
+  }
+
+  navLinksContainer.addEventListener('click', (event) => {
+    const target = event.target.closest('a');
+    if (target && target.dataset.topic) {
         event.preventDefault();
-        const target = event.target.closest('a');
-        if (target && target.dataset.topic) {
-            showContent(target.dataset.topic);
-        }
-    });
+        location.hash = target.dataset.topic;
+    }
+  });
 
+  if (menuToggle) {
     menuToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('open');
+      sidebar.classList.toggle('open');
     });
+  }
 
-    // Show home page by default
-    showContent('home');
+  window.addEventListener('hashchange', handleHashChange);
+  
+  // Ensure modal node exists at startup (created once)
+  ensureQuizModal();
+
+  // Initial load (honor hash)
+  handleHashChange();
 });
 
