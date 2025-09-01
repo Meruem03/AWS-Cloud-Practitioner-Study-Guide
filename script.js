@@ -36,7 +36,7 @@ Welcome! This guide is designed to provide a quick yet comprehensive reference f
 ## Key Services Quick Reference
 | Service Logo | Service Name | Category | Core Use Case |
 | :---: | :--- | :--- | :--- |
-| <img class="service-logo" src="https://d1.awsstatic.com/asset-repository/products/amazon-ec2/asset-29_Amazon-EC2_Instance_light-bg.792c39121a227891d310652a9c3364f26e5f3964.png" alt="EC2 Logo"> | **EC2** | Compute | Provides resizable compute capacity in the cloud. Essentially, a virtual server. |
+| <img class="service-logo" src="/ec2.jpeg" alt="EC2 Logo"> | **EC2** | Compute | Provides resizable compute capacity in the cloud. Essentially, a virtual server. |
 | <img class="service-logo" src="https://d1.awsstatic.com/asset-repository/products/amazon-s3/asset-2_Amazon-S3-Standard_light-bg.d9a4b277eabf434a5f4503b4184a4417a82229a4.png" alt="S3 Logo"> | **S3** | Storage | Scalable object storage suitable for backups, data lakes, and static website hosting. |
 | <img class="service-logo" src="https://d1.awsstatic.com/asset-repository/products/amazon-rds/asset-1_Amazon-RDS_light-bg.10f850b4a44c601443422a59239a5c8982f80165.png" alt="RDS Logo"> | **RDS** | Database | A managed service for relational databases like MySQL, PostgreSQL, simplifying setup and operations. |
 | <img class="service-logo" src="https://d1.awsstatic.com/asset-repository/products/aws-lambda/asset-4_AWS-Lambda_light-bg.108d4b35e07a23c509b552e4682057d29c29805d.png" alt="Lambda Logo"> | **Lambda** | Compute | A serverless compute service that runs code in response to events without provisioning servers. |
