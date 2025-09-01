@@ -11,25 +11,26 @@ document.addEventListener('DOMContentLoaded', () => {
         { type: 'link', label: '4: Billing & Pricing', topic: 'domain4' },
         { type: 'category', label: 'Core Services' },
         { type: 'link', label: 'IAM (Identity)', topic: 'iam' },
-        { type: 'link', label: 'Compute (EC2, Lambda)', topic: 'compute' },
-        { type: 'link', label: 'Storage (S3, EBS)', topic: 'storage' },
-        { type: 'link', label: 'Databases, Analytics & Caching', topic: 'databases_analytics' },
+        { type: 'link', label: 'Compute (EC2, Lambda, Containers)', topic: 'compute' },
+        { type: 'link', label: 'Storage (S3, EBS, EFS, FSx)', topic: 'storage' },
+        { type: 'link', label: 'Databases & Analytics', topic: 'databases' },
         { type: 'link', label: 'Networking & Content Delivery', topic: 'networking' },
-        { type: 'link', label: 'Application Integration', topic: 'app_integration' },
-        { type: 'category', label: 'Management & Governance' },
+        { type: 'link', label: 'Messaging & Integration', topic: 'messaging' },
+        { type: 'category', label: 'Management & Developer Tools' },
+        { type: 'link', label: 'Deployment & CI/CD', topic: 'deployment' },
         { type: 'link', label: 'Monitoring & Auditing', topic: 'monitoring' },
-        { type: 'link', label: 'Deployment & Dev Tools', topic: 'deployment' },
-        { type: 'link', label: 'Governance & Cost', topic: 'governance_cost'},
-        { type: 'category', label: 'Advanced Architecture' },
-        { type: 'link', label: 'In-Depth Security', topic: 'in_depth_security' },
-        { type: 'link', label: 'Advanced Networking', topic: 'advanced_networking'},
-        { type: 'link', label: 'Disaster Recovery & HA', topic: 'disaster_recovery'},
-        { type: 'link', label: 'Hybrid & Edge', topic: 'hybrid_edge' },
-        { type: 'link', label: 'Frameworks & Strategies', topic: 'frameworks' },
-        { type: 'category', label: 'Specialty Services'},
+        { type: 'link', label: 'Developer Productivity', topic: 'developer_tools' },
+        { type: 'category', label: 'Key Topics' },
+        { type: 'link', label: 'In-Depth Security', topic: 'security' },
         { type: 'link', label: 'Machine Learning', topic: 'ml' },
         { type: 'link', label: 'Migration & Transfer', topic: 'migration' },
-        { type: 'link', label: 'Other Key Services', topic: 'other' },
+        { type: 'link', label: 'Frameworks & Strategies', topic: 'frameworks' },
+        { type: 'link', label: 'Disaster Recovery & HA', topic: 'dr_ha' },
+        { type: 'link', label: 'Governance & Cost Management', topic: 'governance' },
+        { type: 'link', label: 'Hybrid & Edge Computing', topic: 'hybrid' },
+        { type: 'link', label: 'Advanced Networking', topic: 'advanced_networking' },
+        { type: 'link', label: 'Caching & Performance', topic: 'caching' },
+        { type: 'link', label: 'Specialty & Emerging Services', topic: 'specialty' },
     ];
 
     const markdownContent = {
@@ -283,6 +284,13 @@ Lambda is a serverless, event-driven compute service that lets you run code with
 ### 5. Pricing
 - **Pay-per-request:** Billed for invocations and duration (GB-seconds).
 - **Free Tier:** Includes a generous perpetual free tier for invocations and compute time.
+
+---
+## Containers
+- **ECS (Elastic Container Service):** A highly scalable, high-performance container orchestration service that supports Docker containers.
+- **EKS (Elastic Kubernetes Service):** A managed service for running Kubernetes on AWS.
+- **Fargate:** A serverless compute engine for containers that works with both ECS and EKS. It removes the need to provision and manage servers.
+- **ECR (Elastic Container Registry):** A fully managed Docker container registry to store, manage, and deploy container images.
 `,
         'storage': `
 # Storage Services
@@ -334,9 +342,16 @@ EBS provides high-performance, persistent block storage volumes for use with Ama
 ### 4. Alternatives
 - **Amazon S3:** For object storage, not block storage.
 - **EC2 Instance Store:** Provides temporary, high-performance block-level storage that is directly attached to the EC2 host. Data is lost if the instance is stopped or terminated.
+
+---
+## File Storage
+- **EFS (Elastic File System):** A simple, scalable, serverless elastic file system for Linux-based workloads. It can be accessed by thousands of EC2 instances concurrently from multiple AZs.
+- **FSx:** Provides fully managed, high-performance file systems.
+    - **FSx for Windows File Server:** For business applications that need shared file storage with the SMB protocol.
+    - **FSx for Lustre:** For high-performance computing (HPC) and ML workloads that require fast access to large datasets.
 `,
-        'databases_analytics': `
-# Databases, Analytics & Caching
+        'databases': `
+# Databases & Analytics
 
 ## Amazon RDS (Relational Database Service)
 
@@ -399,11 +414,6 @@ DynamoDB is a fully managed, serverless, key-value NoSQL database designed for h
 | **Redshift** | Data Warehouse | Provisioned Cluster | Business intelligence and complex analytics on large, structured datasets. |
 | **EMR** | Big Data Processing | Managed Cluster | Process vast amounts of data using frameworks like Spark and Hadoop. |
 | **QuickSight** | Business Intelligence | Serverless BI | Create and publish interactive dashboards and visualizations. |
-
----
-## Caching & Performance
-- **ElastiCache:** A managed in-memory caching service that supports **Redis** (for advanced data structures, pub/sub, and high availability) and **Memcached** (for simple object caching). It's used to reduce latency and decrease the load on backend databases.
-- **DAX (DynamoDB Accelerator):** An in-memory cache specifically for DynamoDB, providing microsecond read performance for read-heavy workloads without requiring application code changes.
 `,
         'networking': `
 # Networking & Content Delivery
@@ -436,8 +446,8 @@ A VPC allows you to provision a logically isolated section of the AWS Cloud wher
 - **Route 53:** A highly available DNS web service that can also perform health checks and route traffic based on various policies (e.g., latency-based, weighted).
 - **CloudFront:** A Content Delivery Network (CDN) that caches static and dynamic content in Edge Locations worldwide to reduce latency for users. It also provides a security layer against DDoS attacks when integrated with Shield and WAF.
 `,
-        'app_integration': `
-# Application Integration
+        'messaging': `
+# Messaging & Integration
 
 ## SQS vs. SNS vs. EventBridge
 | Service | Type | Key Feature | Use Case Example |
@@ -457,7 +467,7 @@ Step Functions is a serverless orchestration service that lets you coordinate mu
 - **Use Case:** Creating a complex, multi-step business process, such as an order fulfillment workflow that involves checking inventory (Lambda), processing payment (API call), and scheduling shipping (Lambda), with error handling and retries built in.
 `,
         'deployment': `
-# Deployment, CI/CD, & Developer Tools
+# Deployment & CI/CD
 
 ## AWS CloudFormation
 
@@ -484,17 +494,13 @@ CloudFormation is the primary Infrastructure as Code (IaC) service on AWS. It al
 - CloudFormation itself is **free of charge**. You only pay for the AWS resources it creates.
 
 ---
-## Deployment Abstractions & Dev Tools
-- **Elastic Beanstalk vs. Amplify vs. SAM:**
-  - **Elastic Beanstalk:** A Platform as a Service (PaaS) for deploying and scaling traditional web applications. You provide the code, and Beanstalk handles the infrastructure.
-  - **Amplify:** A framework focused on building and deploying full-stack web and mobile applications with integrated backends.
-  - **SAM (Serverless Application Model):** An open-source framework for building serverless applications on AWS. It's an extension of CloudFormation tailored for serverless resources.
+## Other Deployment Services
+- **Elastic Beanstalk:** A Platform as a Service (PaaS) for deploying and scaling traditional web applications. You provide the code, and Beanstalk handles the infrastructure.
 - **CI/CD "Code" Suite:**
   - **CodeCommit:** A managed Git repository.
   - **CodeBuild:** Compiles source code and runs tests.
   - **CodeDeploy:** Automates application deployments.
   - **CodePipeline:** Orchestrates your CI/CD workflow.
-- **Cloud9:** A cloud-based IDE for writing, running, and debugging code with just a browser.
 `,
         'monitoring': `
 # Monitoring, Auditing, & Management
@@ -533,7 +539,7 @@ CloudWatch is the central monitoring and observability service for AWS resources
 | **GuardDuty** | "Is anything malicious or unauthorized happening?" | **Threat Detection:** Intelligently analyzes logs to detect threats like malware and unusual API activity. |
 
 `,
-        'governance_cost':`
+        'governance':`
 # Governance & Cost Management
 
 ## AWS Control Tower
@@ -584,7 +590,7 @@ Transit Gateway acts as a central hub to connect your VPCs and on-premises netwo
 PrivateLink provides secure, private connectivity between VPCs, AWS services, and your on-premises networks without exposing your traffic to the public internet.
 - **Use Case:** You have an application in your VPC that needs to access an AWS service like S3 or a third-party SaaS application. With PrivateLink, you can create a private endpoint in your VPC that connects directly to the service, ensuring traffic never leaves the Amazon network.
 `,
-        'hybrid_edge':`
+        'hybrid':`
 # Hybrid & Edge Computing
 
 ## AWS Outposts
@@ -611,7 +617,7 @@ The Snow Family is used for edge computing and data transfer.
 - **Snowball Edge:** Best for petabyte-scale data migrations or as a more powerful edge computing device. A common scenario is decommissioning a data center and shipping terabytes of data to AWS.
 - **Snowmobile:** The choice for exabyte-scale data transfer. This is for moving entire data centers worth of data (up to 100 PB per truck).
 `,
-        'in_depth_security':`
+        'security':`
 # In-Depth Security
 
 ## Encryption Services Comparison
@@ -691,7 +697,7 @@ The AWS CAF provides guidance to help you plan and execute a successful cloud ad
 - **Security Perspective:** Helps you achieve the confidentiality, integrity, and availability of your data and cloud workloads.
 - **Operations Perspective:** Helps you ensure that your cloud operations are efficient and reliable.
 `,
-        'disaster_recovery':`
+        'dr_ha':`
 # Disaster Recovery & High Availability
 
 Disaster Recovery (DR) is about preparing for and recovering from a disaster. High Availability (HA) is about ensuring your systems are continuously operational, often across multiple Availability Zones.
@@ -712,7 +718,7 @@ Disaster Recovery (DR) is about preparing for and recovering from a disaster. Hi
 AWS Backup is a fully managed, centralized service to manage and automate backups across AWS services like EBS, RDS, DynamoDB, EFS, and Storage Gateway. It simplifies your backup strategy and helps you meet business and regulatory compliance requirements.
 `,
         'other':`
-# Other & Specialty Services
+# Other Key Services
 
 ## End User & Developer Productivity
 - **WorkSpaces:** A managed, secure Desktop-as-a-Service (DaaS) solution for provisioning virtual Windows or Linux desktops.
@@ -724,6 +730,75 @@ AWS Backup is a fully managed, centralized service to manage and automate backup
 - **IoT Core:** A managed cloud service that lets connected devices (like sensors and smart appliances) easily and securely interact with cloud applications and other devices.
 - **Ground Station:** A fully managed service that lets you control satellite communications, process satellite data, and scale your satellite operations.
 - **RoboMaker:** A service to develop, test, and deploy robotics applications in the cloud.
+`,
+        'caching': `
+# Caching & Performance
+Caching is a critical technique for improving application performance and reducing latency by storing frequently accessed data in a location that is faster to retrieve than the original source.
+
+## In-Memory Caching: ElastiCache
+ElastiCache is a managed in-memory caching service that supports two popular open-source engines:
+- **Redis:** A fast, feature-rich key-value store. Best for advanced data structures, pub/sub, high availability (Multi-AZ), and backup/restore capabilities.
+- **Memcached:** A simpler, multi-threaded key-value store. Best for caching simple objects and when you need to scale out horizontally with maximum simplicity.
+
+### Use Case
+An e-commerce website uses ElastiCache to store popular product information. When a user visits a product page, the application first checks the ElastiCache cluster. If the data is there (a "cache hit"), it's returned instantly. If not (a "cache miss"), the application queries the slower RDS database and then writes the result into the cache for future requests.
+
+---
+## Edge Caching: CloudFront
+CloudFront is a Content Delivery Network (CDN) that caches content in a global network of Edge Locations.
+- **Purpose:** To reduce latency for end-users by serving content from a location that is geographically closer to them. It also reduces the load on your origin servers (like EC2 or S3).
+- **Strategies:** You can configure cache behavior based on file paths, headers, and query strings. Time-to-Live (TTL) settings control how long content stays in the cache before CloudFront checks the origin for an updated version.
+
+---
+## Database Caching: DAX
+DAX (DynamoDB Accelerator) is a fully managed, highly available, in-memory cache specifically for DynamoDB.
+- **Purpose:** Delivers up to a 10x performance improvement – from milliseconds to microseconds – for read-heavy DynamoDB workloads.
+- **Key Feature:** It is API-compatible with DynamoDB, meaning you can often implement it without making any changes to your existing application logic.
+`,
+        'developer_tools': `
+# Developer Productivity
+
+## Cloud9
+### Purpose & Use Cases
+Cloud9 is a cloud-based Integrated Development Environment (IDE) that lets you write, run, and debug your code with just a browser.
+- **Use Case:** A team of developers needs a consistent, collaborative development environment. With Cloud9, they can all access the same pre-configured environment, share it in real-time for pair programming, and access it from any computer.
+
+## Amplify
+### Purpose & Use Cases
+Amplify is a set of tools and services that enables developers to build and deploy full-stack web and mobile applications on AWS quickly and easily.
+- **Use Case:** A front-end developer wants to build a web application with features like user authentication, data storage, and a serverless API backend, without needing deep backend expertise. Amplify provides a simple CLI and libraries to provision and connect these backend resources.
+
+## AppConfig
+### Purpose & Use Cases
+AppConfig is a service for managing and deploying application configurations safely and dynamically. It allows you to change application behavior without needing to deploy new code.
+- **Use Case:** An application has a feature flag that enables a new promotional banner. Instead of hardcoding the "on/off" switch in the code, it's stored in AppConfig. The marketing team can then enable or disable the banner in real-time for all users, or even a percentage of users, without a new code deployment.
+`,
+        'advanced_identity': `
+# Advanced Identity
+
+- **STS (Security Token Service):** A web service that enables you to request temporary, limited-privilege credentials for IAM users or for users that you authenticate (federated users).
+- **Cognito:** Provides a managed user directory (**User Pools**) and enables you to grant temporary, secure access to your AWS resources for your application users (**Identity Pools**). It's the go-to service for managing user sign-up and sign-in for mobile and web apps.
+- **Directory Service:** A managed service for Microsoft Active Directory.
+- **IAM Identity Center (formerly AWS SSO):** A service that makes it easy to centrally manage single sign-on (SSO) access to multiple AWS accounts and business applications.
+- **AWS Organizations:** Helps you centrally govern your environment as you scale. You can use it for consolidated billing and to apply **Service Control Policies (SCPs)**, which act as guardrails to restrict permissions for member accounts.
+`,
+        'specialty': `
+# Specialty & Emerging Services
+
+## IoT Core
+### Purpose & Use Cases
+IoT Core is a managed cloud service that lets connected devices (like sensors, actuators, and smart appliances) easily and securely interact with cloud applications and other devices.
+- **Use Case:** A smart home company needs to securely ingest temperature data from millions of thermostats, process that data, and allow users to control their devices from a mobile app.
+
+## Ground Station
+### Purpose & Use Cases
+Ground Station is a fully managed service that lets you control satellite communications, process satellite data, and scale your satellite operations on a pay-as-you-go basis.
+- **Use Case:** A university's research team needs to download data from their earth-observation satellite. They can use Ground Station to schedule a "contact" and downlink the data directly into an S3 bucket for analysis.
+
+## RoboMaker
+### Purpose & Use Cases
+RoboMaker is a cloud-based simulation service to develop, test, and deploy robotics applications.
+- **Use Case:** A robotics company wants to test a new navigation algorithm for its autonomous warehouse robots in thousands of different simulated warehouse layouts before deploying it to their physical fleet.
 `
     };
 
