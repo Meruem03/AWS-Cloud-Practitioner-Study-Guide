@@ -151,14 +151,131 @@ body {
 #content-display th, #content-display td { border: 1px solid var(--aws-hover-blue); padding: 12px; text-align: left; }
 #content-display th { background-color: var(--aws-card-bg); color: var(--aws-orange); }
 
+/* --- Style for "Nice to Know" information --- */
+#content-display blockquote {
+    background-color: rgba(255, 153, 0, 0.05);
+    border-left: 4px solid var(--aws-orange);
+    padding: 10px 20px;
+    margin: 1.5em 0;
+    border-radius: 0 8px 8px 0;
+}
+#content-display blockquote p {
+    margin-bottom: 0.5em;
+    color: var(--aws-text-light);
+}
+#content-display blockquote::before {
+    content: "💡 Nice to Know";
+    display: block;
+    font-weight: bold;
+    color: var(--aws-orange);
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+
+
 /* --- Style for Service Logos --- */
 .service-logo {
     width: 48px;
     height: 48px;
-    object-fit: contain; /* This prevents the image from stretching */
+    object-fit: contain;
     vertical-align: middle;
 }
 
+/* === Content toolbar (title actions) === */
+.content-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--aws-card-bg);
+  border: 1px solid var(--aws-hover-blue);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  position: sticky;
+  top: 8px;
+  z-index: 5;
+}
+.content-toolbar .toolbar-left {
+  display: flex; align-items: center; gap: 10px;
+}
+.content-toolbar .toolbar-title {
+  font-weight: 600; color: var(--aws-text-white);
+}
+.content-toolbar .topic-pill {
+  font-size: 0.75rem;
+  background: var(--aws-hover-blue);
+  color: var(--aws-text-light);
+  padding: 2px 8px; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.content-toolbar .toolbar-right {
+  display: flex; gap: 8px;
+}
+
+/* Buttons */
+.btn {
+  background: var(--aws-orange);
+  color: #1b1b1b;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn:hover { filter: brightness(0.95); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-outline {
+  background: transparent;
+  color: var(--aws-text-white);
+  border: 1px solid var(--aws-hover-blue);
+}
+
+/* === Quiz modal === */
+.quiz-modal {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center; justify-content: center;
+  z-index: 2000;
+}
+.quiz-modal.open { display: flex; }
+.quiz-card {
+  width: min(760px, 92vw);
+  background: var(--aws-card-bg);
+  color: var(--aws-text-white);
+  border: 1px solid var(--aws-hover-blue);
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+  max-height: 86vh; overflow: auto;
+}
+.quiz-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 16px; border-bottom: 1px solid var(--aws-hover-blue);
+}
+.quiz-header h3 { margin: 0; color: var(--aws-orange); }
+.quiz-body { padding: 14px 16px; }
+.quiz-footer {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 16px; border-top: 1px solid var(--aws-hover-blue);
+}
+.quiz-q {
+  margin-bottom: 12px; font-weight: 600; color: var(--aws-text-white);
+}
+.quiz-choices { list-style: none; padding-left: 0; margin: 0; }
+.quiz-choices li {
+  margin: 8px 0; padding: 10px 12px; border-radius: 8px;
+  border: 1px solid var(--aws-hover-blue);
+  background: rgba(255,255,255,0.03);
+  cursor: pointer;
+}
+.quiz-choices li.selected { border-color: var(--aws-orange); }
+.quiz-explain {
+  margin-top: 12px; padding: 10px 12px;
+  background: rgba(255,153,0,0.08);
+  border: 1px dashed var(--aws-orange);
+  border-radius: 8px; color: var(--aws-text-light);
+}
+.quiz-progress { color: var(--aws-text-light); font-size: 0.9rem; }
 
 /* --- Desktop Styles --- */
 @media (min-width: 768px) {
@@ -166,7 +283,7 @@ body {
         display: none;
     }
     .sidebar {
-        position: -webkit-sticky; /* For Safari */
+        position: -webkit-sticky;
         position: sticky;
         top: 0;
         transform: translateX(0);
