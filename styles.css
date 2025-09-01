@@ -1,0 +1,182 @@
+:root {
+    --sidebar-width: 280px;
+    --header-height: 60px;
+    --aws-orange: #FF9900;
+    --aws-dark-blue: #232F3E;
+    --aws-light-bg: #f0f4f8;
+    --aws-card-bg: #1a202c;
+    --aws-text-light: #d1d5db;
+    --aws-text-white: #FFFFFF;
+    --aws-hover-blue: #37475A;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--aws-dark-blue);
+    color: var(--aws-text-white);
+}
+
+.container {
+    display: flex;
+    width: 100%;
+}
+
+/* --- Mobile Styles (Default) --- */
+
+.header {
+    background-color: var(--aws-card-bg);
+    color: var(--aws-text-white);
+    padding: 0 15px;
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1001;
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    color: var(--aws-text-white);
+    cursor: pointer;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.menu-toggle svg {
+    width: 24px;
+    height: 24px;
+}
+
+.header h1 {
+    font-size: 1.2em;
+    margin: 0;
+    color: var(--aws-orange);
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100%;
+    background-color: var(--aws-card-bg);
+    color: var(--aws-text-white);
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 1002;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.sidebar.open {
+    transform: translateX(0);
+}
+
+.sidebar h2 {
+    font-size: 1.5em;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    text-align: center;
+    color: var(--aws-orange);
+}
+
+.sidebar nav {
+    flex-grow: 1;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar .nav-category {
+    color: var(--aws-orange);
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding: 0 15px;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sidebar nav ul li a {
+    color: var(--aws-text-light);
+    text-decoration: none;
+    display: block;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar nav ul li a:hover, .sidebar nav ul li a.active {
+    background-color: var(--aws-hover-blue);
+    color: var(--aws-text-white);
+}
+
+.content {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    margin-top: var(--header-height);
+    background-color: var(--aws-dark-blue);
+}
+
+#content-display h1 { color: var(--aws-orange); border-bottom: 2px solid var(--aws-hover-blue); padding-bottom: 10px; margin-top: 0; }
+#content-display h2 { color: var(--aws-text-white); margin-top: 30px; border-bottom: 1px solid var(--aws-hover-blue); padding-bottom: 5px; }
+#content-display h3 { color: var(--aws-text-light); margin-top: 20px; }
+#content-display p { line-height: 1.6; margin-bottom: 1em; color: var(--aws-text-light); }
+#content-display ul, #content-display ol { margin-left: 25px; margin-bottom: 1em; color: var(--aws-text-light);}
+#content-display li { margin-bottom: 0.5rem; }
+#content-display code { background-color: var(--aws-card-bg); color: var(--aws-orange); padding: 3px 6px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; }
+#content-display pre { background-color: var(--aws-card-bg); color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto; font-family: 'Courier New', Courier, monospace; font-size: 0.9em; border: 1px solid var(--aws-hover-blue); }
+#content-display pre > code { background-color: transparent; color: inherit; padding: 0; border-radius: 0; }
+#content-display img { max-width: 100%; height: auto; border-radius: 8px; margin-top: 1rem; margin-bottom: 1rem; }
+#content-display table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+#content-display th, #content-display td { border: 1px solid var(--aws-hover-blue); padding: 12px; text-align: left; }
+#content-display th { background-color: var(--aws-card-bg); color: var(--aws-orange); }
+
+/* --- Style for Service Logos --- */
+.service-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain; /* This prevents the image from stretching */
+    vertical-align: middle;
+}
+
+
+/* --- Desktop Styles --- */
+@media (min-width: 768px) {
+    .header {
+        display: none;
+    }
+    .sidebar {
+        position: -webkit-sticky; /* For Safari */
+        position: sticky;
+        top: 0;
+        transform: translateX(0);
+        height: 100vh;
+    }
+    .sidebar h2 {
+        margin-top: 20px;
+    }
+    .content {
+        margin-top: 0;
+        padding: 20px 40px;
+    }
+}
