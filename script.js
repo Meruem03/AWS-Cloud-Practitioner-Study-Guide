@@ -144,6 +144,30 @@ This domain covers the core technology and services available on the AWS platfor
 
 ## 3.3 Core AWS Services
 This domain covers the broad set of services on AWS. See the "Core Services" section in the navigation for detailed breakdowns.
+
+## 3.4 Global vs. Regional Services
+It is critical to understand the scope of AWS services. Some services operate globally, while most are tied to a specific AWS Region.
+
+### Key Global Services
+Global services are operated from a single, central point and are not tied to a specific region. When you interact with a global service, you don't need to select a region.
+
+- **Identity and Access Management (IAM):** Users, groups, roles, and policies are defined globally. You don't create a user in one region; you create a user that can be granted access to resources in any region.
+- **Route 53:** As a DNS service, Route 53 is inherently global. It routes traffic to your resources regardless of their region.
+- **CloudFront:** A Content Delivery Network (CDN) that uses a global network of edge locations to cache and deliver content.
+- **WAF (Web Application Firewall):** While you can deploy WAF on regional resources like an Application Load Balancer, it is also a global service when integrated with CloudFront.
+- **AWS Organizations:** This service for managing multiple AWS accounts is global.
+
+*Note on S3: S3 bucket names are globally unique, but the buckets themselves are created and exist in a specific AWS Region that you select.*
+
+### Key Regional Services
+Most AWS services are regional. This means that the resources you create are tied to the specific region where you created them. You must select a region before provisioning these services.
+
+- **Amazon EC2:** Virtual servers (instances) are launched within a specific region and Availability Zone.
+- **Amazon VPC:** Virtual networks are created within a single region.
+- **Amazon RDS & DynamoDB:** Databases are provisioned in a specific region.
+- **AWS Lambda:** Serverless functions are deployed to a specific region.
+- **Elastic Beanstalk:** Application environments are region-specific.
+- **Essentially, most services you provision to run your applications (compute, storage, databases) are regional.** This allows you to place your resources close to your users and meet data sovereignty requirements.
 `,
         'domain4': `
 # Domain 4: Billing, Pricing, & Support (12%)
@@ -504,3 +528,4 @@ The AWS CAF provides guidance to help you plan and execute a successful cloud ad
     // Show home page by default
     showContent('home');
 });
+
