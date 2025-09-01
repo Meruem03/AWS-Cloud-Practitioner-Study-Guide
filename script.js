@@ -179,10 +179,10 @@ This domain covers how AWS pricing works, how to manage costs, and the support o
 - **Pay less by using more:** Receive volume-based discounts as your usage increases.
 
 ### Key Pricing Models
-- **On-Demand:** The most flexible option with no long-term commitment.
-- **Reserved Instances (RI):** Provide a significant discount for a commitment to a specific instance type in a particular region.
-- **Spot Instances:** Offer the largest discounts (up to 90%) by allowing you to use spare EC2 capacity, which can be interrupted.
-- **Savings Plans:** A flexible pricing model that offers discounts in exchange for a commitment to a consistent amount of usage (measured in $/hour).
+- **On-Demand:** The most flexible option with no long-term commitment. Best for unpredictable workloads.
+- **Reserved Instances (RI):** Provide a significant discount for a commitment to a specific instance type in a particular region. Best for steady-state workloads.
+- **Spot Instances:** Offer the largest discounts (up to 90%) by allowing you to use spare EC2 capacity, which can be interrupted. Best for fault-tolerant, non-critical batch jobs.
+- **Savings Plans:** A flexible pricing model that offers discounts in exchange for a commitment to a consistent amount of usage (measured in $/hour). More flexible than RIs.
 
 ## 4.2 Cost Management Tools
 - **AWS Organizations:** Allows you to centrally manage multiple accounts and use **Consolidated Billing** to get a single bill and aggregate usage for volume discounts.
@@ -193,7 +193,6 @@ This domain covers how AWS pricing works, how to manage costs, and the support o
 - **Cost Allocation Tags:** Use tags to categorize and track your AWS costs on a detailed level.
 
 ## 4.3 AWS Support Plans
-All plans offer 24/7 access to customer service, documentation, and forums.
 - **Basic:** Free. Access to billing and account support.
 - **Developer:** Business hours access to Cloud Support Associates via email.
 - **Business:** 24x7 access to Cloud Support Engineers via email, chat, and phone. Offers < 1-hour response for production system failures.
@@ -201,140 +200,217 @@ All plans offer 24/7 access to customer service, documentation, and forums.
 `,
         'iam': `
 # IAM (Identity & Access Management)
-IAM is a global service that is fundamental to securing your AWS account. It is provided at no additional charge.
 
-### Core Components
-- **Users:** An entity that represents a person or application interacting with AWS.
-- **Groups:** A collection of IAM users. Permissions applied to a group are inherited by all users in that group.
-- **Policies:** A JSON document that defines one or more permissions. Policies can be attached to users, groups, or roles.
-- **Roles:** An identity with specific permissions that can be assumed temporarily by an authenticated entity (like a user, an application running on EC2, or another AWS service).
+### 1. Purpose & Use Cases
+IAM is the bedrock of AWS security. It allows you to specify who can access which services and resources, and under what conditions.
+- **Use Cases:** Creating user accounts for employees, granting applications running on EC2 access to S3, enforcing MFA for sensitive operations.
 
-### Security Best Practices
-- **Secure the Root User:** The root user has unrestricted access. Do not use it for daily tasks. Lock it down with a strong password and Multi-Factor Authentication (MFA). Never create access keys for the root user.
-- **Enforce Least Privilege:** Grant only the minimum permissions required for a user or service to perform its tasks.
-- **Use Roles for AWS Services:** Grant permissions to AWS services (like EC2 instances) by assigning them a role. This is more secure than storing long-term credentials on the instance.
-- **Rotate Credentials:** Regularly rotate passwords and access keys to reduce the risk of compromised credentials.
+### 2. Key Features
+- **Users, Groups, Roles, Policies:** The core components for managing identities and permissions.
+- **Fine-Grained Permissions:** You can control access down to the specific API action and resource level.
+- **Multi-Factor Authentication (MFA):** Adds an extra layer of security for user sign-ins and sensitive operations.
+- **Identity Federation:** Integrates with corporate directories like Active Directory for single sign-on (SSO).
+
+### 3. Best Practices
+- **Never use the root user for daily work.** Secure it with a strong password and MFA.
+- **Enforce the Principle of Least Privilege:** Grant only the permissions required to perform a task.
+- **Use IAM Roles for applications and AWS services,** not long-term access keys.
+- **Enable MFA** for all users, especially those with significant permissions.
+
+### 4. Alternatives
+- **IAM Identity Center (formerly AWS SSO):** A higher-level service built on IAM that is preferred for managing SSO access for human users across multiple AWS accounts and applications.
+
+### 5. Pricing
+- IAM is a global service and is offered at **no additional charge**.
 `,
         'compute': `
 # Compute Services
 
-## EC2 (Elastic Compute Cloud)
-EC2 provides resizable compute capacity (virtual servers) in the cloud.
+## Amazon EC2 (Elastic Compute Cloud)
 
-### Scaling & Availability
-- **Vertical Scaling (Scale Up):** Increasing the size and power of a single instance (e.g., more CPU, RAM).
-- **Horizontal Scaling (Scale Out):** Adding more instances to a resource pool.
-- **Auto Scaling Group (ASG):** Automatically adds or removes EC2 instances based on demand, defined by scaling policies. This provides elasticity.
-- **Elastic Load Balancer (ELB):** Distributes traffic across multiple instances to ensure no single instance is overwhelmed and to provide high availability.
+### 1. Purpose & Use Cases
+EC2 is the core AWS service for scalable compute, providing virtual servers (called instances) in the cloud.
+- **Use Cases:** Hosting websites and web applications, running enterprise software, performing batch processing, high-performance computing (HPC).
 
-### EC2 Instance Types
-- **General Purpose:** A balance of compute, memory, and networking. Ideal for web servers and code repositories.
-- **Compute Optimized:** For compute-intensive tasks like batch processing, media transcoding, and high-performance computing (HPC).
-- **Memory Optimized:** For workloads that process large data sets in memory, like in-memory databases.
-- **Storage Optimized:** For workloads needing high, sequential read/write access to large datasets, like data warehousing.
-- **Accelerated Computing:** Utilizes hardware accelerators (GPUs, FPGAs) for tasks like machine learning and graphics processing.
+### 2. Key Features
+- **Wide Range of Instance Types:** Optimized for different tasks (General Purpose, Compute Optimized, Memory Optimized, etc.).
+- **Amazon Machine Images (AMIs):** Pre-configured templates for your instances that include the operating system and additional software.
+- **Auto Scaling Groups (ASGs):** Automatically adjust the number of EC2 instances to meet demand.
+- **Elastic Load Balancing (ELB):** Distributes incoming traffic across multiple instances for high availability and fault tolerance.
 
-## Containers
-- **ECS (Elastic Container Service):** A highly scalable, high-performance container orchestration service that supports Docker containers.
-- **EKS (Elastic Kubernetes Service):** A managed service for running Kubernetes on AWS.
-- **Fargate:** A serverless compute engine for containers that works with both ECS and EKS. It removes the need to provision and manage servers.
-- **ECR (Elastic Container Registry):** A fully managed Docker container registry to store, manage, and deploy container images.
+### 3. Best Practices
+- **Use Auto Scaling** to handle traffic spikes and improve fault tolerance.
+- **Use IAM Roles** to grant EC2 instances permissions to other AWS services.
+- **Monitor instances with CloudWatch** to track performance and set alarms.
+- **Select the right instance type** for your workload to optimize cost and performance.
 
-## Serverless
-- **Lambda:** A serverless compute service that lets you run code without managing servers. Code is executed in response to triggers, and you pay only for the compute time you consume.
+### 4. Alternatives
+- **AWS Lambda:** For event-driven, serverless applications where you don't need a full server.
+- **Amazon ECS/EKS with Fargate:** For running containerized applications without managing the underlying EC2 instances.
+
+### 5. Pricing
+- **On-Demand:** Pay by the second with no long-term commitment. Most flexible, highest cost.
+- **Reserved Instances:** Commit to a 1 or 3-year term for a significant discount. Best for steady-state workloads.
+- **Spot Instances:** Bid on spare EC2 capacity for the largest discounts (up to 90%). Can be terminated with a 2-minute warning.
+- **Savings Plans:** A flexible pricing model offering discounts for a usage commitment ($/hour).
+
+---
+## AWS Lambda
+
+### 1. Purpose & Use Cases
+Lambda is a serverless, event-driven compute service that lets you run code without provisioning or managing servers.
+- **Use Cases:** Data processing (e.g., creating image thumbnails when an image is uploaded to S3), building serverless backends for web/mobile apps, running scheduled tasks.
+
+### 2. Key Features
+- **Event-Driven:** Code is triggered by events from over 200 AWS services (like S3, API Gateway, DynamoDB) or can be invoked directly.
+- **Automatic Scaling:** Scales out automatically and seamlessly based on the number of incoming requests.
+- **No Server Management:** AWS handles all the infrastructure, patching, and scaling.
+- **Sub-second Metering:** You pay only for the compute time you consume, metered in milliseconds.
+
+### 3. Best Practices
+- **Keep functions small and single-purpose.**
+- **Manage dependencies within the deployment package.**
+- **Use IAM roles with least-privilege permissions** for each function.
+
+### 4. Limitations & Alternatives
+- **Limitations:** Limited execution time (max 15 minutes), limited temporary storage. Not suitable for long-running, stateful applications.
+- **Alternatives:** **Amazon EC2** for long-running applications that require full control over the environment. **AWS Fargate** for long-running containerized applications.
 `,
         'storage': `
 # Storage Services
 
-## S3 (Simple Storage Service)
-S3 is a highly durable and scalable object storage service. It is not suitable for installing an operating system.
-- **Buckets & Objects:** Data is stored as objects in containers called buckets. Bucket names must be globally unique.
-- **Consistency Model:**
-  - **Read-after-write consistency** for new object PUTS (you can immediately read an object after it's created).
-  - **Eventual consistency** for overwrite PUTS and DELETES (changes may take a short time to propagate).
-- **Key Features:**
-  - **Versioning:** Automatically keeps multiple versions of an object, protecting against accidental deletions.
-  - **Replication (CRR & SRR):** Asynchronously copies objects to another bucket in a different region (Cross-Region Replication) or the same region (Same-Region Replication).
-  - **Lifecycle Management:** Automatically transitions objects to more cost-effective storage classes over time.
-  - **S3 Transfer Acceleration:** Speeds up long-distance uploads and downloads to S3 buckets.
+## Amazon S3 (Simple Storage Service)
 
-### S3 Storage Classes
-- **S3 Standard:** For frequently accessed data requiring low latency.
-- **S3 Standard-IA (Infrequent Access):** For data that is accessed less frequently but requires rapid access when needed. Lower storage cost but has a retrieval fee.
-- **S3 One Zone-IA:** Similar to Standard-IA but stores data in a single AZ, offering lower cost at the expense of resilience.
-- **S3 Glacier:** For long-term data archival.
-  - **Glacier Instant Retrieval:** For archives that need millisecond access.
-  - **Glacier Flexible Retrieval:** For archives that can be retrieved in minutes to hours.
-  - **Glacier Deep Archive:** The lowest-cost storage class for long-term retention (12+ hours retrieval).
-- **S3 Intelligent-Tiering:** Automatically moves data between access tiers based on changing access patterns.
+### 1. Purpose & Use Cases
+S3 is a highly durable and scalable object storage service, designed for storing and retrieving any amount of data from anywhere.
+- **Use Cases:** Backup and archival, data lakes for analytics, static website hosting, hosting application assets (images, videos).
 
-## Block & File Storage
-- **EBS (Elastic Block Store):** Provides persistent block storage volumes for use with EC2 instances. An EBS volume must be in the same AZ as the instance it is attached to.
-  - **Volume Types:** General Purpose SSD (gp2/gp3), Provisioned IOPS SSD (io1/io2), Throughput Optimized HDD (st1), Cold HDD (sc1).
-  - **Snapshots:** Point-in-time backups of EBS volumes, which are stored in S3.
-- **EFS (Elastic File System):** A simple, scalable, elastic file system for Linux-based workloads for use with AWS Cloud services and on-premises resources.
-- **FSx:** Provides fully managed third-party file systems, such as FSx for Windows File Server and FSx for Lustre.
+### 2. Key Features
+- **Storage Classes:** A range of options from S3 Standard for frequently accessed data to S3 Glacier Deep Archive for long-term archival, allowing cost optimization.
+- **Versioning:** Automatically keeps multiple versions of an object, providing protection against accidental overwrites and deletions.
+- **Lifecycle Policies:** Automate the migration of objects to more cost-effective storage classes as they age.
+- **Replication:** Automatically copy objects to other buckets in the same or different regions for backup and low-latency access.
 
-## Hybrid & Data Transfer
-- **Storage Gateway:** A hybrid service that connects on-premises environments with AWS cloud storage.
-- **Snow Family:** Physical devices (Snowcone, Snowball, Snowmobile) to securely and quickly transfer large amounts of data into and out of AWS.
+### 3. Best Practices
+- **Use Bucket Policies and IAM** to enforce strict access controls.
+- **Enable Versioning** on buckets to protect against accidental data loss.
+- **Use Lifecycle Policies** to automatically move data to lower-cost storage tiers.
+- **Enable MFA Delete** to add another layer of security against accidental deletions.
+
+### 4. Alternatives
+- **Amazon EBS:** Provides block storage for use with a single EC2 instance (like a virtual hard drive).
+- **Amazon EFS:** Provides a scalable file system for use with multiple EC2 instances (like a network file share).
+
+### 5. Pricing
+- **Primary Factors:** Storage (GB per month), number of requests (GET, PUT, COPY), and data transfer out of AWS.
+- **Free Tier:** Includes a generous free tier for new accounts.
+
+---
+## Amazon EBS (Elastic Block Store)
+
+### 1. Purpose & Use Cases
+EBS provides high-performance, persistent block storage volumes for use with Amazon EC2 instances. It's analogous to a virtual hard drive.
+- **Use Cases:** Boot volumes for EC2 instances, storing data for transactional and NoSQL databases, throughput-intensive workloads.
+
+### 2. Key Features
+- **Multiple Volume Types:** Optimized for different workloads (General Purpose SSD, Provisioned IOPS SSD, Throughput Optimized HDD).
+- **Snapshots:** Point-in-time backups of your volumes, which are stored durably in S3.
+- **Encryption:** EBS volumes can be encrypted to protect your data.
+- **Elasticity:** You can dynamically increase the size of your volumes or change the volume type.
+
+### 3. Best Practices
+- **Take regular snapshots** for backup and disaster recovery.
+- **Choose the right volume type** based on the performance needs of your application.
+- **Encrypt sensitive data** using EBS encryption.
+
+### 4. Alternatives
+- **Amazon S3:** For object storage, not block storage.
+- **EC2 Instance Store:** Provides temporary, high-performance block-level storage that is directly attached to the EC2 host. Data is lost if the instance is stopped or terminated.
 `,
         'databases': `
 # Databases & Analytics
 
-## Relational Databases (OLTP)
-- **RDS (Relational Database Service):** A managed service for popular relational databases like MySQL, PostgreSQL, Oracle, MariaDB, and SQL Server. It automates tasks like patching, backups, and failover.
-  - **Multi-AZ Deployment:** Creates a synchronous standby replica in another AZ for high availability.
-  - **Read Replicas:** Creates asynchronous, read-only copies of the database to increase read scalability.
-- **Aurora:** AWS's cloud-native relational database that is compatible with MySQL and PostgreSQL. It offers higher performance and availability than standard RDS.
+## Amazon RDS (Relational Database Service)
 
-## Non-Relational & In-Memory Databases
-- **DynamoDB:** A fully managed, serverless, key-value NoSQL database designed for high performance at any scale.
-- **ElastiCache:** A managed in-memory caching service that supports Redis and Memcached. It's used to improve the performance of web applications.
-- **DocumentDB:** A managed NoSQL document database service that is compatible with MongoDB.
-- **Neptune:** A managed graph database service used for highly connected datasets, like social networks or fraud detection.
+### 1. Purpose & Use Cases
+RDS is a managed service that simplifies the setup, operation, and scaling of relational databases in the cloud.
+- **Use Cases:** Powering traditional applications, e-commerce platforms, and CRM systems that require a relational database like MySQL, PostgreSQL, or SQL Server.
 
-## Data Warehousing & Analytics
-- **Redshift:** A fully managed, petabyte-scale data warehouse service used for large-scale data analytics (OLAP).
-- **Athena:** A serverless, interactive query service that allows you to analyze data directly in Amazon S3 using standard SQL.
-- **Glue:** A fully managed extract, transform, and load (ETL) service to prepare and load data for analytics.
-- **Kinesis:** A service for collecting, processing, and analyzing real-time, streaming data.
-- **QuickSight:** A scalable, serverless, business intelligence (BI) service to create interactive dashboards.
+### 2. Key Features
+- **Managed Service:** Automates time-consuming tasks like hardware provisioning, patching, and backups.
+- **High Availability (Multi-AZ):** Creates a synchronous standby replica in a different Availability Zone for automatic failover.
+- **Read Replicas:** Allows you to create read-only copies of your database to increase read scalability.
+- **Security:** Provides encryption at rest and in transit.
+
+### 3. Best Practices
+- **Use Multi-AZ** for production workloads to ensure high availability.
+- **Use Read Replicas** to offload read traffic from your primary database.
+- **Encrypt data** using KMS keys.
+
+### 4. Alternatives
+- **Amazon Aurora:** A cloud-native relational database offering higher performance.
+- **Amazon DynamoDB:** A NoSQL database for applications that require flexible schemas and single-digit millisecond latency.
+- **Running a database on EC2:** Provides full control but requires you to manage everything yourself.
+
+### 5. Pricing
+- **Factors:** Database instance hours, storage (GB per month), I/O requests, and data transfer.
+- **Reserved Instances** are available for significant cost savings.
+
+---
+## Amazon DynamoDB
+
+### 1. Purpose & Use Cases
+DynamoDB is a fully managed, serverless, key-value NoSQL database designed for high-performance applications at any scale.
+- **Use Cases:** Web, mobile, gaming, ad tech, and IoT applications that need low-latency data access.
+
+### 2. Key Features
+- **Serverless:** No servers to provision, patch, or manage.
+- **Single-Digit Millisecond Performance:** Delivers consistent low latency regardless of scale.
+- **Automatic Scaling:** Automatically scales tables up and down to adjust for capacity and maintain performance.
+- **Highly Available & Durable:** Data is synchronously replicated across three facilities in a region.
+
+### 3. Best Practices
+- **Design your access patterns first.** DynamoDB schema design is based on how you will query the data.
+- **Use IAM policies** for fine-grained access control to tables and items.
+- **Monitor with CloudWatch** to track performance and costs.
+
+### 4. Alternatives
+- **Amazon RDS/Aurora:** For applications that require a relational model with complex joins and transactions.
+- **DocumentDB:** For applications that need MongoDB compatibility.
+
+### 5. Pricing
+- **Pay-per-request:** Billed for the read and write requests you make.
+- **Provisioned Capacity:** Pay for a certain amount of read/write capacity per second.
+- **Free Tier:** Includes a generous free tier.
 `,
         'networking': `
 # Networking & Content Delivery
 
 ## VPC (Virtual Private Cloud)
-A VPC is your own logically isolated section of the AWS Cloud. This service itself is free, but you pay for the resources you launch within it.
 
-### VPC Security
-| Component | Scope | Function | State | Rules |
-| :--- | :--- | :--- | :--- | :--- |
-| **Security Group** | EC2 Instance | A stateful firewall for instances. | Stateful | Allow only. Deny by default. |
-| **Network ACL** | Subnet | A stateless firewall for subnets. | Stateless | Has explicit Allow & Deny rules. |
+### 1. Purpose & Use Cases
+A VPC allows you to provision a logically isolated section of the AWS Cloud where you can launch AWS resources in a virtual network that you define.
+- **Use Cases:** Essential for creating any AWS infrastructure. It provides the networking foundation for services like EC2 and RDS.
 
-- **Stateful vs. Stateless:** Stateful means if you allow inbound traffic, the corresponding outbound traffic is automatically allowed. Stateless means you must explicitly create rules for both inbound and outbound traffic.
+### 2. Key Features
+- **Subnets:** Segments of a VPC's IP address range where you can place groups of isolated resources. Can be public (with internet access) or private.
+- **Security Groups:** Act as a stateful firewall for your EC2 instances to control inbound and outbound traffic.
+- **Network ACLs (NACLs):** Act as a stateless firewall for your subnets, controlling traffic in and out of one or more subnets.
+- **Connectivity Options:** Internet Gateway, NAT Gateway, VPC Peering, Direct Connect, and VPN connections.
 
-### Connectivity
-- **Subnets:** A range of IP addresses within your VPC, confined to a single Availability Zone.
-- **Internet Gateway:** Enables access to the internet from your VPC.
-- **NAT Gateway:** Allows instances in a private subnet to initiate outbound traffic to the internet while preventing inbound traffic.
-- **VPC Peering:** Connects two VPCs privately.
-- **Direct Connect:** A dedicated private physical network connection from your on-premises data center to AWS.
+### 3. Best Practices
+- **Use multiple Availability Zones** and place subnets in each for high availability.
+- **Use private subnets for backend resources** like databases to protect them from the public internet.
+- **Use Security Groups as the primary firewall** for instances, and NACLs as a secondary, stateless defense layer.
 
-## ELB (Elastic Load Balancer)
-- **Application Load Balancer (ALB):** Layer 7 (HTTP/HTTPS). Best for flexible application-level routing.
-- **Network Load Balancer (NLB):** Layer 4 (TCP/UDP/TLS). Best for extreme performance and static IP addresses.
-- **Gateway Load Balancer (GLB):** Layer 3. For deploying third-party virtual network appliances.
+### 4. Alternatives
+- None. VPC is the fundamental networking service for provisioning isolated resources.
 
-## Global Networking
-- **Route 53:** A highly available DNS web service that can also perform health checks and route traffic based on various policies.
-- **CloudFront:** A Content Delivery Network (CDN) that caches content in Edge Locations to reduce latency for users worldwide.
-- **Global Accelerator:** Improves application availability and performance by directing traffic over the highly available AWS global network.
+### 5. Pricing
+- The VPC service itself is **free of charge**. You pay for the resources you run within it and for optional components like NAT Gateways and VPN connections.
 `,
         'messaging': `
 # Messaging Services
-These services help build decoupled and resilient applications.
 
 ## SQS (Simple Queue Service)
 A fully managed message queuing service used to decouple application components.
@@ -353,38 +429,56 @@ A highly scalable email sending and receiving service.
         'deployment': `
 # Deployment & CI/CD
 
-## Infrastructure as Code (IaC)
-- **CloudFormation:** The primary IaC service on AWS. It allows you to model your entire infrastructure in a declarative template file (YAML or JSON). This enables automated, consistent, and repeatable deployments.
-  - **Change Sets:** Allow you to preview the impact of proposed changes to a stack before they are executed.
-- **CDK (Cloud Development Kit):** An open-source framework to define cloud infrastructure using familiar programming languages, which then synthesizes into CloudFormation templates.
+## AWS CloudFormation
 
-## Platform as a Service (PaaS)
-- **Elastic Beanstalk:** An easy-to-use service for deploying and scaling web applications. You simply upload your code, and Elastic Beanstalk handles the deployment, capacity provisioning, load balancing, and health monitoring.
+### 1. Purpose & Use Cases
+CloudFormation is the primary Infrastructure as Code (IaC) service on AWS. It allows you to model your infrastructure in a template file, enabling automated and repeatable deployments.
+- **Use Cases:** Creating a new environment for an application (VPC, subnets, EC2, RDS), standardizing components across an organization, automating disaster recovery setup.
 
-## CI/CD Services (The "Code" Suite)
-- **CodeCommit:** A managed, secure Git-based source control service.
-- **CodeBuild:** A managed service that compiles source code, runs tests, and produces software packages.
-- **CodeDeploy:** An automated deployment service for applications on EC2 instances, on-premises servers, Lambda, or ECS.
-- **CodePipeline:** A managed continuous delivery service that automates your release pipelines (e.g., CodeCommit -> CodeBuild -> CodeDeploy).
-- **CodeStar:** A unified UI that provides a complete development toolchain for coding, building, and deploying applications on AWS.
+### 2. Key Features
+- **Templates:** Uses declarative YAML or JSON files to define the desired state of your infrastructure.
+- **Stacks:** The set of resources created from a single template is managed as a single unit called a stack.
+- **Change Sets:** Allows you to preview how proposed changes to a stack might impact your running resources before you implement them.
+- **Broad Service Support:** Works with almost all AWS services.
+
+### 3. Best Practices
+- **Use version control** (like Git with CodeCommit) for your templates.
+- **Use Change Sets** in production to prevent unexpected changes.
+- **Break down large templates** into smaller, nested stacks for better management.
+
+### 4. Alternatives
+- **Third-party IaC tools** like Terraform.
+- **AWS CDK (Cloud Development Kit):** An abstraction layer that lets you define infrastructure in a programming language, which then synthesizes to CloudFormation.
+
+### 5. Pricing
+- CloudFormation itself is **free of charge**. You only pay for the AWS resources it creates.
 `,
         'monitoring': `
 # Monitoring, Auditing, & Management
 
-## Monitoring & Tracing
-- **CloudWatch:** The central monitoring and observability service.
-  - **Metrics:** Collects performance data from AWS services. Standard monitoring is every 5 minutes; Detailed monitoring is every 1 minute.
-  - **Alarms:** Automatically trigger actions (e.g., send an SNS notification, scale an ASG) based on metric thresholds.
-  - **Logs:** Centralizes log files from EC2 instances, Lambda functions, and other sources.
-- **CloudTrail:** Records a history of all API calls made in your AWS account. It is essential for security auditing and tracking user activity. It logs who made the call, when, from what IP address, and what action was taken.
-- **X-Ray:** Helps developers analyze and debug distributed applications by tracing user requests as they travel through different services.
+## Amazon CloudWatch
 
-## Advising & Health
-- **Trusted Advisor:** An online tool that provides real-time guidance to help you provision your resources following AWS best practices. It checks across five categories: Cost Optimization, Performance, Security, Fault Tolerance, and Service Limits.
-- **Personal Health Dashboard:** Gives you a personalized view into the performance and availability of the AWS services underlying your resources.
+### 1. Purpose & Use Cases
+CloudWatch is the central monitoring and observability service for AWS resources and applications.
+- **Use Cases:** Monitoring EC2 CPU utilization, tracking Lambda function invocations, collecting application logs, setting billing alarms.
 
-## Configuration
-- **AWS Config:** A service that enables you to assess, audit, and evaluate the configurations of your AWS resources over time. It is a key tool for compliance and governance.
+### 2. Key Features
+- **Metrics:** A time-ordered set of data points. AWS services automatically send metrics to CloudWatch.
+- **Alarms:** Automatically perform actions (like sending a notification or scaling an EC2 fleet) based on a metric crossing a threshold.
+- **Logs:** Centralize and monitor logs from EC2, Lambda, and other services.
+- **Dashboards:** Create customizable views of the metrics and alarms for your resources.
+
+### 3. Best Practices
+- **Enable Detailed Monitoring (1-minute intervals)** for production EC2 instances for faster response times.
+- **Create alarms for key performance metrics** and operational health.
+- **Set up a billing alarm** to be notified before your spending exceeds your budget.
+
+### 4. Alternatives
+- Third-party monitoring solutions, which often integrate with CloudWatch to pull metric data.
+
+### 5. Pricing
+- **Free Tier:** Includes a generous free tier for metrics, alarms, and logs.
+- **Pay-as-you-go:** You pay for what you use beyond the free tier (e.g., custom metrics, detailed monitoring, data ingestion for logs).
 `,
         'advanced_identity': `
 # Advanced Identity Services
