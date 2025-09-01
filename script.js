@@ -15,13 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
         { type: 'link', label: 'Storage (S3, EBS)', topic: 'storage' },
         { type: 'link', label: 'Databases & Analytics', topic: 'databases' },
         { type: 'link', label: 'Networking & Content Delivery', topic: 'networking' },
-        { type: 'link', label: 'Messaging (SQS, SNS)', topic: 'messaging' },
-        { type: 'category', label: 'Management & Developer Tools' },
-        { type: 'link', label: 'Deployment & CI/CD', topic: 'deployment' },
+        { type: 'link', label: 'Application Integration', topic: 'app_integration' },
+        { type: 'category', label: 'Management & Governance' },
         { type: 'link', label: 'Monitoring & Auditing', topic: 'monitoring' },
-        { type: 'link', label: 'Advanced Identity', topic: 'advanced_identity' },
-        { type: 'category', label: 'Key Topics' },
+        { type: 'link', label: 'Deployment & CI/CD', topic: 'deployment' },
+        { type: 'link', label: 'Governance & Cost', topic: 'governance'},
+        { type: 'category', label: 'Advanced Topics' },
         { type: 'link', label: 'In-Depth Security', topic: 'security' },
+        { type: 'link', label: 'Hybrid & Edge', topic: 'hybrid_edge' },
         { type: 'link', label: 'Machine Learning', topic: 'ml' },
         { type: 'link', label: 'Migration & Transfer', topic: 'migration' },
         { type: 'link', label: 'Frameworks & Strategies', topic: 'frameworks' },
@@ -275,6 +276,10 @@ Lambda is a serverless, event-driven compute service that lets you run code with
 ### 4. Limitations & Alternatives
 - **Limitations:** Limited execution time (max 15 minutes), limited temporary storage. Not suitable for long-running, stateful applications.
 - **Alternatives:** **Amazon EC2** for long-running applications that require full control over the environment. **AWS Fargate** for long-running containerized applications.
+
+### 5. Pricing
+- **Pay-per-request:** Billed for invocations and duration (GB-seconds).
+- **Free Tier:** Includes a generous perpetual free tier for invocations and compute time.
 `,
         'storage': `
 # Storage Services
@@ -382,6 +387,20 @@ DynamoDB is a fully managed, serverless, key-value NoSQL database designed for h
 - **Pay-per-request:** Billed for the read and write requests you make.
 - **Provisioned Capacity:** Pay for a certain amount of read/write capacity per second.
 - **Free Tier:** Includes a generous free tier.
+
+---
+## Analytics Services Comparison
+| Service | Purpose | Type | Use Case |
+| :--- | :--- | :--- | :--- |
+| **Athena** | Interactive Query | Serverless SQL | Quickly analyze data in S3 without setting up servers. |
+| **Redshift** | Data Warehouse | Provisioned Cluster | Business intelligence and complex analytics on large, structured datasets. |
+| **EMR** | Big Data Processing | Managed Cluster | Process vast amounts of data using frameworks like Spark and Hadoop. |
+| **QuickSight** | Business Intelligence | Serverless BI | Create and publish interactive dashboards and visualizations. |
+
+---
+## Caching
+- **ElastiCache:** A managed in-memory caching service that supports **Redis** (for advanced data structures) and **Memcached** (for simple object caching). It's used to reduce latency and decrease the load on backend databases.
+- **DAX (DynamoDB Accelerator):** An in-memory cache specifically for DynamoDB, providing microsecond read performance for read-heavy workloads.
 `,
         'networking': `
 # Networking & Content Delivery
@@ -408,26 +427,51 @@ A VPC allows you to provision a logically isolated section of the AWS Cloud wher
 
 ### 5. Pricing
 - The VPC service itself is **free of charge**. You pay for the resources you run within it and for optional components like NAT Gateways and VPN connections.
+
+---
+## Advanced Networking & Connectivity
+
+- **Direct Connect:** Provides a dedicated, private physical network connection between your on-premises data center and AWS. It offers more consistent network performance and higher bandwidth than a standard internet-based VPN.
+- **Global Accelerator:** A networking service that improves the availability and performance of your applications for global users. It directs traffic over the highly available AWS global network, optimizing the path to your application. *Contrast with CloudFront, which caches content at the edge; Global Accelerator optimizes the network path for dynamic content.*
+- **Transit Gateway:** Acts as a central hub to connect your VPCs and on-premises networks. It simplifies your network architecture by eliminating the need for complex VPC peering connections.
+- **PrivateLink:** Provides secure, private connectivity between VPCs, AWS services, and your on-premises networks without exposing your traffic to the public internet.
+
 `,
-        'messaging': `
-# Messaging Services
+        'app_integration': `
+# Application Integration
 
 ## SQS (Simple Queue Service)
-A fully managed message queuing service used to decouple application components.
-- **How it works:** A component sends a message to a queue. Another component can then retrieve and process that message independently. This ensures that if one component fails, the message is not lost and can be processed later.
-- **Use Case:** Decoupling a web front-end from a back-end processing service. When a user submits an order, the web server places a message in an SQS queue, and a separate processing service picks up the order from the queue to fulfill it.
+
+### 1. Purpose & Use Cases
+SQS is a fully managed message queuing service that enables you to decouple and scale microservices, distributed systems, and serverless applications.
+- **Use Case:** Decoupling a web front-end from a back-end processing service. When a user submits an order, the web server places a message in an SQS queue. A separate processing service can then pull the order from the queue to fulfill it, even if the web server is busy or offline. This builds resilience.
 
 ## SNS (Simple Notification Service)
-A fully managed pub/sub (publish/subscribe) messaging service.
-- **How it works:** A publisher sends a single message to an SNS "topic." The topic then immediately pushes that message to all subscribed endpoints.
-- **Use Case:** Sending an email notification, an SMS alert, and triggering a Lambda function all at the same time in response to a critical event.
 
-## SES (Simple Email Service)
-A highly scalable email sending and receiving service.
-- **Use Cases:** Sending transactional emails (like order confirmations), marketing communications, or mass email campaigns.
+### 1. Purpose & Use Cases
+SNS is a fully managed pub/sub (publish/subscribe) messaging service for coordinating the delivery of messages to a large number of subscribing endpoints.
+- **Use Case:** Sending an email notification, an SMS alert, and triggering a Lambda function all at the same time in response to a critical event (e.g., a CloudWatch alarm). It's a "fan-out" service.
+
+## API Gateway
+
+### 1. Purpose & Use Cases
+API Gateway is a fully managed service that makes it easy to create, publish, maintain, monitor, and secure APIs at any scale. It acts as the "front door" for applications to access backend services.
+- **Use Case:** Creating a RESTful API that is exposed to the public, but privately triggers a Lambda function to execute business logic.
+
+## Step Functions
+
+### 1. Purpose & Use Cases
+Step Functions is a serverless orchestration service that lets you coordinate multiple AWS services into visual workflows.
+- **Use Case:** Creating a complex, multi-step business process, such as an order fulfillment workflow that involves checking inventory, processing payment, and scheduling shipping, with each step potentially being a Lambda function or another AWS service call.
+
+## EventBridge
+
+### 1. Purpose & Use Cases
+EventBridge is a serverless event bus that makes it easy to connect applications together using data from your own apps, SaaS applications, and AWS services.
+- **Use Case:** Triggering a workflow in response to an event from a third-party SaaS provider like Zendesk or Shopify. It's more advanced than SNS for building event-driven architectures.
 `,
         'deployment': `
-# Deployment & CI/CD
+# Deployment, CI/CD, & Developer Tools
 
 ## AWS CloudFormation
 
@@ -452,6 +496,18 @@ CloudFormation is the primary Infrastructure as Code (IaC) service on AWS. It al
 
 ### 5. Pricing
 - CloudFormation itself is **free of charge**. You only pay for the AWS resources it creates.
+
+---
+## Other Deployment & Developer Services
+
+- **Elastic Beanstalk:** A Platform as a Service (PaaS) for deploying and scaling web applications. You provide the code, and Beanstalk handles the infrastructure.
+- **CI/CD "Code" Suite:**
+  - **CodeCommit:** A managed Git repository.
+  - **CodeBuild:** Compiles source code and runs tests.
+  - **CodeDeploy:** Automates application deployments.
+  - **CodePipeline:** Orchestrates your CI/CD workflow.
+- **Cloud9:** A cloud-based IDE for writing, running, and debugging code with just a browser.
+- **Amplify:** A framework for building and deploying full-stack web and mobile applications with backend integration.
 `,
         'monitoring': `
 # Monitoring, Auditing, & Management
@@ -479,28 +535,108 @@ CloudWatch is the central monitoring and observability service for AWS resources
 ### 5. Pricing
 - **Free Tier:** Includes a generous free tier for metrics, alarms, and logs.
 - **Pay-as-you-go:** You pay for what you use beyond the free tier (e.g., custom metrics, detailed monitoring, data ingestion for logs).
-`,
-        'advanced_identity': `
-# Advanced Identity Services
 
-- **STS (Security Token Service):** A web service that enables you to request temporary, limited-privilege credentials for IAM users or for users that you authenticate (federated users).
-- **Cognito:** Provides a managed user directory (**User Pools**) and enables you to grant temporary, secure access to your AWS resources for your application users (**Identity Pools**). It's the go-to service for managing user sign-up and sign-in for mobile and web apps.
-- **Directory Service:** A managed service for Microsoft Active Directory.
-- **IAM Identity Center (formerly AWS SSO):** A service that makes it easy to centrally manage single sign-on (SSO) access to multiple AWS accounts and business applications.
-- **AWS Organizations:** Helps you centrally govern your environment as you scale. You can use it for consolidated billing and to apply **Service Control Policies (SCPs)**, which act as guardrails to restrict permissions for member accounts.
+---
+## CloudTrail vs. Config vs. GuardDuty
+
+| Service | What It Answers | Core Function |
+| :--- | :--- | :--- |
+| **CloudTrail** | "Who did what, when, and from where?" | **Auditing & API Logging:** Records every API call made in your account. |
+| **AWS Config** | "What does my AWS resource look like and how has it changed?" | **Resource Configuration & Compliance:** Tracks the configuration of resources and evaluates them against rules. |
+| **GuardDuty** | "Is anything malicious or unauthorized happening?" | **Threat Detection:** Intelligently analyzes logs to detect threats like malware and unusual API activity. |
+
+`,
+        'governance':`
+# Governance & Cost Management
+
+## AWS Control Tower
+
+### 1. Purpose & Use Cases
+Control Tower automates the setup of a secure, multi-account AWS environment (a "landing zone") based on best practices.
+- **Use Case:** A large enterprise wants to set up a new AWS environment for multiple teams, ensuring that all new accounts automatically adhere to company-wide security and compliance policies from the start.
+
+### 2. Key Features
+- **Landing Zone:** Creates a well-architected, multi-account baseline.
+- **Guardrails:** Pre-packaged governance rules for security, operations, and compliance that you can apply across your accounts.
+- **Account Factory:** A standardized way to provision new AWS accounts that conform to your policies.
+
+## AWS Service Catalog
+
+### 1. Purpose & Use Cases
+Service Catalog allows organizations to create and manage catalogs of IT services that are approved for use on AWS, helping to achieve consistent governance and meet compliance requirements.
+- **Use Case:** An IT department wants to allow developers to provision their own servers, but only from a pre-approved list of EC2 instance types and AMIs that have been vetted for security and cost.
+
+### 2. Key Features
+- **Standardization:** Ensures users deploy only approved and consistently configured resources.
+- **Self-Service:** Allows users to find and launch the resources they need on their own, speeding up innovation.
+- **Fine-Grained Access Control:** Manages which users can access which products and versions.
+
+## AWS License Manager
+
+### 1. Purpose & Use Cases
+License Manager makes it easier to manage software licenses from vendors like Microsoft, SAP, and Oracle across AWS and on-premises environments.
+- **Use Case:** A company is migrating its Windows Servers to AWS and needs to ensure it remains compliant with its existing per-core software licenses (Bring Your Own License - BYOL).
+
+### 2. Key Features
+- **License Tracking:** Central dashboard to track license usage.
+- **Rule Enforcement:** Can enforce licensing rules to prevent non-compliant instance launches.
+- **Hybrid Support:** Manages licenses across both AWS and on-premises servers.
+`,
+        'hybrid_edge':`
+# Hybrid & Edge Computing
+
+## AWS Outposts
+
+### 1. Purpose & Use Cases
+Outposts is a fully managed service that extends AWS infrastructure, services, APIs, and tools to virtually any on-premises data center or co-location space.
+- **Use Case:** A manufacturing company needs to run a low-latency data processing application on-premises, right next to their factory equipment, but wants to use the same AWS services (like EC2 and EBS) and management tools they use in the cloud.
+
+## AWS Local Zones
+
+### 1. Purpose & Use Cases
+Local Zones are a type of AWS infrastructure deployment that places AWS compute, storage, and database services closer to large population, industry, and IT centers.
+- **Use Case:** A video streaming company in a large city that is not an AWS Region wants to provide a very low-latency experience to its local users. They can deploy parts of their application in a Local Zone to reduce network latency.
+
+## AWS Wavelength
+
+### 1. Purpose & Use Cases
+Wavelength embeds AWS compute and storage services within 5G networks, providing mobile edge computing infrastructure for developing, deploying, and scaling ultra-low-latency applications.
+- **Use Case:** A developer is creating an augmented reality (AR) mobile game that requires real-time processing with minimal lag. Deploying the application backend in a Wavelength Zone on the 5G network provides the necessary ultra-low latency.
+
+## Snow Family Deep Dive
+The Snow Family is used for edge computing and data transfer.
+- **Snowcone:** The smallest device (8 TB HDD or 14 TB SSD). Used for data transfer and edge computing in space-constrained environments.
+- **Snowball Edge:** Petabyte-scale data transport devices.
+  - **Storage Optimized:** Best for large-scale data migrations (80 TB or 210 TB).
+  - **Compute Optimized:** Provides powerful computing resources for edge workloads.
+- **Snowmobile:** An exabyte-scale data transfer service. A 45-foot ruggedized shipping container, pulled by a semi-trailer truck, for moving up to 100 PB of data.
 `,
         'security':`
 # In-Depth Security Services
 
+## Encryption Services Comparison
+| Service | What It Manages | Key Control | Use Case |
+| :--- | :--- | :--- | :--- |
+| **KMS** | Encryption Keys | Customer can manage, AWS handles hardware | General-purpose encryption for most AWS services (S3, EBS, RDS). |
+| **CloudHSM** | Encryption Keys | Customer has full control of keys on dedicated hardware | Meeting strict compliance requirements (like FIPS 140-2 Level 3) where you must control the hardware. |
+| **ACM** | SSL/TLS Certificates | N/A (manages public certificates) | Provisioning, managing, and deploying public SSL/TLS certificates for use with ELB and CloudFront. |
+
+---
+## Threat Detection & Vulnerability Management
+- **GuardDuty:** A threat detection service that uses machine learning to continuously monitor for malicious activity and unauthorized behavior. It analyzes logs like CloudTrail, VPC Flow Logs, and DNS logs.
+- **Inspector:** An automated vulnerability management service that continually scans AWS workloads (EC2, ECR images, Lambda) for software vulnerabilities and unintended network exposure.
+- **Macie:** A data security service that uses machine learning to discover, classify, and protect sensitive data (like Personally Identifiable Information - PII) stored in Amazon S3.
+- **Security Hub:** Provides a single place that aggregates, organizes, and prioritizes your security alerts or findings from multiple AWS services, such as GuardDuty, Inspector, and Macie.
+
+---
+## Network & Application Protection
 - **Shield:** A managed Distributed Denial of Service (DDoS) protection service.
   - **Standard:** Automatically enabled for all AWS customers at no additional cost. Protects against most common network and transport layer attacks.
-  - **Advanced:** A paid service that provides additional, more sophisticated protections, near real-time visibility into attacks, and 24x7 access to the AWS DDoS Response Team (DRT).
+  - **Advanced:** A paid service for additional, more sophisticated protections.
 - **WAF (Web Application Firewall):** A firewall that helps protect your web applications from common web exploits like SQL injection and cross-site scripting by filtering traffic based on rules you define.
-- **KMS (Key Management Service):** A managed service for creating and controlling the encryption keys used to encrypt your data.
-- **CloudHSM (Hardware Security Module):** A cloud-based hardware security module that allows you to generate and use your own encryption keys on dedicated, tamper-resistant hardware.
-- **Inspector:** An automated vulnerability management service that scans AWS workloads for software vulnerabilities and unintended network exposure.
-- **GuardDuty:** A threat detection service that uses machine learning to continuously monitor for malicious activity and unauthorized behavior.
-- **Macie:** A data security service that uses machine learning to discover, classify, and protect sensitive data (like PII and financial information) stored in Amazon S3.
+- **Secrets Manager vs. Parameter Store:**
+  - **Parameter Store:** Provides secure, hierarchical storage for configuration data and secrets. Standard parameters are free.
+  - **Secrets Manager:** A dedicated secret management service that includes the ability to automatically rotate secrets (e.g., database credentials), which is its key differentiator.
 `,
         'ml':`
 # Machine Learning Services
@@ -554,11 +690,21 @@ The AWS CAF provides guidance to help you plan and execute a successful cloud ad
 - **Security Perspective:** Helps you achieve the confidentiality, integrity, and availability of your data and cloud workloads.
 - **Operations Perspective:** Helps you ensure that your cloud operations are efficient and reliable.
 
-## Disaster Recovery Strategies
-- **Backup and Restore:** Low cost, but higher recovery time (RTO).
-- **Pilot Light:** A small version of the environment is always running and can be scaled up.
-- **Warm Standby:** A scaled-down but fully functional copy of your production environment.
-- **Multi-site/Hot-site:** A full-scale, active-active configuration with the lowest recovery time.
+## Disaster Recovery Strategies & High Availability
+Disaster Recovery (DR) is about preparing for and recovering from a disaster. High Availability (HA) is about ensuring your systems are continuously operational.
+
+### Key Metrics
+- **RTO (Recovery Time Objective):** The maximum acceptable delay between the interruption of service and restoration of service. *How long can we be down?*
+- **RPO (Recovery Point Objective):** The maximum acceptable amount of time since the last data recovery point. *How much data can we afford to lose?*
+
+### DR Strategies (from highest RTO/RPO to lowest)
+- **Backup and Restore:** Low cost, but highest RTO/RPO. Involves backing up data and restoring it to a new location after a disaster.
+- **Pilot Light:** A small version of the environment is always running in the DR region (e.g., the core database). In a disaster, you scale up the environment around it.
+- **Warm Standby:** A scaled-down but fully functional copy of your production environment is always running in the DR region.
+- **Multi-site/Hot-site:** A full-scale, active-active configuration where both regions are active and serving traffic. This offers the lowest RTO/RPO but is the most expensive.
+
+### AWS Backup
+- A centralized service to manage and automate backups across AWS services like EBS, RDS, DynamoDB, and EFS.
 `,
         'other':`
 # Other Key Services
@@ -566,7 +712,6 @@ The AWS CAF provides guidance to help you plan and execute a successful cloud ad
 - **WorkSpaces:** A managed, secure Desktop-as-a-Service (DaaS) solution for provisioning virtual Windows or Linux desktops.
 - **AppStream 2.0:** A service that centrally manages desktop applications and securely streams them to a web browser.
 - **IoT Core:** A managed cloud service that lets connected devices (like sensors and smart appliances) easily and securely interact with cloud applications and other devices.
-- **Step Functions:** A serverless function orchestrator that makes it easy to sequence AWS Lambda functions and multiple AWS services into visual workflows.
 - **Pinpoint:** A service you can use to engage with your customers across multiple messaging channels, such as email, SMS, and push notifications.
 - **Fault Injection Simulator (FIS):** A managed service for running fault injection experiments on AWS. This is part of the practice of Chaos Engineering, which helps improve an application's resilience.
 - **Device Farm:** An application testing service that lets you test your web and mobile apps on a large collection of real physical devices.
