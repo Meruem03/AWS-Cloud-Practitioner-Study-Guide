@@ -119,8 +119,6 @@ This model delineates what you are responsible for and what AWS is responsible f
   - **Operating System & Firewall:** Patching the guest OS and configuring firewalls like Security Groups and NACLs.
   - **Data Encryption:** Configuring both client-side and server-side encryption.
 
-![AWS Shared Responsibility Model](logos/shared-responsibility-model.png "AWS Shared Responsibility Model")
-
 ## 2.2 Security and Compliance Concepts
 - **Least Privilege Principle:** A core security concept where you only grant the minimum permissions necessary for a user or service to perform its function.
 - **Encryption:** Protecting data in transit (as it travels over a network) and at rest (while it is stored).
@@ -301,5 +299,231 @@ S3 is a highly durable and scalable object storage service. It is not suitable f
 - **Kinesis:** A service for collecting, processing, and analyzing real-time, streaming data.
 - **QuickSight:** A scalable, serverless, business intelligence (BI) service to create interactive dashboards.
 `,
-        'networking':
+        'networking': `
+# Networking & Content Delivery
+
+## VPC (Virtual Private Cloud)
+A VPC is your own logically isolated section of the AWS Cloud. This service itself is free, but you pay for the resources you launch within it.
+
+### VPC Security
+| Component | Scope | Function | State | Rules |
+| :--- | :--- | :--- | :--- | :--- |
+| **Security Group** | EC2 Instance | A stateful firewall for instances. | Stateful | Allow only. Deny by default. |
+| **Network ACL** | Subnet | A stateless firewall for subnets. | Stateless | Has explicit Allow & Deny rules. |
+
+- **Stateful vs. Stateless:** Stateful means if you allow inbound traffic, the corresponding outbound traffic is automatically allowed. Stateless means you must explicitly create rules for both inbound and outbound traffic.
+
+### Connectivity
+- **Subnets:** A range of IP addresses within your VPC, confined to a single Availability Zone.
+- **Internet Gateway:** Enables access to the internet from your VPC.
+- **NAT Gateway:** Allows instances in a private subnet to initiate outbound traffic to the internet while preventing inbound traffic.
+- **VPC Peering:** Connects two VPCs privately.
+- **Direct Connect:** A dedicated private physical network connection from your on-premises data center to AWS.
+
+## ELB (Elastic Load Balancer)
+- **Application Load Balancer (ALB):** Layer 7 (HTTP/HTTPS). Best for flexible application-level routing.
+- **Network Load Balancer (NLB):** Layer 4 (TCP/UDP/TLS). Best for extreme performance and static IP addresses.
+- **Gateway Load Balancer (GLB):** Layer 3. For deploying third-party virtual network appliances.
+
+## Global Networking
+- **Route 53:** A highly available DNS web service that can also perform health checks and route traffic based on various policies.
+- **CloudFront:** A Content Delivery Network (CDN) that caches content in Edge Locations to reduce latency for users worldwide.
+- **Global Accelerator:** Improves application availability and performance by directing traffic over the highly available AWS global network.
+`,
+        'messaging': `
+# Messaging Services
+These services help build decoupled and resilient applications.
+
+## SQS (Simple Queue Service)
+A fully managed message queuing service used to decouple application components.
+- **How it works:** A component sends a message to a queue. Another component can then retrieve and process that message independently. This ensures that if one component fails, the message is not lost and can be processed later.
+- **Use Case:** Decoupling a web front-end from a back-end processing service. When a user submits an order, the web server places a message in an SQS queue, and a separate processing service picks up the order from the queue to fulfill it.
+
+## SNS (Simple Notification Service)
+A fully managed pub/sub (publish/subscribe) messaging service.
+- **How it works:** A publisher sends a single message to an SNS "topic." The topic then immediately pushes that message to all subscribed endpoints.
+- **Use Case:** Sending an email notification, an SMS alert, and triggering a Lambda function all at the same time in response to a critical event.
+
+## SES (Simple Email Service)
+A highly scalable email sending and receiving service.
+- **Use Cases:** Sending transactional emails (like order confirmations), marketing communications, or mass email campaigns.
+`,
+        'deployment': `
+# Deployment & CI/CD
+
+## Infrastructure as Code (IaC)
+- **CloudFormation:** The primary IaC service on AWS. It allows you to model your entire infrastructure in a declarative template file (YAML or JSON). This enables automated, consistent, and repeatable deployments.
+  - **Change Sets:** Allow you to preview the impact of proposed changes to a stack before they are executed.
+- **CDK (Cloud Development Kit):** An open-source framework to define cloud infrastructure using familiar programming languages, which then synthesizes into CloudFormation templates.
+
+## Platform as a Service (PaaS)
+- **Elastic Beanstalk:** An easy-to-use service for deploying and scaling web applications. You simply upload your code, and Elastic Beanstalk handles the deployment, capacity provisioning, load balancing, and health monitoring.
+
+## CI/CD Services (The "Code" Suite)
+- **CodeCommit:** A managed, secure Git-based source control service.
+- **CodeBuild:** A managed service that compiles source code, runs tests, and produces software packages.
+- **CodeDeploy:** An automated deployment service for applications on EC2 instances, on-premises servers, Lambda, or ECS.
+- **CodePipeline:** A managed continuous delivery service that automates your release pipelines (e.g., CodeCommit -> CodeBuild -> CodeDeploy).
+- **CodeStar:** A unified UI that provides a complete development toolchain for coding, building, and deploying applications on AWS.
+`,
+        'monitoring': `
+# Monitoring, Auditing, & Management
+
+## Monitoring & Tracing
+- **CloudWatch:** The central monitoring and observability service.
+  - **Metrics:** Collects performance data from AWS services. Standard monitoring is every 5 minutes; Detailed monitoring is every 1 minute.
+  - **Alarms:** Automatically trigger actions (e.g., send an SNS notification, scale an ASG) based on metric thresholds.
+  - **Logs:** Centralizes log files from EC2 instances, Lambda functions, and other sources.
+- **CloudTrail:** Records a history of all API calls made in your AWS account. It is essential for security auditing and tracking user activity. It logs who made the call, when, from what IP address, and what action was taken.
+- **X-Ray:** Helps developers analyze and debug distributed applications by tracing user requests as they travel through different services.
+
+## Advising & Health
+- **Trusted Advisor:** An online tool that provides real-time guidance to help you provision your resources following AWS best practices. It checks across five categories: Cost Optimization, Performance, Security, Fault Tolerance, and Service Limits.
+- **Personal Health Dashboard:** Gives you a personalized view into the performance and availability of the AWS services underlying your resources.
+
+## Configuration
+- **AWS Config:** A service that enables you to assess, audit, and evaluate the configurations of your AWS resources over time. It is a key tool for compliance and governance.
+`,
+        'advanced_identity': `
+# Advanced Identity Services
+
+- **STS (Security Token Service):** A web service that enables you to request temporary, limited-privilege credentials for IAM users or for users that you authenticate (federated users).
+- **Cognito:** Provides a managed user directory (**User Pools**) and enables you to grant temporary, secure access to your AWS resources for your application users (**Identity Pools**). It's the go-to service for managing user sign-up and sign-in for mobile and web apps.
+- **Directory Service:** A managed service for Microsoft Active Directory.
+- **IAM Identity Center (formerly AWS SSO):** A service that makes it easy to centrally manage single sign-on (SSO) access to multiple AWS accounts and business applications.
+- **AWS Organizations:** Helps you centrally govern your environment as you scale. You can use it for consolidated billing and to apply **Service Control Policies (SCPs)**, which act as guardrails to restrict permissions for member accounts.
+`,
+        'security':`
+# In-Depth Security Services
+
+- **Shield:** A managed Distributed Denial of Service (DDoS) protection service.
+  - **Standard:** Automatically enabled for all AWS customers at no additional cost. Protects against most common network and transport layer attacks.
+  - **Advanced:** A paid service that provides additional, more sophisticated protections, near real-time visibility into attacks, and 24x7 access to the AWS DDoS Response Team (DRT).
+- **WAF (Web Application Firewall):** A firewall that helps protect your web applications from common web exploits like SQL injection and cross-site scripting by filtering traffic based on rules you define.
+- **KMS (Key Management Service):** A managed service for creating and controlling the encryption keys used to encrypt your data.
+- **CloudHSM (Hardware Security Module):** A cloud-based hardware security module that allows you to generate and use your own encryption keys on dedicated, tamper-resistant hardware.
+- **Inspector:** An automated vulnerability management service that scans AWS workloads for software vulnerabilities and unintended network exposure.
+- **GuardDuty:** A threat detection service that uses machine learning to continuously monitor for malicious activity and unauthorized behavior.
+- **Macie:** A data security service that uses machine learning to discover, classify, and protect sensitive data (like PII and financial information) stored in Amazon S3.
+`,
+        'ml':`
+# Machine Learning Services
+For the exam, you should know the primary use case for each of these services.
+
+- **SageMaker:** A fully managed service for the entire machine learning workflow: build, train, and deploy ML models.
+- **Rekognition:** For adding image and video analysis to your applications.
+- **Transcribe:** For converting speech into text (transcription).
+- **Polly:** For converting text into lifelike speech (text-to-speech).
+- **Translate:** For translating text between languages.
+- **Lex:** For building conversational interfaces (chatbots) using voice and text. It's the technology that powers Alexa.
+- **Comprehend:** A natural language processing (NLP) service to extract insights and relationships from unstructured text.
+- **Kendra:** An intelligent enterprise search service powered by machine learning, allowing users to search across multiple content repositories.
+`,
+        'migration':`
+# Migration & Transfer
+
+## Six "R's" of Migration Strategies
+These are common strategies for moving applications to the cloud.
+- **Rehost (Lift and Shift):** Moving applications without changes.
+- **Replatform (Lift, Tinker, and Shift):** Making some cloud optimizations without changing the core architecture.
+- **Repurchase:** Moving to a different product, often a SaaS model.
+- **Refactor / Re-architect:** Reimagining how the application is architected and developed using cloud-native features.
+- **Retire:** Decommissioning applications that are no longer needed.
+- **Retain:** Keeping applications on-premises that are not ready to be migrated.
+
+## Migration Services
+- **Application Migration Service (MGN):** The primary AWS service for rehosting (lift-and-shift) servers into AWS.
+- **DataSync:** An online data transfer service that simplifies, automates, and accelerates moving data between on-premises storage systems and AWS Storage services.
+- **Migration Hub:** Provides a single location to track the progress of application migrations across multiple AWS and partner solutions.
+- **Database Migration Service (DMS):** Helps you migrate databases to AWS easily and securely. The source database remains fully operational during the migration, minimizing downtime.
+`,
+        'frameworks':`
+# Frameworks & Strategies
+
+## AWS Well-Architected Framework
+This framework provides guidance to help you build and operate secure, high-performing, resilient, and efficient infrastructure. It is built on six pillars:
+- **Operational Excellence:** The ability to run and monitor systems to deliver business value and to continually improve supporting processes and procedures. *Key principle: Perform operations as code.*
+- **Security:** The ability to protect information, systems, and assets while delivering business value through risk assessments and mitigation strategies. *Key principle: Implement a strong identity foundation.*
+- **Reliability:** The ability of a workload to perform its intended function correctly and consistently when it’s expected to. *Key principle: Automatically recover from failure.*
+- **Performance Efficiency:** The ability to use computing resources efficiently to meet system requirements. *Key principle: Use serverless architectures.*
+- **Cost Optimization:** The ability to run systems to deliver business value at the lowest price point. *Key principle: Adopt a consumption model.*
+- **Sustainability:** The ability to continually improve sustainability outcomes by reducing energy consumption and increasing efficiency.
+
+## Cloud Adoption Framework (CAF)
+The AWS CAF provides guidance to help you plan and execute a successful cloud adoption journey. It organizes guidance into six perspectives:
+- **Business Perspective:** Ensures that IT aligns with business needs.
+- **People Perspective:** Helps stakeholders understand and adapt to change.
+- **Governance Perspective:** Provides guidance on managing and measuring cloud investments to evaluate business outcomes.
+- **Platform Perspective:** Helps you design, implement, and optimize the AWS architecture.
+- **Security Perspective:** Helps you achieve the confidentiality, integrity, and availability of your data and cloud workloads.
+- **Operations Perspective:** Helps you ensure that your cloud operations are efficient and reliable.
+
+## Disaster Recovery Strategies
+- **Backup and Restore:** Low cost, but higher recovery time (RTO).
+- **Pilot Light:** A small version of the environment is always running and can be scaled up.
+- **Warm Standby:** A scaled-down but fully functional copy of your production environment.
+- **Multi-site/Hot-site:** A full-scale, active-active configuration with the lowest recovery time.
+`,
+        'other':`
+# Other Key Services
+
+- **WorkSpaces:** A managed, secure Desktop-as-a-Service (DaaS) solution for provisioning virtual Windows or Linux desktops.
+- **AppStream 2.0:** A service that centrally manages desktop applications and securely streams them to a web browser.
+- **IoT Core:** A managed cloud service that lets connected devices (like sensors and smart appliances) easily and securely interact with cloud applications and other devices.
+- **Step Functions:** A serverless function orchestrator that makes it easy to sequence AWS Lambda functions and multiple AWS services into visual workflows.
+- **Pinpoint:** A service you can use to engage with your customers across multiple messaging channels, such as email, SMS, and push notifications.
+- **Fault Injection Simulator (FIS):** A managed service for running fault injection experiments on AWS. This is part of the practice of Chaos Engineering, which helps improve an application's resilience.
+- **Device Farm:** An application testing service that lets you test your web and mobile apps on a large collection of real physical devices.
+`
+    };
+
+    const contentDisplay = document.getElementById('content-display');
+    const navLinksContainer = document.getElementById('nav-links');
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+
+    function buildNav() {
+        let navHtml = '';
+        navigationStructure.forEach(item => {
+            if (item.type === 'link') {
+                navHtml += `<li><a href="#" data-topic="${item.topic}">${item.label}</a></li>`;
+            } else if (item.type === 'category') {
+                navHtml += `<li class="nav-category">${item.label}</li>`;
+            }
+        });
+        navLinksContainer.innerHTML = navHtml;
+    }
+
+    function showContent(topic) {
+        const content = markdownContent[topic];
+        contentDisplay.innerHTML = marked.parse(content);
+        contentDisplay.scrollTop = 0; // Scroll to top
+        
+        const links = navLinksContainer.querySelectorAll('a');
+        links.forEach(link => {
+            link.classList.toggle('active', link.dataset.topic === topic);
+        });
+
+        if (window.innerWidth < 768) {
+            sidebar.classList.remove('open');
+        }
+    }
+
+    buildNav();
+
+    navLinksContainer.addEventListener('click', (event) => {
+        event.preventDefault();
+        const target = event.target.closest('a');
+        if (target && target.dataset.topic) {
+            showContent(target.dataset.topic);
+        }
+    });
+
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+    });
+
+    // Show home page by default
+    showContent('home');
+});
 
