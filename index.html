@@ -1,35 +1,98 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AWS Certified Cloud Practitioner Study Guide</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <meta charset="utf-8" />
+  <title>AWS CCP Study Guide</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="styles.css" rel="stylesheet" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    @media print {
+      /* Hide non-content UI */
+      .header, .sidebar, .content-toolbar, .quiz-modal { display: none !important; }
+      body { background: #fff !important; color: #000 !important; }
+      .content { margin: 0 !important; padding: 0 !important; background: #fff !important; }
+      #content-display { padding: 0 !important; background: #fff !important; }
+      /* Avoid breaking headings across pages */
+      h1, h2, h3 { break-after: avoid-page; page-break-after: avoid; }
+      /* Ensure tables/images fit page */
+      table { width: 100% !important; }
+      img { max-width: 100% !important; }
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <button class="menu-toggle" id="menu-toggle">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
-        </button>
-        <h1>AWS CCP Guide</h1>
-    </div>
+  <header class="header">
+    <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <rect x="3" y="6" width="18" height="2"></rect>
+        <rect x="3" y="11" width="18" height="2"></rect>
+        <rect x="3" y="16" width="18" height="2"></rect>
+      </svg>
+    </button>
+    <h1>AWS CCP Guide</h1>
+  </header>
 
-    <div class="container">
-        <aside class="sidebar" id="sidebar">
-            <h2><img src="logos/aws.svg" alt="AWS Logo" style="width:100px; margin: 0 auto;"></h2>
-            <nav>
-                <ul id="nav-links">
-                    </ul>
-            </nav>
-        </aside>
-        <main class="content">
-            <div id="content-display"></div>
-        </main>
-    </div>
-    
-    <script src="script.js"></script>
+  <div class="container">
+    <aside id="sidebar" class="sidebar">
+      <h2>Study Guide</h2>
+      <input id="search-input" type="search" placeholder="Search topics…" aria-label="Search topics" />
+      <nav>
+        <ul id="nav-links"></ul>
+      </nav>
+      <div style="margin-top:12px">
+        <a class="btn btn-outline" href="quizzes.html">Practice Quizzes</a>
+      </div>
+    </aside>
+
+    <main class="content">
+      <div id="content-display"></div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js"></script>
+
+  <script src="questions.js"></script>
+
+  <script src="script.js"></script>
+
+  <script>
+    (function () {
+      // Add "Print PDF" button whenever the content toolbar is (re)created
+      const host = document.getElementById('content-display');
+      const addPrintBtn = (toolbarEl) => {
+        if (!toolbarEl) return;
+        const right = toolbarEl.querySelector('.toolbar-right');
+        if (!right || toolbarEl.querySelector('#btn-print-topic')) return;
+
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-outline';
+        btn.id = 'btn-print-topic';
+        btn.title = 'Print this topic to PDF';
+        btn.textContent = 'Print PDF';
+        btn.addEventListener('click', () => window.print());
+        right.prepend(btn);
+      };
+
+      // Observe toolbar insertion
+      const mo = new MutationObserver((mutations) => {
+        for (const m of mutations) {
+          m.addedNodes.forEach((n) => {
+            if (n.nodeType === 1 && n.classList.contains('content-toolbar')) addPrintBtn(n);
+          });
+        }
+      });
+      mo.observe(host, { childList: true });
+
+      // If a toolbar already exists on first load, enhance it too
+      const existing = host.querySelector('.content-toolbar');
+      if (existing) addPrintBtn(existing);
+    })();
+  </script>
 </body>
 </html>
