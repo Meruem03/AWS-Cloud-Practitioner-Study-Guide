@@ -227,9 +227,6 @@ IAM is the bedrock of AWS security. It allows you to specify who can access whic
 
 ### 5. Pricing
 - IAM is **no additional charge**.
-
-## Identity Center (Workforce SSO)
-Use **IAM Identity Center** for centralized workforce access (multi-account SSO, permission sets, SCIM sync). Keep IAM for service roles and per‑service policies.
 `,
     'compute': `
 # Compute Services
@@ -1031,7 +1028,7 @@ Develop/test/deploy robotics applications in the cloud.
 
   function gradeQuiz() {
     const total = quizState.questions.length;
-    const results = quizState.questions.map((idx, q) => {
+    const results = quizState.questions.map((q, idx) => {
       const user = quizState.answers[idx];
       return { correct: user === q.answer, user, q };
     });
@@ -1104,4 +1101,3 @@ Develop/test/deploy robotics applications in the cloud.
   const initialTopic = location.hash ? location.hash.replace('#', '') : 'home';
   showContent(markdownContent[initialTopic] ? initialTopic : 'home');
 });
-}
