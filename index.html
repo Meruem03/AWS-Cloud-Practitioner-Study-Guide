@@ -21,7 +21,7 @@
 
     <div class="container">
         <aside class="sidebar" id="sidebar">
-            <h2><img src="logos/aws.svg" alt="AWS Logo" style="width:100px; margin: 0 auto;"></h2>
+            <h2><img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS Logo" style="width:100px; margin: 0 auto; filter: invert(1);"></h2>
             <nav>
                 <ul id="nav-links">
                     <!-- Navigation links will be populated by script.js -->
@@ -33,7 +33,12 @@
         </main>
     </div>
 
-    <!-- Link to external JavaScript file -->
+    <!-- 
+      MODIFICATION: 
+      - Added questions.js to load the quiz data separately.
+      - It's placed BEFORE script.js so the 'quizzes' variable is available.
+    -->
+    <script src="questions.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
