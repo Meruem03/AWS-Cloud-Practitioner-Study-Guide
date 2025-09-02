@@ -1,92 +1,198 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Practice Quizzes – AWS CCP Guide</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="styles.css" rel="stylesheet" />
-  <style>
-    /* Minor layout tuning for this page; complements styles.css */
-    .quiz-wrapper { max-width: 880px; margin: 0 auto; padding: 0 4px; }
-    .hidden { display: none; }
-    .topic-grid {
-      display: grid; gap: 12px;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+document.addEventListener('DOMContentLoaded', () => {
+    // Check if we are on the quiz page by looking for a specific element
+    if (!document.getElementById('quiz-app')) {
+        return;
     }
-    .topic-card {
-      background: var(--aws-card-bg);
-      border: 1px solid var(--aws-hover-blue);
-      border-radius: 8px; padding: 14px; cursor: pointer;
-      color: var(--aws-text-white);
+
+    const topicGrid = document.getElementById('topic-grid');
+    const startRandomQuizBtn = document.getElementById('start-random-quiz');
+
+    const selectionScreen = document.getElementById('selection-screen');
+    const quizScreen = document.getElementById('quiz-screen');
+    const resultsScreen = document.getElementById('results-screen');
+
+    const quizTopicTitle = document.getElementById('quiz-topic-title');
+    const questionContainer = document.getElementById('question-container');
+    const progressBar = document.getElementById('quiz-progress-bar').firstElementChild;
+    const feedbackEl = document.getElementById('feedback');
+    const nextBtn = document.getElementById('next-question-btn');
+    const finishBtn = document.getElementById('finish-quiz-btn');
+
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let userAnswers = [];
+    
+    // --- 1. Populate Selection Screen ---
+    function populateTopics() {
+        if (!topicGrid) return;
+        const topicNames = {
+            domain1: "Domain 1: Cloud Concepts",
+            domain2: "Domain 2: Security & Compliance",
+            iam: "IAM & Identity Center",
+            compute: "Compute",
+            storage: "Storage",
+            databases: "Databases & Analytics",
+            networking: "Networking",
+        };
+
+        for (const topicKey in topicNames) {
+            if (quizzes[topicKey]) {
+                const card = document.createElement('div');
+                card.className = 'topic-card';
+                card.dataset.topic = topicKey;
+                card.innerHTML = `
+                    <h3>${topicNames[topicKey]}</h3>
+                    <p>${quizzes[topicKey].length} questions</p>
+                `;
+                card.addEventListener('click', () => startQuiz(topicKey, topicNames[topicKey]));
+                topicGrid.appendChild(card);
+            }
+        }
     }
-    .topic-card:hover { background: rgba(255,255,255,0.04); }
-    #quiz-progress-bar { height: 8px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; margin: 12px 0; }
-    #quiz-progress-bar > div { height: 100%; width: 0; background: var(--aws-orange); }
-    .answer-options { display: grid; gap: 10px; margin-top: 12px; }
-    .answer-options button {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--aws-hover-blue);
-      color: var(--aws-text-white);
-      padding: 10px 12px; border-radius: 8px; cursor: pointer; text-align: left;
+
+    // --- 2. Start Quiz ---
+    function startQuiz(topicKey, topicTitle) {
+        currentQuestionIndex = 0;
+        userAnswers = [];
+        
+        if (topicKey === 'random') {
+            const allQuestions = Object.values(quizzes).flat();
+            currentQuestions = allQuestions.sort(() => 0.5 - Math.random()).slice(0, 10); // Limit random quiz to 10
+            quizTopicTitle.textContent = 'Random 10-Question Quiz';
+        } else {
+            currentQuestions = [...quizzes[topicKey]].sort(() => 0.5 - Math.random());
+            quizTopicTitle.textContent = topicTitle;
+        }
+
+        selectionScreen.classList.add('hidden');
+        resultsScreen.classList.add('hidden');
+        quizScreen.classList.remove('hidden');
+
+        renderQuestion();
     }
-    .answer-options button:hover { filter: brightness(1.06); }
-    .answer-options button.correct { border-color: #10b981; background: rgba(16,185,129,.1); }
-    .answer-options button.incorrect { border-color: #ef4444; background: rgba(239,68,68,.1); }
-    .feedback { margin-top: 10px; }
-    .feedback.correct { color: #10b981; }
-    .feedback.incorrect { color: #ef4444; }
-    @media print { .content-toolbar, .btn, .topic-grid, #selection-screen, #quiz-screen .btn { display: none !important; } }
-  </style>
-</head>
-<body>
-  <div class="content" style="padding:20px;">
-    <div class="quiz-wrapper" id="quiz-app">
-      <div class="content-toolbar" style="position:static;margin-bottom:14px;">
-        <div class="toolbar-left">
-          <span class="toolbar-title">Practice Quizzes</span>
-          <span class="topic-pill">quizzes</span>
-        </div>
-        <div class="toolbar-right">
-          <a class="btn btn-outline" href="index.html">← Back to Guide</a>
-        </div>
-      </div>
 
-      <!-- Selection screen -->
-      <section id="selection-screen">
-        <h1 style="color:var(--aws-orange);margin-top:0;">Practice Quizzes</h1>
-        <p>Select a topic or try a random mix of questions.</p>
+    // --- 3. Render a Question ---
+    function renderQuestion() {
+        feedbackEl.textContent = '';
+        nextBtn.classList.remove('hidden');
+        finishBtn.classList.add('hidden');
+        
+        const question = currentQuestions[currentQuestionIndex];
+        
+        const progressPercent = ((currentQuestionIndex) / currentQuestions.length) * 100;
+        progressBar.style.width = `${progressPercent}%`;
 
-        <div style="margin:12px 0;">
-          <button class="btn" id="start-random-quiz">Start Random 10‑Q Quiz</button>
-        </div>
+        let optionsHTML = '<div class="answer-options">';
+        question.choices.forEach((choice, index) => {
+            optionsHTML += `<button data-index="${index}">${choice}</button>`;
+        });
+        optionsHTML += '</div>';
 
-        <h2>Quizzes by Topic</h2>
-        <div id="topic-grid" class="topic-grid"><!-- topic cards injected here --></div>
-      </section>
+        questionContainer.innerHTML = `
+            <p id="question-text">${currentQuestionIndex + 1}. ${question.q}</p>
+            ${optionsHTML}
+        `;
+        
+        const answerButtons = questionContainer.querySelectorAll('.answer-options button');
+        answerButtons.forEach(button => {
+            button.addEventListener('click', handleAnswerSelection);
+        });
+    }
 
-      <!-- Quiz screen -->
-      <section id="quiz-screen" class="hidden" aria-live="polite">
-        <h2 id="quiz-topic-title" style="margin-top:0;">Topic Quiz</h2>
-        <div id="quiz-progress-bar"><div></div></div>
-        <div id="question-container"><!-- question + options injected here --></div>
-        <div id="feedback" class="feedback" aria-live="polite"></div>
-        <div style="display:flex; gap:8px; margin-top:12px;">
-          <button class="btn btn-outline" id="next-question-btn">Next →</button>
-          <button class="btn" id="finish-quiz-btn" style="display:none;">See Results</button>
-        </div>
-      </section>
+    // --- 4. Handle User Selection ---
+    function handleAnswerSelection(event) {
+        const selectedButton = event.target;
+        const answerIndex = parseInt(selectedButton.dataset.index);
+        const question = currentQuestions[currentQuestionIndex];
+        const isCorrect = answerIndex === question.answer;
 
-      <!-- Results screen -->
-      <section id="results-screen" class="hidden">
-        <!-- results injected here -->
-      </section>
-    </div>
-  </div>
+        userAnswers[currentQuestionIndex] = {
+            question: question.q,
+            choices: question.choices,
+            selected: answerIndex,
+            correctAnswer: question.answer,
+            isCorrect: isCorrect,
+            explanation: question.explain
+        };
 
-  <!-- Single source of truth for questions -->
-  <script src="questions.js"></script>
+        const answerButtons = questionContainer.querySelectorAll('.answer-options button');
+        answerButtons.forEach((btn, index) => {
+            btn.disabled = true;
+            if (index === question.answer) {
+                btn.classList.add('correct');
+            } else if (index === answerIndex) {
+                btn.classList.add('incorrect');
+            }
+        });
 
-  <!-- Page controller for stand-alone quizzes -->
-  <script src="quizz-page.js"></script>
-</body>
-</html>
+        feedbackEl.textContent = isCorrect ? 'Correct!' : 'Incorrect.';
+        feedbackEl.className = isCorrect ? 'feedback correct' : 'feedback incorrect';
+        
+        if (currentQuestionIndex === currentQuestions.length - 1) {
+            nextBtn.classList.add('hidden');
+            finishBtn.classList.remove('hidden');
+        }
+    }
+
+    // --- 5. Move to Next Question or Finish ---
+    nextBtn.addEventListener('click', () => {
+        if (userAnswers[currentQuestionIndex] === undefined) {
+            feedbackEl.textContent = 'Please select an answer.';
+            feedbackEl.className = 'feedback incorrect';
+            return;
+        }
+        if (currentQuestionIndex < currentQuestions.length - 1) {
+            currentQuestionIndex++;
+            renderQuestion();
+        }
+    });
+
+    finishBtn.addEventListener('click', showResults);
+
+    // --- 6. Show Results ---
+    function showResults() {
+        const correctAnswers = userAnswers.filter(a => a.isCorrect).length;
+        const totalQuestions = currentQuestions.length;
+        const score = (correctAnswers / totalQuestions) * 100;
+        
+        let resultsHTML = `
+            <h2>Quiz Complete!</h2>
+            <p style="font-size: 1.5rem;">Your Score: <span style="color: ${score >= 70 ? '#10b981' : 'var(--aws-orange)'};">${score.toFixed(0)}%</span></p>
+            <p>(${correctAnswers} out of ${totalQuestions} correct)</p>
+            <hr style="border-color: var(--aws-hover-blue); margin: 20px 0;">
+            <h3>Review Your Answers:</h3>
+        `;
+        
+        userAnswers.forEach((answer, index) => {
+            const selectedText = answer.choices[answer.selected];
+            const correctText = answer.choices[answer.correctAnswer];
+            resultsHTML += `
+                <div style="text-align: left; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid var(--aws-hover-blue);">
+                    <p><strong>${index + 1}. ${answer.question}</strong></p>
+                    <p style="color: ${answer.isCorrect ? '#10b981' : '#ef4444'};">
+                        Your answer: ${selectedText} ${answer.isCorrect ? '✔' : '❌'}
+                    </p>
+                    ${!answer.isCorrect ? `<p style="color: #10b981;">Correct answer: ${correctText}</p>` : ''}
+                    <p style="font-size: 0.9em; color: var(--aws-text-light);"><em>Explanation: ${answer.explanation}</em></p>
+                </div>
+            `;
+        });
+
+        resultsHTML += `<button class="btn" id="restart-quiz-btn" style="margin-top: 20px;">Back to Topics</button>`;
+        resultsScreen.innerHTML = resultsHTML;
+
+        quizScreen.classList.add('hidden');
+        resultsScreen.classList.remove('hidden');
+
+        document.getElementById('restart-quiz-btn').addEventListener('click', () => {
+            resultsScreen.classList.add('hidden');
+            selectionScreen.classList.remove('hidden');
+        });
+    }
+
+    // --- Initial Setup ---
+    populateTopics();
+    if (startRandomQuizBtn) {
+        startRandomQuizBtn.addEventListener('click', () => startQuiz('random'));
+    }
+});
