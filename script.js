@@ -387,7 +387,7 @@ A serverless orchestration service to create visual workflows that coordinate mu
 
 ## Amazon CloudWatch
 The central monitoring and observability service.
-- **Features:** **Metrics** (performance data), **Alarmas** (automated actions), **Logs** (centralized log files), **Dashboards**.
+- **Features:** **Metrics** (performance data), **Alarms** (automated actions), **Logs** (centralized log files), **Dashboards**.
 
 ---
 ## CloudTrail vs. Config vs. GuardDuty
@@ -643,15 +643,62 @@ Understanding data transfer costs is key for cost optimization. The general rule
     iam: [
         { q: "What is the best practice for the AWS account root user?", choices: ["Use it for daily admin tasks", "Create access keys for it", "Secure it with MFA and never use it for daily tasks", "Share its credentials with your team"], answer: 2, explain: "The root user should be secured with MFA and used only for tasks that absolutely require it. IAM users should be used for all other tasks." },
         { q: "For managing SSO access for your company's employees to multiple AWS accounts, you should use:", choices: ["IAM Users and Groups", "IAM Roles", "IAM Identity Center", "Service Control Policies"], answer: 2, explain: "IAM Identity Center (formerly AWS SSO) is the recommended service for managing workforce access across multiple accounts." },
+        { q: "What is an IAM Policy?", choices: ["A user who can access AWS", "A JSON document that defines permissions", "A collection of users", "A temporary credential"], answer: 1, explain: "An IAM Policy is a JSON document that explicitly lists permissions." },
+        { q: "An EC2 instance needs to access an S3 bucket. What is the most secure way to grant it permissions?", choices: ["Store access keys on the instance", "Assign an IAM Role to the instance", "Create a new IAM user for the instance", "Make the S3 bucket public"], answer: 1, explain: "Using an IAM Role is the most secure method as it provides temporary credentials automatically, avoiding the need to store long-term keys on the instance." },
+        { q: "What does the principle of least privilege mean?", choices: ["Granting all users administrator access", "Granting only the permissions required to perform a task", "Denying all permissions by default", "Using MFA for all users"], answer: 1, explain: "The principle of least privilege is a security best practice that involves giving a user or service only the access that is essential for it to perform its intended function." },
+        { q: "Which of the following is a task that ONLY the root user can perform?", choices: ["Create an S3 bucket", "Launch an EC2 instance", "Change the account's support plan", "Create an IAM user"], answer: 2, explain: "Certain account-level operations, like changing the support plan or closing the account, are restricted to the root user." },
+        { q: "What is the primary function of an IAM Role?", choices: ["To define a user's password policy", "To be a container for IAM users", "To be an identity with permissions that can be assumed by a trusted entity", "To audit API calls"], answer: 2, explain: "An IAM Role is an identity that you can create in your account that has specific permissions. It is not uniquely associated with one person, but is assumable by anyone who needs it." },
+        { q: "MFA in IAM stands for:", choices: ["Multi-Factor Authentication", "Managed Federation Access", "Multiple-Form Authorization", "Manual Federation-Audit"], answer: 0, explain: "MFA (Multi-Factor Authentication) adds an extra layer of security by requiring a second form of verification." },
+        { q: "How are permissions for an IAM Group applied to users within it?", choices: ["Users must explicitly assume the group's permissions", "Permissions are inherited by all users in the group", "Permissions are only suggestions", "Only the first user in the group gets the permissions"], answer: 1, explain: "Users in an IAM group automatically inherit all the permissions that are attached to that group, simplifying permission management." },
+        { q: "Which service is GLOBAL, not regional?", choices: ["Amazon EC2", "Amazon VPC", "Amazon S3", "AWS IAM"], answer: 3, explain: "IAM resources (users, groups, roles, policies) are global and not tied to a specific region. S3 buckets are regional, though their names are globally unique." }
     ],
     compute: [
         { q: "A workload requires extremely low latency between instances. Which placement group should you use?", choices: ["Spread", "Partition", "Cluster", "Dedicated"], answer: 2, explain: "Cluster placement groups pack instances close together inside an AZ for low-latency network performance." },
         { q: "Which service provides a serverless compute engine for containers?", choices: ["Amazon EC2", "AWS Lambda", "AWS Fargate", "Amazon EKS"], answer: 2, explain: "AWS Fargate works with both ECS and EKS to run containers without you having to manage the underlying EC2 instances." },
+        { q: "What is an AMI?", choices: ["A type of EC2 instance", "A firewall rule", "A template for an EC2 instance, including the OS", "A load balancer"], answer: 2, explain: "An Amazon Machine Image (AMI) is a pre-configured template that contains the software configuration (operating system, application server, and applications) required to launch your instance." },
+        { q: "Which EC2 pricing option is best for a fault-tolerant batch processing job that can be interrupted?", choices: ["On-Demand", "Reserved Instances", "Spot Instances", "Dedicated Hosts"], answer: 2, explain: "Spot Instances offer the largest discounts but can be terminated if AWS needs the capacity back, making them ideal for workloads that can handle interruptions." },
+        { q: "A company wants to run a web application that scales automatically based on traffic. Which service should they use?", choices: ["A single large EC2 instance", "EC2 instances in an Auto Scaling Group", "AWS Lambda", "AWS Batch"], answer: 1, explain: "Auto Scaling Groups are designed to automatically add or remove EC2 instances to meet the current demand, providing elasticity." },
+        { q: "What is the maximum execution time for an AWS Lambda function?", choices: ["5 minutes", "15 minutes", "1 hour", "Unlimited"], answer: 1, explain: "As of now, the maximum timeout for a Lambda function is 15 minutes." },
+        { q: "Which service is an AWS-managed container orchestration service?", choices: ["Docker Swarm", "Amazon ECR", "Amazon ECS", "Kubernetes"], answer: 2, explain: "Amazon ECS (Elastic Container Service) is AWS's proprietary, fully managed container orchestration service." },
+        { q: "A developer wants the simplest way to deploy a web application from a container image without thinking about servers or clusters. Which service is the best fit?", choices: ["Amazon EC2", "Amazon ECS with EC2 launch type", "AWS App Runner", "AWS Elastic Beanstalk"], answer: 2, explain: "App Runner is the highest-level abstraction, designed for maximum simplicity in deploying containerized web apps." },
+        { q: "Hibernating an EC2 instance does what?", choices: ["Deletes the instance and its storage", "Stops the instance and clears the RAM", "Saves the contents of the RAM to the EBS root volume", "Creates a snapshot of the instance"], answer: 2, explain: "Hibernation saves the in-memory state, allowing for a much faster startup compared to a full stop/start cycle." },
+        { q: "What is the primary benefit of AWS Lambda?", choices: ["Full control over the operating system", "Running long, stateful applications", "Running code without provisioning or managing servers", "The lowest cost for predictable, 24/7 workloads"], answer: 2, explain: "Lambda is a serverless service, which means its main benefit is abstracting away the underlying server infrastructure." }
     ],
     storage: [
       { q: "All new S3 objects are encrypted by default using:", choices: ["SSE-KMS", "SSE-S3", "Client-side", "None"], answer: 1, explain: "S3 applies SSE-S3 by default for new objects." },
       { q: "To prevent accidental deletion of critical compliance data in S3, you should use:", choices: ["Versioning and MFA Delete", "S3 Object Lock", "A restrictive bucket policy", "All of the above"], answer: 3, explain: "While all are good security measures, S3 Object Lock provides WORM protection, which is specifically designed for compliance and data retention." },
-      { q: "A shared file system that can be mounted by thousands of Linux EC2 instances across multiple AZs is:", choices: ["Amazon S3", "Amazon EBS", "Amazon EFS", "Amazon FSx for Lustre"], answer: 2, explain: "Amazon EFS provides a scalable, shared file system for Linux instances, accessible across AZs." }
+      { q: "A shared file system that can be mounted by thousands of Linux EC2 instances across multiple AZs is:", choices: ["Amazon S3", "Amazon EBS", "Amazon EFS", "Amazon FSx for Lustre"], answer: 2, explain: "Amazon EFS provides a scalable, shared file system for Linux instances, accessible across AZs." },
+      { q: "Which S3 storage class is designed for long-term archival of data that is rarely accessed and has a retrieval time of several hours?", choices: ["S3 Standard", "S3 Standard-IA", "S3 Glacier Instant Retrieval", "S3 Glacier Deep Archive"], answer: 3, explain: "S3 Glacier Deep Archive is the lowest-cost storage class and is intended for archiving data that is accessed very infrequently." },
+      { q: "What is an EBS Snapshot?", choices: ["A real-time replica of a volume", "A point-in-time backup of an EBS volume stored in S3", "A type of EBS volume", "A mounted file system"], answer: 1, explain: "EBS Snapshots are backups of your volumes that are stored durably in Amazon S3." },
+      { q: "You need a high-performance, shared file system for a Windows-based application. Which service should you choose?", choices: ["Amazon EFS", "Amazon EBS", "Amazon S3", "Amazon FSx for Windows File Server"], answer: 3, explain: "FSx for Windows File Server is specifically designed to provide a fully managed native Windows file system." },
+      { q: "What is the primary difference between Amazon EBS and EC2 Instance Store?", choices: ["EBS is object storage, Instance Store is block storage", "EBS is persistent, while Instance Store is ephemeral (temporary)", "EBS is free, Instance Store is not", "EBS is slower than Instance Store"], answer: 1, explain: "EBS volumes persist independently from the life of an EC2 instance. Instance Store data is lost if the instance is stopped or terminated." },
+      { q: "S3 Lifecycle policies are used to:", choices: ["Automatically move objects between storage classes based on age", "Replicate objects to another region", "Encrypt objects by default", "Block public access to buckets"], answer: 0, explain: "Lifecycle policies automate the process of transitioning objects to more cost-effective storage tiers or deleting them as they age." },
+      { q: "What does S3 Block Public Access (BPA) do?", choices: ["It encrypts all public objects", "It's a setting that overrides policies and ACLs to prevent public access", "It analyzes objects for sensitive data", "It speeds up access to public objects"], answer: 1, explain: "BPA provides a central way to block all public access to your S3 buckets and objects, acting as a critical safety feature." },
+      { q: "S3 provides strong read-after-write consistency. What does this mean?", choices: ["You might read stale data after writing a new object", "After a successful write of a new object, any subsequent read will retrieve the latest version", "Writes are eventually consistent", "Data is only consistent within a single Availability Zone"], answer: 1, explain: "Strong read-after-write consistency guarantees that once an object is written or updated, any immediate read request will receive the new data." }
+    ],
+    databases: [
+        { q: "Which AWS service is a managed relational database service?", choices: ["Amazon DynamoDB", "Amazon Redshift", "Amazon RDS", "Amazon ElastiCache"], answer: 2, explain: "Amazon RDS (Relational Database Service) is used for relational databases like MySQL, PostgreSQL, etc." },
+        { q: "A company needs a fully managed, serverless NoSQL database that provides single-digit millisecond latency. Which service is the best fit?", choices: ["Amazon Aurora", "Amazon RDS", "Amazon DynamoDB", "Amazon Redshift"], answer: 2, explain: "DynamoDB is a NoSQL key-value database designed for high performance at any scale." },
+        { q: "To improve the read performance of an RDS database, you should use:", choices: ["Multi-AZ deployments", "Read Replicas", "EBS Snapshots", "RDS Proxy"], answer: 1, explain: "Read Replicas are used to offload read traffic from the primary database instance, thereby improving read scalability." },
+        { q: "Which service is a petabyte-scale data warehouse used for business intelligence and analytics?", choices: ["Amazon RDS", "Amazon DynamoDB", "Amazon Redshift", "Amazon Athena"], answer: 2, explain: "Amazon Redshift is a fully managed data warehouse service designed for large-scale data analytics (OLAP)." },
+        { q: "You want to run SQL queries directly on data stored in Amazon S3 without loading it into a database. Which service should you use?", choices: ["Amazon Redshift", "Amazon RDS", "Amazon EMR", "Amazon Athena"], answer: 3, explain: "Amazon Athena is a serverless query service that allows you to analyze data directly in S3 using standard SQL." },
+        { q: "What is the primary purpose of Amazon ElastiCache?", choices: ["To provide a relational database", "To act as an in-memory cache to improve application performance", "To store long-term data archives", "To orchestrate data workflows"], answer: 1, explain: "ElastiCache is used to create an in-memory cache, which reduces latency and eases the load on backend databases." },
+        { q: "What is the key benefit of an RDS Multi-AZ deployment?", choices: ["It improves read scalability", "It provides high availability and automatic failover", "It lowers the cost of the database", "It encrypts the database by default"], answer: 1, explain: "Multi-AZ deployments create a synchronous standby replica in a different AZ, which the database automatically fails over to in case of an outage." },
+        { q: "Which service is used for processing vast amounts of data using big data frameworks like Apache Spark and Hadoop?", choices: ["Amazon Kinesis", "Amazon Glue", "Amazon EMR", "Amazon Redshift"], answer: 2, explain: "EMR (Elastic MapReduce) is a managed cluster platform that simplifies running big data frameworks." },
+        { q: "A developer needs to prepare and transform data from various sources before loading it into a data warehouse. Which serverless service is designed for this ETL (Extract, Transform, Load) process?", choices: ["Amazon Kinesis", "AWS Glue", "AWS Data Pipeline", "Amazon EMR"], answer: 1, explain: "AWS Glue is a fully managed, serverless ETL service that includes a data catalog and job authoring." },
+        { q: "What is the primary difference between Amazon RDS and Amazon Aurora?", choices: ["RDS is relational, Aurora is NoSQL", "Aurora is a cloud-native database with higher performance and availability than standard RDS engines", "RDS supports MySQL, but Aurora does not", "Aurora is serverless, RDS is not"], answer: 1, explain: "Aurora is a custom-built database engine by AWS, compatible with MySQL and PostgreSQL, that is designed for the cloud and offers superior performance, scalability, and availability." }
+    ],
+    networking: [
+        { q: "Which component of a VPC acts as a stateful firewall for an EC2 instance?", choices: ["Network ACL", "Security Group", "Internet Gateway", "Route Table"], answer: 1, explain: "Security Groups are stateful and operate at the instance level." },
+        { q: "To allow an EC2 instance in a private subnet to access the internet for software updates, you should use a:", choices: ["Internet Gateway", "NAT Gateway", "VPC Peering Connection", "Direct Connect"], answer: 1, explain: "A NAT Gateway allows instances in a private subnet to initiate outbound traffic to the internet while remaining private." },
+        { q: "Which service is a global DNS web service?", choices: ["Amazon VPC", "Amazon CloudFront", "Elastic Load Balancing", "Amazon Route 53"], answer: 3, explain: "Amazon Route 53 is AWS's highly available and scalable Domain Name System (DNS) service." },
+        { q: "A stateless firewall that operates at the subnet level is called a:", choices: ["Security Group", "Network ACL", "AWS WAF", "AWS Shield"], answer: 1, explain: "Network Access Control Lists (NACLs) are stateless and control traffic in and out of subnets." },
+        { q: "What is the primary function of Amazon CloudFront?", choices: ["To provide a private connection to AWS", "To distribute traffic across multiple EC2 instances", "To act as a Content Delivery Network (CDN) to reduce latency", "To translate domain names to IP addresses"], answer: 2, explain: "CloudFront is a CDN that caches content in edge locations around the world, delivering it to users with lower latency." },
+        { q: "What is the difference between a Security Group and a Network ACL?", choices: ["Security Groups are stateless, NACLs are stateful", "Security Groups only support allow rules, NACLs support allow and deny rules", "Security Groups operate at the subnet level, NACLs at the instance level", "There is no difference"], answer: 1, explain: "Security Groups are stateful and only have 'allow' rules. NACLs are stateless and have separate 'allow' and 'deny' rules for both inbound and outbound traffic." },
+        { q: "To establish a dedicated, private network connection from your on-premises data center to AWS, you should use:", choices: ["VPC Peering", "AWS VPN", "AWS Direct Connect", "Internet Gateway"], answer: 2, explain: "AWS Direct Connect provides a private, dedicated physical connection, offering more consistent bandwidth and lower latency than an internet-based VPN." },
+        { q: "You want to privately connect two VPCs in different AWS accounts. Which feature enables this?", choices: ["VPC Peering", "AWS Transit Gateway", "VPC Endpoints", "Both A and B are possible"], answer: 3, explain: "Both VPC Peering (for a 1:1 connection) and Transit Gateway (for a hub-and-spoke model) can be used to connect VPCs, including across accounts." },
+        { q: "Which service can help improve the performance of a global application by routing traffic over the AWS backbone network?", choices: ["Amazon CloudFront", "AWS Global Accelerator", "An Application Load Balancer", "VPC Peering"], answer: 1, explain: "AWS Global Accelerator uses the AWS global network to direct traffic to the optimal endpoint, improving performance for TCP and UDP traffic." },
+        { q: "What does a NAT Gateway allow?", choices: ["It allows inbound traffic from the internet to instances in a private subnet", "It allows instances in a private subnet to initiate outbound traffic to the internet", "It allows two VPCs to communicate with each other", "It provides a dedicated connection to AWS"], answer: 1, explain: "A NAT (Network Address Translation) Gateway is a managed service that enables instances in a private subnet to connect to the internet or other AWS services, but prevents the internet from initiating a connection with those instances." }
     ],
     elb: [
       { q: "Which load balancer supports path-based routing (e.g., /users vs /orders)?", choices: ["Network Load Balancer", "Application Load Balancer", "Gateway Load Balancer", "Classic Load Balancer"], answer: 1, explain: "ALB operates at Layer 7 and can inspect the URL path to make routing decisions." },
@@ -690,6 +737,7 @@ Understanding data transfer costs is key for cost optimization. The general rule
   const navLinksContainer = document.getElementById('nav-links');
   const menuToggle = document.getElementById('menu-toggle');
   const sidebar = document.getElementById('sidebar');
+  const searchInput = document.getElementById('search-input');
 
   /* =====================
      NAV BUILD + RENDERING
@@ -698,9 +746,9 @@ Understanding data transfer costs is key for cost optimization. The general rule
     let navHtml = '';
     navigationStructure.forEach(item => {
       if (item.type === 'link') {
-        navHtml += `<li><a href="#${item.topic}" data-topic="${item.topic}">${item.label}</a></li>`;
+        navHtml += `<li data-label="${item.label.toLowerCase()}"><a href="#${item.topic}" data-topic="${item.topic}">${item.label}</a></li>`;
       } else if (item.type === 'category') {
-        navHtml += `<li class="nav-category">${item.label}</li>`;
+        navHtml += `<li class="nav-category" data-label="${item.label.toLowerCase()}">${item.label}</li>`;
       }
     });
     navLinksContainer.innerHTML = navHtml;
@@ -854,8 +902,12 @@ Understanding data transfer costs is key for cost optimization. The general rule
     document.getElementById('quiz-title').textContent = `${quizState.title} — Quiz`;
     document.getElementById('quiz-retake').style.display = 'none';
     const isSingleQuestion = quizState.questions.length === 1;
-    document.getElementById('quiz-submit').style.display = isSingleQuestion ? '' : 'none';
-    document.getElementById('quiz-next').style.display = !isSingleQuestion ? '' : 'none';
+    document.getElementById('quiz-submit').style.display = 'none';
+    document.getElementById('quiz-next').style.display = 'block';
+    if(isSingleQuestion) {
+        document.getElementById('quiz-submit').style.display = 'block';
+        document.getElementById('quiz-next').style.display = 'none';
+    }
     document.getElementById('quiz-prev').disabled = true;
 
     renderQuestion();
@@ -982,6 +1034,19 @@ Understanding data transfer costs is key for cost optimization. The general rule
     menuToggle.addEventListener('click', () => {
       sidebar.classList.toggle('open');
     });
+  }
+  
+  if(searchInput) {
+      searchInput.addEventListener('input', (e) => {
+          const query = e.target.value.toLowerCase();
+          const links = navLinksContainer.querySelectorAll('li');
+          links.forEach(li => {
+              const label = li.dataset.label;
+              if (label) {
+                  li.style.display = label.includes(query) ? '' : 'none';
+              }
+          });
+      });
   }
 
   window.addEventListener('hashchange', handleHashChange);
