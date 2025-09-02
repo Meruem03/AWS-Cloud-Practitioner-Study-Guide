@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Quizzes - AWS CCP Guide</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="quiz-page-container">
+        <header class="quiz-page-header">
+            <h1>Practice Quizzes</h1>
+            <p>Select a topic or try a random mix of questions.</p>
+            <a href="index.html" class="btn btn-outline">&larr; Back to Study Guide</a>
+        </header>
+
+        <main id="quiz-app">
+            <div id="selection-screen">
+                <div class="quiz-card-main">
+                    <h2>Quick Challenge</h2>
+                    <p>A 10-question quiz with random questions from all topics.</p>
+                    <button class="btn" id="start-random-quiz">Start Random Quiz</button>
+                </div>
+
+                <h2>Quizzes by Topic</h2>
+                <div class="topic-grid" id="topic-grid">
+                    </div>
+            </div>
+
+            <div id="quiz-screen" class="hidden">
+                <div class="quiz-header-active">
+                    <h2 id="quiz-topic-title">Topic Quiz</h2>
+                    <div id="quiz-progress-bar"><div></div></div>
+                </div>
+                <div id="question-container">
+                    </div>
+                <div class="quiz-navigation">
+                    <div id="feedback" class="feedback"></div>
+                    <button class="btn" id="next-question-btn">Next &rarr;</button>
+                    <button class="btn hidden" id="finish-quiz-btn">See Results</button>
+                </div>
+            </div>
+            
+            <div id="results-screen" class="hidden">
+                 </div>
+        </main>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="quiz-page.js"></script>
+</body>
+</html>
