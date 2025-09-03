@@ -12,14 +12,11 @@
 
   <style>
     @media print {
-      /* Hide non-content UI */
       .header, .sidebar, .content-toolbar, .quiz-modal { display: none !important; }
       body { background: #fff !important; color: #000 !important; }
       .content { margin: 0 !important; padding: 0 !important; background: #fff !important; }
       #content-display { padding: 0 !important; background: #fff !important; }
-      /* Avoid breaking headings across pages */
       h1, h2, h3 { break-after: avoid-page; page-break-after: avoid; }
-      /* Ensure tables/images fit page */
       table { width: 100% !important; }
       img { max-width: 100% !important; }
     }
@@ -39,7 +36,7 @@
 
   <div class="container">
     <aside id="sidebar" class="sidebar">
-      <h2>Study Guide</h2>
+      <h2><img src="logos/aws.svg" class="sidebar-logo" alt="AWS Logo"></h2>
       <input id="search-input" type="search" placeholder="Search topics…" aria-label="Search topics" />
       <nav>
         <ul id="nav-links"></ul>
@@ -56,20 +53,15 @@
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/common.min.js"></script>
-
   <script src="questions.js"></script>
-
   <script src="script.js"></script>
-
   <script>
     (function () {
-      // Add "Print PDF" button whenever the content toolbar is (re)created
       const host = document.getElementById('content-display');
       const addPrintBtn = (toolbarEl) => {
         if (!toolbarEl) return;
         const right = toolbarEl.querySelector('.toolbar-right');
         if (!right || toolbarEl.querySelector('#btn-print-topic')) return;
-
         const btn = document.createElement('button');
         btn.className = 'btn btn-outline';
         btn.id = 'btn-print-topic';
@@ -78,8 +70,6 @@
         btn.addEventListener('click', () => window.print());
         right.prepend(btn);
       };
-
-      // Observe toolbar insertion
       const mo = new MutationObserver((mutations) => {
         for (const m of mutations) {
           m.addedNodes.forEach((n) => {
@@ -88,8 +78,6 @@
         }
       });
       mo.observe(host, { childList: true });
-
-      // If a toolbar already exists on first load, enhance it too
       const existing = host.querySelector('.content-toolbar');
       if (existing) addPrintBtn(existing);
     })();
