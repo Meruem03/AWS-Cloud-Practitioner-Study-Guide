@@ -298,7 +298,12 @@ body {
 }
 .quiz-progress { color: var(--aws-text-light); font-size: 0.9rem; }
 
-
+.sidebar-logo {
+    width: 100px;
+    height: auto;
+    display: block; /* Center the image */
+    margin: 0 auto;
+}
 /* --- Desktop Styles --- */
 @media (min-width: 768px) {
     .header {
